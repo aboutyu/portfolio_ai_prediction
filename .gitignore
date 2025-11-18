@@ -7,7 +7,56 @@
 .buildlog/
 .history
 
+# Node.js / npm
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
 
+# Next.js
+.next/
+out/
+dist/
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.venv
+*.sqlite3
+*.db
+
+# Django
+db.sqlite3
+/media
+/staticfiles
+/static
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Docker
+.docker/
 
 # Flutter repo-specific
 /bin/cache/

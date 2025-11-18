@@ -1,0 +1,28 @@
+# Admin Service
+
+Nest.js 기반 관리용 애플리케이션입니다.
+
+## 설치 및 실행
+
+```bash
+# 의존성 설치
+npm install
+
+# 개발 모드 실행
+npm run start:dev
+
+# 프로덕션 빌드
+npm run build
+
+# 프로덕션 실행
+npm run start:prod
+```
+
+## 포트
+
+- 개발/프로덕션: 3001
+
+## API 엔드포인트
+
+- `GET /` - Hello 메시지
+- `GET /health` - 헬스 체크
