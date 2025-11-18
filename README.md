@@ -61,7 +61,7 @@ repo-root/
 
 ## 🧪 로컬 개발 방법
 
-API
+API: 3000 port
 
 ```cmd
 cd api
@@ -69,7 +69,7 @@ npm install
 npm run start:dev
 ```
 
-Web
+Web: 3001 port
 
 ```cmd
 cd web
@@ -77,7 +77,7 @@ npm install
 npm run dev
 ```
 
-Admin
+Admin: 3002 port
 
 ```cmd
 cd admin
@@ -85,7 +85,7 @@ npm install
 npm run start:dev
 ```
 
-AI
+AI: 3003 port
 
 ```cmd
 cd ai
