@@ -39,6 +39,6 @@ async function bootstrap() {
     1000 * 60 * 60,
   );
 
-  await app.listen(process.env.PORT ?? 3002);
+  await app.listen(process.env.PORT ?? 3001);
 }
 bootstrap();
