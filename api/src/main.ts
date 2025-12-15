@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DataSource } from 'typeorm';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import './helpers/extensions/string.extensions';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);

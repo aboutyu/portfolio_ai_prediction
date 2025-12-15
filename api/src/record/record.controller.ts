@@ -26,7 +26,7 @@ export class RecordController {
   async getTimelineByDate(
     @Query('page', ParseIntPipe) page: number = 0,
     @Query('pageNum', ParseIntPipe) pageNum: number = 10,
-    @Query('date') date: Date = new Date()
+    @Query('date') date: string = new Date().toISOString()
   ) {
     return this.recordService.getTimelineByDate(date, page, pageNum);
   }

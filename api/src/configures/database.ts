@@ -8,6 +8,7 @@ export const database = TypeOrmModule.forRoot({
   password: 'qweasd123',
   database: 'portfolio_ai_prediction_dev',
   charset: 'utf8',
+  timezone: 'Z',
   entities: [__dirname + '/../entities/*.entity{.js,.ts}'],
   synchronize: false,
   logging: true,

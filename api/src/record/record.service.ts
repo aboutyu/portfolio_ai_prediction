@@ -77,23 +77,14 @@ export class RecordService {
 
   // 타임라인 날짜별 기록 조회
   async getTimelineByDate(
-    date: Date = new Date(),
+    date: string = new Date().toISOString(),
     page: number = 0,
     pageNum: number = 10
   ): Promise<ApiResponse<TimelineGroup[] | null>> {
     const skip = page * pageNum;
 
-    // 시작 시간: 해당 시간의 0분 0초 0밀리초
-    const startDate = new Date(date);
-    startDate.setMinutes(0);
-    startDate.setSeconds(0);
-    startDate.setMilliseconds(0);
-
-    // 종료 시간: 해당 시간의 59분 59초 999밀리초
-    const endDate = new Date(date);
-    endDate.setMinutes(59);
-    endDate.setSeconds(59);
-    endDate.setMilliseconds(999);
+    console.log(`Requested date: ${date}`);
+    const { startDate: startDate, endDate: endDate } = date.getTimeToDay();
 
     const [timelineList, totalCount] = await this.timelineGroupRepository.findAndCount({
       where: { 
