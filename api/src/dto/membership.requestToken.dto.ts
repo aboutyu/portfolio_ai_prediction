@@ -2,7 +2,14 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsEnum, IsOptional } from "class-validator";
 import { DeviceType } from "src/helpers/enums/device-type.enum";
 
-export class LoginDto {
+export class RequestTokenDto {
+  @ApiProperty({
+    description: '유저 시퀀스',
+    default: 1,
+    required: true,
+  })
+  sequence: number;
+
   @ApiProperty({
     description: '유저 ID',
     default: 'a@a.com',
@@ -11,11 +18,11 @@ export class LoginDto {
   userId: string;
 
   @ApiProperty({
-    description: '비밀번호',
+    description: 'refresh token',
     default: 'a',
     required: true,
   })
-  password: string;
+  refreshToken: string;
 
   @ApiProperty({
     description: '디바이스 토큰(FCM)',

@@ -1,5 +1,4 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Column } from "typeorm/browser/decorator/columns/Column.js";
 
 export class LogoutDto {
   @ApiProperty({

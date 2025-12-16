@@ -1,7 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import { RoleType } from "../enums/role-type.enum";
+import { RoleType } from "../helpers/enums/role-type.enum";
 import { JwtService } from "@nestjs/jwt";
 import * as crypto from 'crypto';
+import { ConfigService } from "@nestjs/config";
 
 export interface AccessTokenPayload {
   userSequence: number;
@@ -20,19 +21,29 @@ export interface RefreshTokenPayload {
 export class CertTokenService {
   constructor(
     private readonly jwtService: JwtService,
-  ) { }
+    private readonly configService: ConfigService,
+  ) { 
+    this.jwtAccessSecret = configService.get<string>('JWT_ACCESS_SECRET') || ''; // Access Token 서명용 비밀키
+    this.algorithm = configService.get<string>('ALGORITHM') || ''; // 암호화 알고리즘
+    this.secretKey = configService.get<string>('SECRET_KEY') || ''; // 32byte 필수 
+    this.ivLength = Number(configService.get<string>('IV_LENGTH')) || 16; // AES 초기화 벡터 크기
+    this.accessTokenExpiresIn = configService.get<string>('ACCESS_TOKEN_EXPIRES_IN') || '1h'; // 액세스 토큰 만료시간
+    this.refreshTokenExpiresIn = configService.get<string>('REFRESH_TOKEN_EXPIRES_IN') || '7d'; // 리프레시 토큰 만료시간
+  }
 
-  // .env로 빼야 하는 값들
-  private readonly jwtAccessSecret = 'process.env.JWT_ACCESS_SECRET'; // Access Token 서명용 비밀키
-  private readonly algorithm = 'aes-256-cbc'; // 암호화 알고리즘
-  private readonly secretKey = process.env.REFRESH_TOKEN_SECRET || '12345678901234567890123456789012'; // 32byte 필수
-  private readonly ivLength = 16; // AES 초기화 벡터 크기
+  // 1. 클래스 멤버 변수 선언
+  private readonly jwtAccessSecret: string;
+  private readonly algorithm: string;
+  private readonly secretKey: string;
+  private readonly ivLength: number;
+  private readonly accessTokenExpiresIn: string;
+  private readonly refreshTokenExpiresIn: string;
   
-  // Access Token 발급(수명 1시간)
+  // Access Token 발급
   async makeAccessToken(
     userSequence: number,
     userId: string,
-    username: string,
+    username: string, 
     role: RoleType = RoleType.USER_ROLE): Promise<string> {
     const payload: AccessTokenPayload = {
       userSequence,
@@ -41,11 +52,10 @@ export class CertTokenService {
       role
     };
 
-    return this.jwtService.signAsync(
-      payload, {
-        secret: this.jwtAccessSecret,
-        expiresIn: '1h',
-      });
+    return this.jwtService.signAsync({ ...payload }, {
+      secret: this.jwtAccessSecret,
+      expiresIn: this.accessTokenExpiresIn as any,
+    });
   }
 
   // Access Token 검증 및 페이로드 반환
@@ -61,7 +71,7 @@ export class CertTokenService {
     }
   }
 
-  /*
+  /* (현재 기준 refresh token은 자동로그인 시에만 적용)
     1. Refresh Token 발급(수명 2주(14일)),
     2. Access Token 재발급 시 사용(로그인/자동로그인 시 발급하며, 로그아웃/회원탈퇴 시 폐기)
     3. Refresh Token은 UUID(난수)와 생성시간으로 구성되고, 해독 불가능하게 처리
@@ -72,7 +82,7 @@ export class CertTokenService {
     const expirationTime = Date.now() + 1000 * 60 * 60 * 24 * 14; // 14일 후 만료
     const payload = `${uuid}:${expirationTime}`; // A. 페이로드: "난수:만료시간(밀리초)"
 
-    // D. 암호화 수행
+    // 암호화 수행
     const iv = crypto.randomBytes(this.ivLength); // 매번 변하는 초기화 벡터
     const cipher = crypto.createCipheriv(this.algorithm, Buffer.from(this.secretKey), iv);
     

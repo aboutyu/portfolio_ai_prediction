@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  nest-app:
+    container_name: my-nestjs-server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" # 호스트포트:컨테이너포트
+    env_file:
+      - .env  # .env 파일의 환경변수를 컨테이너에 주입
+    environment:
+      - NODE_ENV=production
+      # DB 호스트가 로컬이 아닌 Docker 컨테이너(mysql)라면 서비스명으로 적어야 함
+      # 예: DB_HOST=mysql_container 
+    restart: always # 서버가 죽거나 재부팅되면 자동 재시작
