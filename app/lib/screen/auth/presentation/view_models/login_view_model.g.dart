@@ -20,7 +20,7 @@ final class LoginViewModelProvider
         argument: null,
         retry: null,
         name: r'loginViewModelProvider',
-        isAutoDispose: false,
+        isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -33,7 +33,7 @@ final class LoginViewModelProvider
   LoginViewModel create() => LoginViewModel();
 }
 
-String _$loginViewModelHash() => r'b940987b894dfc58e816a5da8eb196f9e44cac73';
+String _$loginViewModelHash() => r'a10d2fd2511f3a585cef19fabef05050b4bd2274';
 
 abstract class _$LoginViewModel extends $AsyncNotifier<void> {
   FutureOr<void> build();

@@ -11,9 +11,11 @@ _LoginResponse _$LoginResponseFromJson(Map<String, dynamic> json) =>
       sequence: (json['sequence'] as num).toInt(),
       userId: json['userId'] as String,
       username: json['username'] as String,
-      lastLogin: DateTime.parse(json['lastLogin'] as String),
       accessToken: json['accessToken'] as String,
       refreshToken: json['refreshToken'] as String,
+      lastLogin: json['lastLogin'] == null
+          ? null
+          : DateTime.parse(json['lastLogin'] as String),
     );
 
 Map<String, dynamic> _$LoginResponseToJson(_LoginResponse instance) =>
@@ -21,7 +23,7 @@ Map<String, dynamic> _$LoginResponseToJson(_LoginResponse instance) =>
       'sequence': instance.sequence,
       'userId': instance.userId,
       'username': instance.username,
-      'lastLogin': instance.lastLogin.toIso8601String(),
       'accessToken': instance.accessToken,
       'refreshToken': instance.refreshToken,
+      'lastLogin': instance.lastLogin?.toIso8601String(),
     };

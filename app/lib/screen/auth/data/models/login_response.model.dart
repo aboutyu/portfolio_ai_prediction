@@ -9,9 +9,9 @@ abstract class LoginResponse with _$LoginResponse {
     required int sequence,
     required String userId,
     required String username,
-    required DateTime lastLogin,
     required String accessToken,
     required String refreshToken,
+    DateTime? lastLogin,
   }) = _LoginResponse;
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) =>

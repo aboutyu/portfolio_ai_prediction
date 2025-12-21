@@ -1,6 +1,7 @@
 import 'package:app/helpers/enums/status_code.enum.dart';
 import 'package:app/helpers/networks/model/core_response.model.dart';
 import 'package:app/screen/auth/data/models/login_response.model.dart';
+import 'package:app/screen/auth/data/models/signup_response.model.dart';
 
 enum ApiEndpoint {
   login(path: '/membership/login', method: 'POST'), // 로그인
@@ -22,13 +23,9 @@ enum ApiEndpoint {
             (dataJson) =>
                 LoginResponse.fromJson(dataJson as Map<String, dynamic>),
           );
-
-          if (wrapper.status != StatusCode.success) {
-            throw Exception('API Error: ${wrapper.code}');
-          }
-
           return wrapper as CoreResponse<T>;
         };
+
       case ApiEndpoint.requestToken:
         return <T>(json) {
           final wrapper = CoreResponse<LoginResponse>.fromJson(
@@ -36,15 +33,18 @@ enum ApiEndpoint {
             (dataJson) =>
                 LoginResponse.fromJson(dataJson as Map<String, dynamic>),
           );
-
-          if (wrapper.status != StatusCode.success) {
-            throw Exception('API Error: ${wrapper.code}');
-          }
-
           return wrapper as CoreResponse<T>;
         };
+
       case ApiEndpoint.signup:
-        return <T>(data) => LoginResponse.fromJson(data) as CoreResponse<T>;
+        return <T>(json) {
+          final wrapper = CoreResponse<SignupResponse>.fromJson(
+            json as Map<String, dynamic>,
+            (dataJson) =>
+                SignupResponse.fromJson(dataJson as Map<String, dynamic>),
+          );
+          return wrapper as CoreResponse<T>;
+        };
       case ApiEndpoint.leave:
         return <T>(data) => LoginResponse.fromJson(data) as CoreResponse<T>;
       case ApiEndpoint.logout:

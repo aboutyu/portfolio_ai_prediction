@@ -4,6 +4,8 @@ import 'package:app/helpers/dto/base_request.dto.dart';
 import 'package:app/helpers/enums/api_endpoint.dart';
 import 'package:app/helpers/networks/core_api_intercepter.dart';
 import 'package:app/helpers/networks/model/core_response.model.dart';
+import 'package:app/widgets/loading_indicator/loading_indicator_intercept.dart';
+import 'package:app/widgets/loading_indicator/loading_indicator_widget.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -47,7 +49,7 @@ class CoreApiProvider {
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 CoreApiProvider coreApiProvider(Ref ref) {
   final storage = FlutterSecureStorage();
 
@@ -60,6 +62,7 @@ CoreApiProvider coreApiProvider(Ref ref) {
   );
 
   dio.interceptors.add(CoreApiIntercepter(storage)); // 공통 인터셉터 추가
+  dio.interceptors.add(LoadingIndicatorIntercept(ref)); // 로딩 인디케이터 인터셉터 추가
 
   // // 개발(디버그모드) 중에만 로그 찍기
   // if (isDebug) {

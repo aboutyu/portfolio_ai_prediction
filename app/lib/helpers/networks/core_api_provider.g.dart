@@ -22,7 +22,7 @@ final class CoreApiProviderProvider
         argument: null,
         retry: null,
         name: r'coreApiProviderProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -49,4 +49,4 @@ final class CoreApiProviderProvider
   }
 }
 
-String _$coreApiProviderHash() => r'7e6e128bb21d37be9649ddf17a2453f4029528b0';
+String _$coreApiProviderHash() => r'252bc38c312952f363cff0d589bfeb962706112c';

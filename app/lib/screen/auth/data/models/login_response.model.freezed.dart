@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$LoginResponse {
 
- int get sequence; String get userId; String get username; DateTime get lastLogin; String get accessToken; String get refreshToken;
+ int get sequence; String get userId; String get username; String get accessToken; String get refreshToken; DateTime? get lastLogin;
 /// Create a copy of LoginResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $LoginResponseCopyWith<LoginResponse> get copyWith => _$LoginResponseCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginResponse&&(identical(other.sequence, sequence) || other.sequence == sequence)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.username, username) || other.username == username)&&(identical(other.lastLogin, lastLogin) || other.lastLogin == lastLogin)&&(identical(other.accessToken, accessToken) || other.accessToken == accessToken)&&(identical(other.refreshToken, refreshToken) || other.refreshToken == refreshToken));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginResponse&&(identical(other.sequence, sequence) || other.sequence == sequence)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.username, username) || other.username == username)&&(identical(other.accessToken, accessToken) || other.accessToken == accessToken)&&(identical(other.refreshToken, refreshToken) || other.refreshToken == refreshToken)&&(identical(other.lastLogin, lastLogin) || other.lastLogin == lastLogin));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,sequence,userId,username,lastLogin,accessToken,refreshToken);
+int get hashCode => Object.hash(runtimeType,sequence,userId,username,accessToken,refreshToken,lastLogin);
 
 @override
 String toString() {
-  return 'LoginResponse(sequence: $sequence, userId: $userId, username: $username, lastLogin: $lastLogin, accessToken: $accessToken, refreshToken: $refreshToken)';
+  return 'LoginResponse(sequence: $sequence, userId: $userId, username: $username, accessToken: $accessToken, refreshToken: $refreshToken, lastLogin: $lastLogin)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $LoginResponseCopyWith<$Res>  {
   factory $LoginResponseCopyWith(LoginResponse value, $Res Function(LoginResponse) _then) = _$LoginResponseCopyWithImpl;
 @useResult
 $Res call({
- int sequence, String userId, String username, DateTime lastLogin, String accessToken, String refreshToken
+ int sequence, String userId, String username, String accessToken, String refreshToken, DateTime? lastLogin
 });
 
 
@@ -65,15 +65,15 @@ class _$LoginResponseCopyWithImpl<$Res>
 
 /// Create a copy of LoginResponse
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? sequence = null,Object? userId = null,Object? username = null,Object? lastLogin = null,Object? accessToken = null,Object? refreshToken = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? sequence = null,Object? userId = null,Object? username = null,Object? accessToken = null,Object? refreshToken = null,Object? lastLogin = freezed,}) {
   return _then(_self.copyWith(
 sequence: null == sequence ? _self.sequence : sequence // ignore: cast_nullable_to_non_nullable
 as int,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as String,username: null == username ? _self.username : username // ignore: cast_nullable_to_non_nullable
-as String,lastLogin: null == lastLogin ? _self.lastLogin : lastLogin // ignore: cast_nullable_to_non_nullable
-as DateTime,accessToken: null == accessToken ? _self.accessToken : accessToken // ignore: cast_nullable_to_non_nullable
+as String,accessToken: null == accessToken ? _self.accessToken : accessToken // ignore: cast_nullable_to_non_nullable
 as String,refreshToken: null == refreshToken ? _self.refreshToken : refreshToken // ignore: cast_nullable_to_non_nullable
-as String,
+as String,lastLogin: freezed == lastLogin ? _self.lastLogin : lastLogin // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 
@@ -158,10 +158,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int sequence,  String userId,  String username,  DateTime lastLogin,  String accessToken,  String refreshToken)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int sequence,  String userId,  String username,  String accessToken,  String refreshToken,  DateTime? lastLogin)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _LoginResponse() when $default != null:
-return $default(_that.sequence,_that.userId,_that.username,_that.lastLogin,_that.accessToken,_that.refreshToken);case _:
+return $default(_that.sequence,_that.userId,_that.username,_that.accessToken,_that.refreshToken,_that.lastLogin);case _:
   return orElse();
 
 }
@@ -179,10 +179,10 @@ return $default(_that.sequence,_that.userId,_that.username,_that.lastLogin,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int sequence,  String userId,  String username,  DateTime lastLogin,  String accessToken,  String refreshToken)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int sequence,  String userId,  String username,  String accessToken,  String refreshToken,  DateTime? lastLogin)  $default,) {final _that = this;
 switch (_that) {
 case _LoginResponse():
-return $default(_that.sequence,_that.userId,_that.username,_that.lastLogin,_that.accessToken,_that.refreshToken);case _:
+return $default(_that.sequence,_that.userId,_that.username,_that.accessToken,_that.refreshToken,_that.lastLogin);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -199,10 +199,10 @@ return $default(_that.sequence,_that.userId,_that.username,_that.lastLogin,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int sequence,  String userId,  String username,  DateTime lastLogin,  String accessToken,  String refreshToken)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int sequence,  String userId,  String username,  String accessToken,  String refreshToken,  DateTime? lastLogin)?  $default,) {final _that = this;
 switch (_that) {
 case _LoginResponse() when $default != null:
-return $default(_that.sequence,_that.userId,_that.username,_that.lastLogin,_that.accessToken,_that.refreshToken);case _:
+return $default(_that.sequence,_that.userId,_that.username,_that.accessToken,_that.refreshToken,_that.lastLogin);case _:
   return null;
 
 }
@@ -214,15 +214,15 @@ return $default(_that.sequence,_that.userId,_that.username,_that.lastLogin,_that
 @JsonSerializable()
 
 class _LoginResponse implements LoginResponse {
-  const _LoginResponse({required this.sequence, required this.userId, required this.username, required this.lastLogin, required this.accessToken, required this.refreshToken});
+  const _LoginResponse({required this.sequence, required this.userId, required this.username, required this.accessToken, required this.refreshToken, this.lastLogin});
   factory _LoginResponse.fromJson(Map<String, dynamic> json) => _$LoginResponseFromJson(json);
 
 @override final  int sequence;
 @override final  String userId;
 @override final  String username;
-@override final  DateTime lastLogin;
 @override final  String accessToken;
 @override final  String refreshToken;
+@override final  DateTime? lastLogin;
 
 /// Create a copy of LoginResponse
 /// with the given fields replaced by the non-null parameter values.
@@ -237,16 +237,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginResponse&&(identical(other.sequence, sequence) || other.sequence == sequence)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.username, username) || other.username == username)&&(identical(other.lastLogin, lastLogin) || other.lastLogin == lastLogin)&&(identical(other.accessToken, accessToken) || other.accessToken == accessToken)&&(identical(other.refreshToken, refreshToken) || other.refreshToken == refreshToken));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginResponse&&(identical(other.sequence, sequence) || other.sequence == sequence)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.username, username) || other.username == username)&&(identical(other.accessToken, accessToken) || other.accessToken == accessToken)&&(identical(other.refreshToken, refreshToken) || other.refreshToken == refreshToken)&&(identical(other.lastLogin, lastLogin) || other.lastLogin == lastLogin));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,sequence,userId,username,lastLogin,accessToken,refreshToken);
+int get hashCode => Object.hash(runtimeType,sequence,userId,username,accessToken,refreshToken,lastLogin);
 
 @override
 String toString() {
-  return 'LoginResponse(sequence: $sequence, userId: $userId, username: $username, lastLogin: $lastLogin, accessToken: $accessToken, refreshToken: $refreshToken)';
+  return 'LoginResponse(sequence: $sequence, userId: $userId, username: $username, accessToken: $accessToken, refreshToken: $refreshToken, lastLogin: $lastLogin)';
 }
 
 
@@ -257,7 +257,7 @@ abstract mixin class _$LoginResponseCopyWith<$Res> implements $LoginResponseCopy
   factory _$LoginResponseCopyWith(_LoginResponse value, $Res Function(_LoginResponse) _then) = __$LoginResponseCopyWithImpl;
 @override @useResult
 $Res call({
- int sequence, String userId, String username, DateTime lastLogin, String accessToken, String refreshToken
+ int sequence, String userId, String username, String accessToken, String refreshToken, DateTime? lastLogin
 });
 
 
@@ -274,15 +274,15 @@ class __$LoginResponseCopyWithImpl<$Res>
 
 /// Create a copy of LoginResponse
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? sequence = null,Object? userId = null,Object? username = null,Object? lastLogin = null,Object? accessToken = null,Object? refreshToken = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? sequence = null,Object? userId = null,Object? username = null,Object? accessToken = null,Object? refreshToken = null,Object? lastLogin = freezed,}) {
   return _then(_LoginResponse(
 sequence: null == sequence ? _self.sequence : sequence // ignore: cast_nullable_to_non_nullable
 as int,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as String,username: null == username ? _self.username : username // ignore: cast_nullable_to_non_nullable
-as String,lastLogin: null == lastLogin ? _self.lastLogin : lastLogin // ignore: cast_nullable_to_non_nullable
-as DateTime,accessToken: null == accessToken ? _self.accessToken : accessToken // ignore: cast_nullable_to_non_nullable
+as String,accessToken: null == accessToken ? _self.accessToken : accessToken // ignore: cast_nullable_to_non_nullable
 as String,refreshToken: null == refreshToken ? _self.refreshToken : refreshToken // ignore: cast_nullable_to_non_nullable
-as String,
+as String,lastLogin: freezed == lastLogin ? _self.lastLogin : lastLogin // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 

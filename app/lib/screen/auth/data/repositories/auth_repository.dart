@@ -7,6 +7,7 @@ import 'package:app/screen/auth/data/dto/autoLogin.dto.dart';
 import 'package:app/screen/auth/data/dto/login.dto.dart';
 import 'package:app/screen/auth/data/dto/signup.dto.dart';
 import 'package:app/screen/auth/data/models/login_response.model.dart';
+import 'package:app/screen/auth/data/models/signup_response.model.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -70,7 +71,7 @@ class AuthRepository {
     );
   }
 
-  Future<CoreResponse<LoginResponse>> signup(
+  Future<CoreResponse<SignupResponse>> signup(
     String userId,
     String password,
     String username,
@@ -81,7 +82,7 @@ class AuthRepository {
       username: username,
     );
 
-    return await _client.request<LoginResponse>(
+    return await _client.request<SignupResponse>(
       endpoint: ApiEndpoint.signup,
       dto: dto,
     );
