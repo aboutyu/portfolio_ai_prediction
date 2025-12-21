@@ -30,15 +30,16 @@ class CoreApiIntercepter extends Interceptor {
     }
 
     final accessToken = await storage.read(key: 'accessToken');
-    final refreshToken = await storage.read(key: 'refreshToken');
+    // final refreshToken = await storage.read(key: 'refreshToken');
 
     if (accessToken != null) {
       options.headers['Authorization'] = 'Bearer $accessToken';
     }
 
-    if (refreshToken != null) {
-      options.headers['x-refresh-token'] = refreshToken;
-    }
+    // refreshToken은 아직 헤더에서 사용하지 않음
+    // if (refreshToken != null) {
+    //   options.headers['x-refresh-token'] = refreshToken;
+    // }
 
     super.onRequest(options, handler);
   }

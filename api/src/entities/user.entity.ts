@@ -18,7 +18,7 @@ export class User {
     example: 'user123',
   })
   @Column({ name: 'user_id', type: 'varchar', length: 255, unique: true })
-  userId: string
+  userId: string;
 
   @ApiProperty({
     description: '비밀번호 (암호화된 문자열)',
@@ -39,10 +39,10 @@ export class User {
     example: '2023-10-25T12:00:00.000Z',
     default: 'CURRENT_TIMESTAMP',
   })
-  @Column({ 
-    name: 'create_date', 
-    type: 'datetime', 
-    default: () => 'CURRENT_TIMESTAMP' 
+  @Column({
+    name: 'create_date',
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
   })
   createDate: Date;
 
@@ -79,16 +79,23 @@ export class User {
 
   @ApiProperty({
     description: 'access 토큰 api 인증에서 사용',
-    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyU2VxdWVuY2UiOjEsInVzZXJJZCI6ImFAYS5jb20iLCJ1c2VybmFtZSI6Iu2FjOyKpO2KuOycoOyggCIsInJvbGUiOiJVU0VSX1JPTEUiLCJpYXQiOjE3NjU3OTA5NTYsImV4cCI6MTc2NTc5NDU1Nn0.fwvxveBoqZ6hYxEF6W6At65fF5sXmZWKffOBh98tT1c',
+    example:
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyU2VxdWVuY2UiOjEsInVzZXJJZCI6ImFAYS5jb20iLCJ1c2VybmFtZSI6Iu2FjOyKpO2KuOycoOyggCIsInJvbGUiOiJVU0VSX1JPTEUiLCJpYXQiOjE3NjU3OTA5NTYsImV4cCI6MTc2NTc5NDU1Nn0.fwvxveBoqZ6hYxEF6W6At65fF5sXmZWKffOBh98tT1c',
   })
-  @Column({ type: 'varchar', length: 255, nullable: true, default: null })
   accessToken: string | null;
 
   @ApiProperty({
     description: '리프레시 토큰 (자동 로그인에 사용)',
-    example: '2cc477b31e8697e3652bd48b819e460a:fe505889f72caa7466a6d45314b15310ef9ae09767f2fa8735ada6b64928935dfe6cc6a0ca5159d7380e5ab886f9de21653de7534ef5474d0911f78946ba6f38',
+    example:
+      '2cc477b31e8697e3652bd48b819e460a:fe505889f72caa7466a6d45314b15310ef9ae09767f2fa8735ada6b64928935dfe6cc6a0ca5159d7380e5ab886f9de21653de7534ef5474d0911f78946ba6f38',
   })
-  @Column({ name: 'refresh_token', type: 'varchar', length: 255, nullable: true, default: null })
+  @Column({
+    name: 'refresh_token',
+    type: 'varchar',
+    length: 255,
+    nullable: true,
+    default: null,
+  })
   refreshToken: string | null;
 
   @ApiProperty({
@@ -113,5 +120,5 @@ export class User {
     default: [],
   })
   @OneToMany(() => HealthLog, (healthLog) => healthLog.user)
-  healthLogs: HealthLog[];  
+  healthLogs: HealthLog[];
 }

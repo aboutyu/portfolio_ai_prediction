@@ -76,5 +76,9 @@ class LoginScreen extends ConsumerWidget {
 
   void _onRegisterPressed(BuildContext context, WidgetRef ref) async {
     FocusScope.of(context).unfocus();
+
+    await ref
+        .read(loginViewModelProvider.notifier)
+        .signup('2@a.com', 'a', 'user2');
   }
 }
