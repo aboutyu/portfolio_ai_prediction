@@ -1,9 +1,7 @@
-import 'package:app/helpers/commons/common_funcs.dart';
 import 'package:app/helpers/networks/model/core_response.model.dart';
 import 'package:app/helpers/storages/auth_storage.dart';
 import 'package:app/screen/auth/data/models/login_response.model.dart';
 import 'package:app/screen/auth/data/repositories/auth_repository.dart';
-import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'login_view_model.g.dart';
