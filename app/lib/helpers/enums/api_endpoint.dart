@@ -1,4 +1,3 @@
-import 'package:app/helpers/enums/status_code.enum.dart';
 import 'package:app/helpers/networks/model/core_response.model.dart';
 import 'package:app/screen/auth/data/models/login_response.model.dart';
 import 'package:app/screen/auth/data/models/signup_response.model.dart';

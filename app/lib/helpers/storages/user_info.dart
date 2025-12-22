@@ -39,14 +39,10 @@ class UserInfo extends _$UserInfo {
   // ✅ 로그인 성공 시 호출 (외부에서 부름)
   Future<void> setInfo(LoginResponse? data) async {
     if (data == null) {
-      state = const AsyncValue.data(null);
       return;
     }
 
-    // 1. 스토리지에 영구 저장
     await ref.read(authStorageProvider).saveLoginData(data);
-
-    // 2. Provider 상태 업데이트 (화면 갱신)
     state = AsyncValue.data(data);
   }
 

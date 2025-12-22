@@ -1,4 +1,4 @@
-import 'package:app/helpers/routers/router_app.dart';
+import 'package:app/helpers/routers/router.dart';
 import 'package:app/widgets/loading_indicator/loading_indicator_widget.dart';
 import 'package:app/widgets/loading_indicator/loading_provider.dart';
 import 'package:app/helpers/cores/app_initializer.dart';

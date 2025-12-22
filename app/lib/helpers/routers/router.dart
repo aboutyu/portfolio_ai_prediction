@@ -1,10 +1,11 @@
 import 'package:app/helpers/storages/user_info.dart';
 import 'package:app/screen/home/presentation/views/home_screen.dart';
+import 'package:app/screen/tabbar/presentation/views/tabbar_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:app/screen/auth/presentation/views/login_screen.dart';
 
-part 'router_app.g.dart';
+part 'router.g.dart';
 
 @riverpod
 GoRouter router(Ref ref) {
@@ -13,35 +14,40 @@ GoRouter router(Ref ref) {
   final authState = ref.watch(userInfoProvider);
 
   return GoRouter(
-    // 초기 진입점: 스토리지 검사가 끝날 때까지 스플래시 화면을 보여주는 게 좋습니다.
     initialLocation: '/splash',
-
-    // 2. 리다이렉트 로직 (핵심)
     redirect: (context, state) {
-      // (1) 로딩 중이면 스플래시 화면 유지
-      if (authState.isLoading || authState.hasError) {
+      // 1. 상태 로그 찍기
+      final isLoading = authState.isLoading;
+      final hasError = authState.hasError;
+      final user = authState.value; // .value 대신 .valueOrNull 권장
+
+      print("🔍 [Router Check]");
+      print(" - Loading: $isLoading");
+      print(" - User: ${user?.username}"); // 유저 정보가 있는지 확인
+      print(" - Current Path: ${state.uri.path}");
+
+      // (1) 로딩 중
+      if (isLoading || hasError) {
+        print(" -> 결과: 스플래시 유지 (/splash)");
         return '/splash';
       }
-
-      // (2) 로딩 끝! 유저 정보 확인
-      final user = authState.value; // 데이터가 있으면 유저 객체, 없으면 null
 
       final isLoggingIn = state.uri.path == '/login';
       final isSplash = state.uri.path == '/splash';
 
-      // Case A: 로그인 안 된 상태 (user == null)
+      // (2) 로그인 안 됨
       if (user == null) {
-        // 이미 로그인 화면이거나 스플래시라면 가만히 둠 -> 아니면 로그인으로 이동
+        print(" -> 결과: 로그인 필요 (Login)");
         return isLoggingIn ? null : '/login';
       }
 
-      // Case B: 로그인 된 상태 (user != null)
-      // 로그인 화면이나 스플래시 화면에 있다면 -> 홈으로 보내버림
+      // (3) 로그인 됨
       if (isLoggingIn || isSplash) {
+        print(" -> 결과: 홈으로 이동 (/)"); // ✅ 이 로그가 찍히는지 봐야 함
         return '/';
       }
 
-      // 그 외에는 가던 길 감
+      print(" -> 결과: 이동 없음 (null)");
       return null;
     },
 
@@ -49,7 +55,7 @@ GoRouter router(Ref ref) {
     routes: [
       GoRoute(path: '/splash', builder: (_, __) => LoginScreen()),
       GoRoute(path: '/login', builder: (_, __) => LoginScreen()),
-      GoRoute(path: '/', builder: (_, __) => const HomeScreen()),
+      GoRoute(path: '/', builder: (_, __) => HomeScreen()),
     ],
   );
 }

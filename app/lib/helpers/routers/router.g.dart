@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'router_app.dart';
+part of 'router.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -48,4 +48,4 @@ final class RouterProvider
   }
 }
 
-String _$routerHash() => r'5782d3c33782a4d2fc3928cbdfa29c4bac50a210';
+String _$routerHash() => r'62aac13225585bbb93f103ea238173ab62daeb5d';

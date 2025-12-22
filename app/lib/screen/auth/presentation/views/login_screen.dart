@@ -14,8 +14,6 @@ class LoginScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(loginViewModelProvider);
-
     return Scaffold(
       body: Center(
         child: Column(
