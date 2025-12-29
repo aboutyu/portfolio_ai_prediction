@@ -29,5 +29,6 @@ export const swaggerConfig = new DocumentBuilder()
     },
     'refresh-token', // 👈 보안 스키마 이름 (데코레이터에서 씀)
   )
+  .addServer(process.env.NODE_ENV === 'development' ? '/api' : '/')
   .addSecurityRequirements('access-token')
   .build();
