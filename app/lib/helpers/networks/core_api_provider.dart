@@ -5,7 +5,6 @@ import 'package:app/helpers/enums/api_endpoint.dart';
 import 'package:app/helpers/networks/core_api_intercepter.dart';
 import 'package:app/helpers/networks/model/core_response.model.dart';
 import 'package:app/widgets/loading_indicator/loading_indicator_intercept.dart';
-import 'package:app/widgets/loading_indicator/loading_indicator_widget.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

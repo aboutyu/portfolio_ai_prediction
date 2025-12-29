@@ -1,5 +1,4 @@
 import 'package:app/helpers/commons/common_funcs.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:app/screen/auth/data/models/login_response.model.dart'; // LoginResponse 모델 경로

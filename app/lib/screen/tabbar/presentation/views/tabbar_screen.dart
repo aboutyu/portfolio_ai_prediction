@@ -1,47 +1,71 @@
+import 'package:app/helpers/extensions/l10n.extension.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class TabbarScreen extends StatelessWidget {
-  const TabbarScreen({super.key});
+  const TabbarScreen({super.key, required this.navigationShell});
+
+  final StatefulNavigationShell navigationShell;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // 현재 선택된 탭의 화면을 보여줌
-      body: Container(), // navigationShell.currentPage.child,
-      // 하단 탭바
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0, // navigationShell.currentIndex, // 현재 선택된 탭 인덱스
-        onTap: (index) {
-          // 탭이 선택되었을 때 해당 탭으로 이동
-          switch (index) {
-            case 0:
-              context.go('/'); // 홈 탭
-              break;
-            case 1:
-              context.go('/daily'); // 데일리 탭
-              break;
-            case 2:
-              context.go('/chat'); // 채팅 탭
-              break;
-            case 3:
-              context.go('/my'); // 마이 탭
-              break;
-          }
-        },
-        type: BottomNavigationBarType.fixed, // 탭이 4개 이상이면 fixed 필수
-        selectedItemColor: Colors.blue, // 선택된 색상
-        unselectedItemColor: Colors.grey, // 선택 안 된 색상
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
-            label: '데일리',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.chat), label: '채팅'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: '마이'),
-        ],
+      body: navigationShell,
+      bottomNavigationBar: _naviationTheme(
+        context,
+        BottomNavigationBar(
+          currentIndex: navigationShell.currentIndex,
+          onTap: (index) async => _onTapped(index, navigationShell),
+          selectedFontSize: 12,
+          unselectedFontSize: 12,
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Colors.blue,
+          unselectedItemColor: Colors.grey,
+          showUnselectedLabels: true,
+          elevation: 1,
+          items: [
+            _navigationItem(Icon(Icons.home), context.tr.homeNavigationText),
+            _navigationItem(
+              Icon(Icons.calendar_today),
+              context.tr.dailyNavigationText,
+            ),
+            _navigationItem(Icon(Icons.chat), context.tr.chatNavigationText),
+            _navigationItem(
+              Icon(Icons.person),
+              context.tr.myinfoNavigationText,
+            ),
+          ],
+        ),
       ),
+    );
+  }
+
+  // 터치 효과 제거 테마
+  Widget _naviationTheme(BuildContext context, Widget child) {
+    return Theme(
+      data: Theme.of(context).copyWith(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        splashFactory: NoSplash.splashFactory,
+      ),
+      child: child,
+    );
+  }
+
+  BottomNavigationBarItem _navigationItem(Widget icon, String label) {
+    return BottomNavigationBarItem(
+      icon: Padding(padding: EdgeInsets.only(bottom: 6), child: icon),
+      label: label,
+    );
+  }
+
+  Future<void> _onTapped(
+    int index,
+    StatefulNavigationShell navigationShell,
+  ) async {
+    navigationShell.goBranch(
+      index,
+      initialLocation: index == navigationShell.currentIndex,
     );
   }
 }

@@ -1,0 +1,13 @@
+{
+  "homeNavigationText": "홈",
+  "dailyNavigationText": "데일리",
+  "chatNavigationText": "채팅",
+  "myinfoNavigationText": "내정보",
+
+  "dailyAppbarText": "데일리",
+  "chatAppbarText": "채팅",
+  "myinfoAppbarText": "내정보",
+
+  "noUserInfoAvailable": "사용자 정보가 없습니다.",
+  "buttonLogoutText": "로그아웃"
+}

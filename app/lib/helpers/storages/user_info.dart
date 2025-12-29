@@ -1,5 +1,4 @@
 import 'package:app/helpers/storages/auth_storage.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:app/screen/auth/data/models/login_response.model.dart';
 

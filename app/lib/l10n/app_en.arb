@@ -1,0 +1,13 @@
+{
+  "homeNavigationText": "Home",
+  "dailyNavigationText": "Daily",
+  "chatNavigationText": "Chat",
+  "myinfoNavigationText": "MyInfo",
+
+  "dailyAppbarText": "Daily",
+  "chatAppbarText": "Chat",
+  "myinfoAppbarText": "MyInfo",
+
+  "noUserInfoAvailable": "No user information available.",
+  "buttonLogoutText": "Logout"
+}

@@ -1,8 +1,10 @@
 import 'package:app/helpers/routers/router.dart';
+import 'package:app/l10n/app_localizations.dart';
 import 'package:app/widgets/loading_indicator/loading_indicator_widget.dart';
 import 'package:app/widgets/loading_indicator/loading_provider.dart';
 import 'package:app/helpers/cores/app_initializer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
@@ -19,7 +21,20 @@ class MyApp extends ConsumerWidget {
     final router = ref.watch(routerProvider);
 
     return MaterialApp.router(
-      title: 'My App',
+      theme: ThemeData(fontFamily: 'Pretendard'),
+
+      // 다국어 지원 설정
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('ko', 'KR'), // 한국어
+        Locale('en', 'US'), // 영어
+      ],
+
       routerConfig: router,
       builder: (context, child) {
         return LoadingIndicatorWidget(

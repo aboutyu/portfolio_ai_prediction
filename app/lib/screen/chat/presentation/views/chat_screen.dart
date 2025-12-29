@@ -1,3 +1,5 @@
+import 'package:app/helpers/extensions/l10n.extension.dart';
+import 'package:app/widgets/appbar_widgets/appbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -6,6 +8,9 @@ class ChatScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(body: Center(child: Text('Chat Screen')));
+    return Scaffold(
+      appBar: appBarWidget(context.tr.chatAppbarText),
+      body: Center(child: Text('Chat Screen')),
+    );
   }
 }
