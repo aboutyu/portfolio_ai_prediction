@@ -1,13 +1,17 @@
 import 'package:app/helpers/networks/model/core_response.model.dart';
 import 'package:app/screen/auth/data/models/login_response.model.dart';
 import 'package:app/screen/auth/data/models/signup_response.model.dart';
+import 'package:app/screen/daily/data/models/timeline_item.model.dart';
 
 enum ApiEndpoint {
   login(path: '/membership/login', method: 'POST'), // 로그인
   requestToken(path: '/membership/requestToken', method: 'POST'), // 자동로그인
   signup(path: '/membership/signup', method: 'POST'), // 회원가입
   logout(path: '/membership/logout', method: 'DELETE'), // 로그아웃
-  leave(path: '/membership/leave', method: 'DELETE'); // 회원탈퇴
+  leave(path: '/membership/leave', method: 'DELETE'), // 회원탈퇴
+
+  timeline(path: '/record/timeline', method: 'GET'), // 타임라인 조회
+  timelineDate(path: '/record/timeline/date', method: 'GET'); // 특정 날짜 타임라인 조회
 
   final String path;
   final String method;
@@ -48,6 +52,27 @@ enum ApiEndpoint {
         return <T>(data) => LoginResponse.fromJson(data) as CoreResponse<T>;
       case ApiEndpoint.logout:
         return <T>(data) => LoginResponse.fromJson(data) as CoreResponse<T>;
+
+      case ApiEndpoint.timeline:
+        return <T>(json) {
+          final wrapper = CoreResponse<List<TimelineItem>>.fromJson(
+            json as Map<String, dynamic>,
+            (dataJson) => (dataJson as List<dynamic>)
+                .map((e) => TimelineItem.fromJson(e as Map<String, dynamic>))
+                .toList(),
+          );
+          return wrapper as CoreResponse<T>;
+        };
+      case ApiEndpoint.timelineDate:
+        return <T>(json) {
+          final wrapper = CoreResponse<List<TimelineItem>>.fromJson(
+            json as Map<String, dynamic>,
+            (dataJson) => (dataJson as List<dynamic>)
+                .map((e) => TimelineItem.fromJson(e as Map<String, dynamic>))
+                .toList(),
+          );
+          return wrapper as CoreResponse<T>;
+        };
     }
   }
 }

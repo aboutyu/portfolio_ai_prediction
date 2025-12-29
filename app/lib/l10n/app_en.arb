@@ -9,5 +9,16 @@
   "myinfoAppbarText": "MyInfo",
 
   "noUserInfoAvailable": "No user information available.",
-  "buttonLogoutText": "Logout"
+  "buttonLogoutText": "Logout",
+
+  "dailyNoLogsText": "No logs available.",
+
+  "dailyFoodLogTitle": "Food Log",
+  "dailyHealthLogTitle": "Health Log",
+  "recordDateText": "Record Time",
+
+  "stepCountTypeText": "Step Count",
+  "bloodPressureTypeText": "Blood Pressure",
+  "bloodGlucoseTypeText": "Blood Glucose",
+  "weightTypeText": "Weight"
 }

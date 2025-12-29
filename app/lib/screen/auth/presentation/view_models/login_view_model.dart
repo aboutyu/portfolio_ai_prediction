@@ -1,6 +1,6 @@
 import 'package:app/helpers/commons/common_funcs.dart';
-import 'package:app/helpers/enums/response_code.enum.dart';
-import 'package:app/helpers/enums/status_code.enum.dart';
+import 'package:app/helpers/networks/enums/response_code.enum.dart';
+import 'package:app/helpers/networks/enums/status_code.enum.dart';
 import 'package:app/helpers/networks/model/core_response.model.dart';
 import 'package:app/helpers/storages/user_info.dart';
 import 'package:app/screen/auth/data/models/login_response.model.dart';

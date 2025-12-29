@@ -34,4 +34,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get buttonLogoutText => 'Logout';
+
+  @override
+  String get dailyNoLogsText => 'No logs available.';
+
+  @override
+  String get dailyFoodLogTitle => 'Food Log';
+
+  @override
+  String get dailyHealthLogTitle => 'Health Log';
+
+  @override
+  String get recordDateText => 'Record Time';
+
+  @override
+  String get stepCountTypeText => 'Step Count';
+
+  @override
+  String get bloodPressureTypeText => 'Blood Pressure';
+
+  @override
+  String get bloodGlucoseTypeText => 'Blood Glucose';
+
+  @override
+  String get weightTypeText => 'Weight';
 }

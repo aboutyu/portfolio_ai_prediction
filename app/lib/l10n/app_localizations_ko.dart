@@ -34,4 +34,28 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get buttonLogoutText => '로그아웃';
+
+  @override
+  String get dailyNoLogsText => '기록이 없습니다.';
+
+  @override
+  String get dailyFoodLogTitle => '음식기록';
+
+  @override
+  String get dailyHealthLogTitle => '건강기록';
+
+  @override
+  String get recordDateText => '기록시간';
+
+  @override
+  String get stepCountTypeText => '걸음수';
+
+  @override
+  String get bloodPressureTypeText => '심박수';
+
+  @override
+  String get bloodGlucoseTypeText => '수면시간';
+
+  @override
+  String get weightTypeText => '체중';
 }

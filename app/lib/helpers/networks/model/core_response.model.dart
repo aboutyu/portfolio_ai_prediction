@@ -1,6 +1,6 @@
 import 'package:app/helpers/dto/page_response.dto.dart';
-import 'package:app/helpers/enums/response_code.enum.dart';
-import 'package:app/helpers/enums/status_code.enum.dart';
+import 'package:app/helpers/networks/enums/response_code.enum.dart';
+import 'package:app/helpers/networks/enums/status_code.enum.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'core_response.model.freezed.dart';

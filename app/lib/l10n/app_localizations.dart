@@ -151,6 +151,54 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'로그아웃'**
   String get buttonLogoutText;
+
+  /// No description provided for @dailyNoLogsText.
+  ///
+  /// In ko, this message translates to:
+  /// **'기록이 없습니다.'**
+  String get dailyNoLogsText;
+
+  /// No description provided for @dailyFoodLogTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'음식기록'**
+  String get dailyFoodLogTitle;
+
+  /// No description provided for @dailyHealthLogTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'건강기록'**
+  String get dailyHealthLogTitle;
+
+  /// No description provided for @recordDateText.
+  ///
+  /// In ko, this message translates to:
+  /// **'기록시간'**
+  String get recordDateText;
+
+  /// No description provided for @stepCountTypeText.
+  ///
+  /// In ko, this message translates to:
+  /// **'걸음수'**
+  String get stepCountTypeText;
+
+  /// No description provided for @bloodPressureTypeText.
+  ///
+  /// In ko, this message translates to:
+  /// **'심박수'**
+  String get bloodPressureTypeText;
+
+  /// No description provided for @bloodGlucoseTypeText.
+  ///
+  /// In ko, this message translates to:
+  /// **'수면시간'**
+  String get bloodGlucoseTypeText;
+
+  /// No description provided for @weightTypeText.
+  ///
+  /// In ko, this message translates to:
+  /// **'체중'**
+  String get weightTypeText;
 }
 
 class _AppLocalizationsDelegate

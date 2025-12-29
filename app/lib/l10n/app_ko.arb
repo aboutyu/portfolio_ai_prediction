@@ -9,5 +9,16 @@
   "myinfoAppbarText": "내정보",
 
   "noUserInfoAvailable": "사용자 정보가 없습니다.",
-  "buttonLogoutText": "로그아웃"
+  "buttonLogoutText": "로그아웃",
+
+  "dailyNoLogsText": "기록이 없습니다.",
+
+  "dailyFoodLogTitle": "음식기록",
+  "dailyHealthLogTitle": "건강기록",
+  "recordDateText": "기록시간",
+
+  "stepCountTypeText": "걸음수",
+  "bloodPressureTypeText": "심박수",
+  "bloodGlucoseTypeText": "수면시간",
+  "weightTypeText": "체중"
 }

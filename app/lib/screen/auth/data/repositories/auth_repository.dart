@@ -1,5 +1,5 @@
 import 'package:app/helpers/cores/app_config.dart';
-import 'package:app/helpers/enums/api_endpoint.dart';
+import 'package:app/helpers/networks/enums/api_endpoint.dart';
 import 'package:app/helpers/enums/platform.enum.dart';
 import 'package:app/helpers/networks/core_api_provider.dart';
 import 'package:app/helpers/networks/model/core_response.model.dart';
