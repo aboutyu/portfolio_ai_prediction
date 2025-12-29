@@ -62,6 +62,7 @@ export class RecordService {
     healthType: true,
     healthValue: true,
     healthExtraValue: true,
+    recordDate: true,
   } as const;
 
   private readonly ollamaClient: Ollama;
