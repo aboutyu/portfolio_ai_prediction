@@ -434,30 +434,74 @@ export class RecordService {
   async saveHealthRecord(
     data: SaveHealthlogDto[],
   ): Promise<ApiResponse<HealthLog[] | null>> {
+    // 이번 배치를 위한 UUID 생성
     const groupUuid = uuidv4();
-    const entities = data.map((item) => {
-      return this.healthLogRepository.create({
-        userSequence: 1,
-        groupUuid: groupUuid,
-        healthType: item.healthType,
-        healthValue: item.healthValue,
-        healthExtraValue: item.healthExtraValue,
-        deviceType: item.deviceType,
-        recordDate: item.recordDate,
+    return await this.dataSource.transaction(async (manager) => {
+      const processedGroupUuids = new Set<string>();
+
+      // TimelineGroup에 UUID 존재 여부 확인 및 생성
+      for (const item of data) {
+        let finalGroupUuid = item.groupUuid;
+
+        // =========================================================
+        // CASE 1. groupUuid가 없으면 (새로운 식사) -> 그룹 무조건 추가
+        // =========================================================
+        if (!finalGroupUuid || finalGroupUuid.trim() === '') {
+          // 부모(TimelineGroup) 저장
+          await manager.save(TimelineGroup, {
+            uuid: groupUuid,
+            userSequence: 1, // TODO: 실제 유저 ID
+            recordTime: item.recordDate,
+          });
+        } else {
+          // =========================================================
+          // CASE 2. groupUuid가 있으면 -> 존재 여부 확인 후 없으면 추가
+          // =========================================================
+
+          // 최적화: 이번 루프에서 이미 처리(확인/생성)한 UUID라면 DB 조회 패스
+          if (!processedGroupUuids.has(finalGroupUuid)) {
+            const existingGroup = await manager.findOne(TimelineGroup, {
+              where: { uuid: finalGroupUuid },
+            });
+
+            // 그룹이 없으면 생성 (Safe Guard)
+            if (!existingGroup) {
+              await manager.save(TimelineGroup, {
+                uuid: finalGroupUuid,
+                userSequence: 1, // TODO: 실제 유저 ID
+                recordTime: item.recordDate,
+              });
+            }
+            // "이 UUID는 확인했습니다"라고 도장 찍기
+            processedGroupUuids.add(finalGroupUuid);
+          }
+        }
+      }
+
+      const entities = data.map((item) => {
+        return this.healthLogRepository.create({
+          userSequence: 1,
+          groupUuid: item.groupUuid || groupUuid,
+          healthType: item.healthType,
+          healthValue: item.healthValue,
+          healthExtraValue: item.healthExtraValue,
+          deviceType: item.deviceType,
+          recordDate: item.recordDate,
+        });
       });
+
+      const savedHealths = await this.healthLogRepository.save(entities);
+      if (!savedHealths) {
+        return failureResponse(FailureCode.NOT_IMPLEMENTED);
+      }
+
+      const response = savedHealths.map((health) => {
+        const { userSequence, createDate, ...resp } = health;
+        return resp;
+      });
+
+      return successResponse(response as HealthLog[]);
     });
-
-    const savedHealths = await this.healthLogRepository.save(entities);
-    if (!savedHealths) {
-      return failureResponse(FailureCode.NOT_IMPLEMENTED);
-    }
-
-    const response = savedHealths.map((health) => {
-      const { userSequence, createDate, ...resp } = health;
-      return resp;
-    });
-
-    return successResponse(response as HealthLog[]);
   }
 
   // 건강 수정
