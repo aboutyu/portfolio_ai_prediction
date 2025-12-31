@@ -1,8 +1,16 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { Type } from "class-transformer";
-import { IsEnum, IsNotEmpty, ValidateNested, IsArray } from "class-validator";
-import { DeviceType } from "src/helpers/enums/device-type.enum";
-import { HealthType } from "src/helpers/enums/health-type.enum";
+import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+import {
+  IsEnum,
+  IsNotEmpty,
+  ValidateNested,
+  IsArray,
+  IsString,
+  Matches,
+  IsOptional,
+} from 'class-validator';
+import { DeviceType } from 'src/helpers/enums/device-type.enum';
+import { HealthType } from 'src/helpers/enums/health-type.enum';
 
 export class SaveHealthlogDto {
   @ApiProperty({
@@ -25,7 +33,9 @@ export class SaveHealthlogDto {
     example: HealthType.STEP_COUNT,
     required: true,
   })
-  @IsEnum(HealthType, { message: 'healthType은 SCT, BPT, BGT 중 하나여야 합니다.' })
+  @IsEnum(HealthType, {
+    message: 'healthType은 SCT, BPT, BGT 중 하나여야 합니다.',
+  })
   @IsNotEmpty()
   healthType: HealthType;
 
@@ -59,6 +69,19 @@ export class SaveHealthlogDto {
     required: true,
   })
   recordDate: Date;
+
+  @IsOptional()
+  @IsString()
+  @Matches(/^\d{4}-\d{2}-\d{2}$/) // YYYY-MM-DD 형식 검증
+  timelineDate?: string | null; // 예: "2025-12-30"
+
+  @ApiProperty({
+    description: '메모',
+    default: '건강 상태 양호',
+    required: false,
+  })
+  @IsString()
+  memo?: string;
 }
 
 export class SaveHealthBatchDto {

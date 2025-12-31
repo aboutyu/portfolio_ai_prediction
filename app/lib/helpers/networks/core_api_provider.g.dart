@@ -49,4 +49,4 @@ final class CoreApiProviderProvider
   }
 }
 
-String _$coreApiProviderHash() => r'252bc38c312952f363cff0d589bfeb962706112c';
+String _$coreApiProviderHash() => r'43f93ac0e9442682b742f410db52df87b81ec434';

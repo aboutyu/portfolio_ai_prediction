@@ -1,3 +1,4 @@
+import 'package:app/helpers/commons/common_funcs.dart';
 import 'package:app/helpers/commons/pretendard.dart';
 import 'package:flutter/material.dart';
 
@@ -27,8 +28,8 @@ AppBar appBarWidgetCalendar(
           final selectedDate = await showDatePicker(
             context: context,
             initialDate: date,
-            firstDate: DateTime(2025, 1, 1),
-            lastDate: DateTime.now(),
+            firstDate: firstCalendarDate,
+            lastDate: lastCalendarDate,
             builder: (context, child) {
               return Theme(
                 data: Theme.of(context).copyWith(

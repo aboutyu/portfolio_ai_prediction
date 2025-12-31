@@ -31,6 +31,7 @@ export const database = TypeOrmModule.forRootAsync({
       username: username,
       password: configService.get<string>('DB_PASSWORD'),
       database: dbName,
+      timezone: 'Z',
       autoLoadEntities: true,
       synchronize: false,
       logging: logging,

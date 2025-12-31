@@ -6,6 +6,7 @@ import 'package:app/helpers/cores/app_initializer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 void main() async {
   await AppInitializer.initialize();
@@ -37,6 +38,10 @@ class MyApp extends ConsumerWidget {
 
       routerConfig: router,
       builder: (context, child) {
+        // 현재 로케일에 맞게 Intl 기본 로케일 설정
+        final currentLocale = Localizations.localeOf(context);
+        Intl.defaultLocale = currentLocale.toLanguageTag();
+
         return LoadingIndicatorWidget(
           isLoading: isLoadingProgress,
           child: GestureDetector(

@@ -11,7 +11,13 @@ enum ApiEndpoint {
   leave(path: '/membership/leave', method: 'DELETE'), // 회원탈퇴
 
   timeline(path: '/record/timeline', method: 'GET'), // 타임라인 조회
-  timelineDate(path: '/record/timeline/date', method: 'GET'); // 특정 날짜 타임라인 조회
+  timelineDate(path: '/record/timeline/date', method: 'GET'), // 특정 날짜 타임라인 조회
+
+  recordHealth(path: '/record/health', method: 'POST'), // 건강기록 생성
+  recordHealthUpdate(path: '/record/health/update', method: 'PATCH'), // 건강기록 수정
+  recordFood(path: '/record/food', method: 'POST'), // 음식기록
+  recordFoodUpdate(path: '/record/food/update', method: 'PATCH') // 음식기록 수정
+  ;
 
   final String path;
   final String method;
@@ -69,6 +75,50 @@ enum ApiEndpoint {
             json as Map<String, dynamic>,
             (dataJson) => (dataJson as List<dynamic>)
                 .map((e) => TimelineItem.fromJson(e as Map<String, dynamic>))
+                .toList(),
+          );
+          return wrapper as CoreResponse<T>;
+        };
+
+      case ApiEndpoint.recordHealth:
+        return <T>(json) {
+          final wrapper = CoreResponse<List<HealthLog>>.fromJson(
+            json as Map<String, dynamic>,
+            (dataJson) => (dataJson as List<dynamic>)
+                .map((e) => HealthLog.fromJson(e as Map<String, dynamic>))
+                .toList(),
+          );
+          return wrapper as CoreResponse<T>;
+        };
+
+      case ApiEndpoint.recordHealthUpdate:
+        return <T>(json) {
+          final wrapper = CoreResponse<List<HealthLog>>.fromJson(
+            json as Map<String, dynamic>,
+            (dataJson) => (dataJson as List<dynamic>)
+                .map((e) => HealthLog.fromJson(e as Map<String, dynamic>))
+                .toList(),
+          );
+          return wrapper as CoreResponse<T>;
+        };
+
+      case ApiEndpoint.recordFood:
+        return <T>(json) {
+          final wrapper = CoreResponse<List<FoodLog>>.fromJson(
+            json as Map<String, dynamic>,
+            (dataJson) => (dataJson as List<dynamic>)
+                .map((e) => FoodLog.fromJson(e as Map<String, dynamic>))
+                .toList(),
+          );
+          return wrapper as CoreResponse<T>;
+        };
+
+      case ApiEndpoint.recordFoodUpdate:
+        return <T>(json) {
+          final wrapper = CoreResponse<List<FoodLog>>.fromJson(
+            json as Map<String, dynamic>,
+            (dataJson) => (dataJson as List<dynamic>)
+                .map((e) => FoodLog.fromJson(e as Map<String, dynamic>))
                 .toList(),
           );
           return wrapper as CoreResponse<T>;

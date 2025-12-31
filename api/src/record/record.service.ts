@@ -54,6 +54,7 @@ export class RecordService {
     foodName: true,
     calories: true,
     recordDate: true,
+    memo: true,
   } as const;
 
   private readonly healthSelection = {
@@ -63,6 +64,7 @@ export class RecordService {
     healthValue: true,
     healthExtraValue: true,
     recordDate: true,
+    memo: true,
   } as const;
 
   private readonly ollamaClient: Ollama;
@@ -286,61 +288,80 @@ export class RecordService {
       return failureResponse(FailureCode.INVALID_PARAM);
     }
 
-    // 이번 배치를 위한 UUID 생성
-    const groupUuid = uuidv4();
     return await this.dataSource.transaction(async (manager) => {
-      const processedGroupUuids = new Set<string>();
+      // 1. 메모리 캐시: "YYYY-MM-DD" -> "GroupUUID"
+      // (루프 내에서 같은 날짜가 반복되면 DB 조회를 줄이기 위함)
+      const dateToGroupUuidMap = new Map<string, string>();
 
-      // TimelineGroup에 UUID 존재 여부 확인 및 생성
+      const entities: FoodLog[] = [];
+
+      // ⚠️ 중요: map 대신 for...of를 써야 내부에서 await가 정상 작동합니다.
       for (const item of data) {
-        let finalGroupUuid = item.groupUuid;
-
         // =========================================================
-        // CASE 1. groupUuid가 없으면 (새로운 식사) -> 그룹 무조건 추가
+        // 1. 날짜 문자열 결정 (클라이언트 값 우선 -> 없으면 recordDate 기준)
         // =========================================================
-        if (!finalGroupUuid || finalGroupUuid.trim() === '') {
-          // 부모(TimelineGroup) 저장
-          await manager.save(TimelineGroup, {
-            uuid: groupUuid,
-            userSequence: 1, // TODO: 실제 유저 ID
-            recordTime: item.recordDate,
-          });
-        } else {
-          // =========================================================
-          // CASE 2. groupUuid가 있으면 -> 존재 여부 확인 후 없으면 추가
-          // =========================================================
+        let targetDateString = item.timelineDate;
 
-          // 최적화: 이번 루프에서 이미 처리(확인/생성)한 UUID라면 DB 조회 패스
-          if (!processedGroupUuids.has(finalGroupUuid)) {
-            const existingGroup = await manager.findOne(TimelineGroup, {
-              where: { uuid: finalGroupUuid },
-            });
-
-            // 그룹이 없으면 생성 (Safe Guard)
-            if (!existingGroup) {
-              await manager.save(TimelineGroup, {
-                uuid: finalGroupUuid,
-                userSequence: 1, // TODO: 실제 유저 ID
-                recordTime: item.recordDate,
-              });
-            }
-            // "이 UUID는 확인했습니다"라고 도장 찍기
-            processedGroupUuids.add(finalGroupUuid);
-          }
+        if (!targetDateString) {
+          // null이면 recordDate(UTC)에서 날짜만 뽑아서 사용 ("2025-12-30")
+          const dateObj = new Date(item.recordDate);
+          targetDateString = dateObj.toISOString().split('T')[0];
         }
+
+        // =========================================================
+        // 2. 그룹 기준 시간 생성 (UTC 00:00:00 고정)
+        // =========================================================
+        // "2025-12-30" -> Date(2025-12-30T00:00:00.000Z)
+        const targetGroupDate = new Date(`${targetDateString}T00:00:00Z`);
+
+        // =========================================================
+        // 3. 그룹 UUID 찾기 (메모리 -> DB -> 생성)
+        // =========================================================
+        let groupUuid = dateToGroupUuidMap.get(targetDateString);
+
+        if (!groupUuid) {
+          // A. DB 조회: 해당 날짜(UTC 0시)의 그룹이 있는지 확인
+          let existingGroup = await manager.findOne(TimelineGroup, {
+            where: {
+              userSequence: 1, // TODO: 실제 유저 ID
+              recordTime: targetGroupDate,
+            },
+          });
+
+          // B. 없으면 생성
+          if (!existingGroup) {
+            const newUuid = uuidv4();
+            existingGroup = await manager.save(TimelineGroup, {
+              uuid: newUuid,
+              userSequence: 1,
+              // 그룹 날짜는 무조건 UTC 0시로 저장 (약속)
+              recordTime: targetGroupDate,
+            });
+          }
+
+          groupUuid = existingGroup.uuid;
+          // 다음 루프를 위해 메모리에 저장
+          dateToGroupUuidMap.set(targetDateString, groupUuid);
+        }
+
+        // =========================================================
+        // 4. FoodLog 엔티티 생성 (배열에 담기)
+        // =========================================================
+        entities.push(
+          manager.create(FoodLog, {
+            userSequence: 1,
+            groupUuid: groupUuid, // 찾아낸(혹은 만든) UUID 사용
+            foodName: item.foodName,
+            calories: item.calories,
+            recordDate: item.recordDate, // 실제 식사 시간
+            memo: item.memo, // 메모 필드가 있다면 추가
+          }),
+        );
       }
 
-      // FoodLog 엔티티 생성
-      const entities = data.map((item) => {
-        return manager.create(FoodLog, {
-          userSequence: 1,
-          groupUuid: item.groupUuid ?? groupUuid,
-          foodName: item.foodName,
-          calories: item.calories,
-          recordDate: item.recordDate,
-        });
-      });
-
+      // =========================================================
+      // 5. 일괄 저장
+      // =========================================================
       const savedFoods = await manager.save(FoodLog, entities);
 
       if (!savedFoods) {
@@ -355,7 +376,6 @@ export class RecordService {
       return successResponse(response as FoodLog[]);
     });
   }
-
   // 음식 수정
   async updateFoodRecord(
     data: SaveFoodlogDto,
@@ -434,61 +454,73 @@ export class RecordService {
   async saveHealthRecord(
     data: SaveHealthlogDto[],
   ): Promise<ApiResponse<HealthLog[] | null>> {
-    // 이번 배치를 위한 UUID 생성
-    const groupUuid = uuidv4();
     return await this.dataSource.transaction(async (manager) => {
-      const processedGroupUuids = new Set<string>();
+      // 메모리 캐시: "YYYY-MM-DD" -> "GroupUUID"
+      const dateToGroupUuidMap = new Map<string, string>();
+      const entities: HealthLog[] = [];
 
-      // TimelineGroup에 UUID 존재 여부 확인 및 생성
       for (const item of data) {
-        let finalGroupUuid = item.groupUuid;
-
         // =========================================================
-        // CASE 1. groupUuid가 없으면 (새로운 식사) -> 그룹 무조건 추가
+        // 1. 날짜 문자열 결정 (클라이언트 값 우선 -> 없으면 recordDate 기준)
         // =========================================================
-        if (!finalGroupUuid || finalGroupUuid.trim() === '') {
-          // 부모(TimelineGroup) 저장
-          await manager.save(TimelineGroup, {
-            uuid: groupUuid,
-            userSequence: 1, // TODO: 실제 유저 ID
-            recordTime: item.recordDate,
-          });
-        } else {
-          // =========================================================
-          // CASE 2. groupUuid가 있으면 -> 존재 여부 확인 후 없으면 추가
-          // =========================================================
+        let targetDateString = item.timelineDate;
 
-          // 최적화: 이번 루프에서 이미 처리(확인/생성)한 UUID라면 DB 조회 패스
-          if (!processedGroupUuids.has(finalGroupUuid)) {
-            const existingGroup = await manager.findOne(TimelineGroup, {
-              where: { uuid: finalGroupUuid },
-            });
-
-            // 그룹이 없으면 생성 (Safe Guard)
-            if (!existingGroup) {
-              await manager.save(TimelineGroup, {
-                uuid: finalGroupUuid,
-                userSequence: 1, // TODO: 실제 유저 ID
-                recordTime: item.recordDate,
-              });
-            }
-            // "이 UUID는 확인했습니다"라고 도장 찍기
-            processedGroupUuids.add(finalGroupUuid);
-          }
+        if (!targetDateString) {
+          // null이면 recordDate(UTC)에서 날짜만 뽑아서 사용 ("2025-12-30")
+          const dateObj = new Date(item.recordDate);
+          targetDateString = dateObj.toISOString().split('T')[0];
         }
-      }
 
-      const entities = data.map((item) => {
-        return this.healthLogRepository.create({
-          userSequence: 1,
-          groupUuid: item.groupUuid || groupUuid,
-          healthType: item.healthType,
-          healthValue: item.healthValue,
-          healthExtraValue: item.healthExtraValue,
-          deviceType: item.deviceType,
-          recordDate: item.recordDate,
-        });
-      });
+        // =========================================================
+        // 2. 그룹 기준 시간 생성 (UTC 00:00:00 고정)
+        // =========================================================
+        // "2025-12-30" -> Date(2025-12-30T00:00:00.000Z)
+        const targetGroupDate = new Date(`${targetDateString}T00:00:00Z`);
+
+        // =========================================================
+        // 3. 그룹 UUID 찾기 (메모리 -> DB -> 생성)
+        // =========================================================
+        let groupUuid = dateToGroupUuidMap.get(targetDateString);
+
+        if (!groupUuid) {
+          // A. DB 조회
+          let existingGroup = await manager.findOne(TimelineGroup, {
+            where: {
+              userSequence: 1, // TODO: User ID
+              // DB에 저장된 UTC 0시 값과 비교
+              recordTime: targetGroupDate,
+            },
+          });
+
+          // B. 없으면 생성
+          if (!existingGroup) {
+            const newUuid = uuidv4();
+            existingGroup = await manager.save(TimelineGroup, {
+              uuid: newUuid,
+              userSequence: 1,
+              // 그룹 날짜는 무조건 UTC 0시로 저장 (약속)
+              recordTime: targetGroupDate,
+            });
+          }
+
+          groupUuid = existingGroup.uuid;
+          // 다음 루프를 위해 메모리에 저장
+          dateToGroupUuidMap.set(targetDateString, groupUuid);
+        }
+
+        entities.push(
+          this.healthLogRepository.create({
+            userSequence: 1,
+            groupUuid: item.groupUuid || groupUuid,
+            healthType: item.healthType,
+            healthValue: item.healthValue,
+            healthExtraValue: item.healthExtraValue,
+            deviceType: item.deviceType,
+            recordDate: item.recordDate,
+            memo: item.memo,
+          }),
+        );
+      }
 
       const savedHealths = await this.healthLogRepository.save(entities);
       if (!savedHealths) {

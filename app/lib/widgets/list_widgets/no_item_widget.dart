@@ -1,5 +1,5 @@
 import 'package:app/helpers/commons/pretendard.dart';
-import 'package:app/helpers/extensions/l10n.extension.dart';
+import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:flutter/material.dart';
 
 Widget noItemWidget(BuildContext context, {String? message}) {

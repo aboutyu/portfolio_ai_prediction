@@ -9,7 +9,14 @@
   "myinfoAppbarText": "내정보",
 
   "noUserInfoAvailable": "사용자 정보가 없습니다.",
+  "expiredLoginTokenText": "로그인 세션이 만료되었습니다. 다시 로그인해주세요.",
+  "expiredLoginTokenTitleText": "인증오류",
   "buttonLogoutText": "로그아웃",
+
+  "dialogConfirmTitle": "확인",
+  "dialogCancelTitle": "취소",
+  "dialogSavedTitle": "저장",
+  "dialogClosedTitle": "닫기",
 
   "dailyNoLogsText": "기록이 없습니다.",
 
@@ -18,7 +25,24 @@
   "recordDateText": "기록시간",
 
   "stepCountTypeText": "걸음수",
-  "bloodPressureTypeText": "심박수",
-  "bloodGlucoseTypeText": "수면시간",
-  "weightTypeText": "체중"
+  "bloodPressureTypeText": "혈압수치",
+  "bloodGlucoseTypeText": "혈당수치",
+  "weightTypeText": "체중",
+
+  "weightLogRecordTitle": "체중 기록/수정",
+  "weightLogInputHintWeightText": "체중을 입력하세요",
+
+  "stepcountLogRecordTitle": "걸음수 기록/수정",
+  "stepcountLogInputHintStepcountText": "걸음수를 입력하세요",
+
+  "bloodGlucoseLogRecordTitle": "혈당 기록/수정",
+  "bloodGlucoseLogInputHintBloodGlucoseText": "혈당을 입력하세요",
+
+  "bloodPressureLogRecordTitle": "혈압 기록/수정",
+  "bloodPressureLogInputHintDiastolicText": "이완기 혈압을 입력하세요",
+  "bloodPressureLogInputHintSystolicText": "수축기 혈압을 입력하세요",
+  "bloodPressureLogInputHintBloodPressureText": "혈압을 입력하세요",
+
+  "inputDateText": "날짜",
+  "inputHintMemoText": "메모를 입력하세요 (선택사항)"
 }

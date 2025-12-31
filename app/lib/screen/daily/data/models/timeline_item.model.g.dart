@@ -53,8 +53,8 @@ _HealthLog _$HealthLogFromJson(Map<String, dynamic> json) => _HealthLog(
   groupUuid: json['groupUuid'] as String,
   healthType: $enumDecode(_$HealthLogTypeEnumMap, json['healthType']),
   healthValue: (json['healthValue'] as num).toDouble(),
-  healthExtraValue: (json['healthExtraValue'] as num?)?.toDouble(),
   recordDate: DateTime.parse(json['recordDate'] as String),
+  healthExtraValue: (json['healthExtraValue'] as num?)?.toDouble(),
 );
 
 Map<String, dynamic> _$HealthLogToJson(_HealthLog instance) =>
@@ -63,8 +63,8 @@ Map<String, dynamic> _$HealthLogToJson(_HealthLog instance) =>
       'groupUuid': instance.groupUuid,
       'healthType': _$HealthLogTypeEnumMap[instance.healthType]!,
       'healthValue': instance.healthValue,
-      'healthExtraValue': instance.healthExtraValue,
       'recordDate': instance.recordDate.toIso8601String(),
+      'healthExtraValue': instance.healthExtraValue,
     };
 
 const _$HealthLogTypeEnumMap = {

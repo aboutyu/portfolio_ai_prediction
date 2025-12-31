@@ -1,7 +1,16 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn, Index } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  ManyToOne,
+  JoinColumn,
+  Index,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from './user.entity'; // User 엔티티 경로 확인
 import { TimelineGroup } from './timeline-group.entity';
+import { IsISO8601 } from 'class-validator';
 
 @Entity('food_logs')
 export class FoodLog {
@@ -21,7 +30,7 @@ export class FoodLog {
   foodName: string;
 
   // 5. calories (DECIMAL 10, 3)
-  @ApiProperty({ description: '칼로리 (kcal)', example: 300.500 })
+  @ApiProperty({ description: '칼로리 (kcal)', example: 300.5 })
   @Column({
     type: 'decimal',
     precision: 10,
@@ -30,20 +39,29 @@ export class FoodLog {
     transformer: {
       // DB에서 문자열로 넘어오는 Decimal을 숫자로 변환
       to: (value) => value,
-      from: (value) => parseFloat(value), 
+      from: (value) => parseFloat(value),
     },
   })
   calories: number;
 
   // 6. record_date
-  @ApiProperty({ description: '식사 시간 (정렬 기준)', example: '2025-12-10T12:00:00.000Z' })
+  @ApiProperty({
+    description: '식사 시간 (정렬 기준)',
+    example: '2025-12-10T12:00:00.000Z',
+  })
   @Column({ name: 'record_date', type: 'datetime' })
+  @IsISO8601()
   recordDate: Date;
 
   // 7. create_date
   @ApiProperty({ description: '데이터 생성일' })
   @CreateDateColumn({ name: 'create_date', type: 'timestamp' })
   createDate: Date;
+
+  // 8. 메모
+  @ApiProperty({ description: '메모', example: '점심 식사' })
+  @Column({ name: 'memo', type: 'tinytext', nullable: true })
+  memo?: string;
 
   // ✅ User 테이블과의 관계 설정 (N:1)
   @ManyToOne(() => User, (user) => user.foodLogs, {
@@ -59,7 +77,10 @@ export class FoodLog {
   group: TimelineGroup;
 
   // group_uuid (Batch ID) - 조회 성능을 위해 Index 추가 추천
-  @ApiProperty({ description: '그룹핑용 UUID (Batch ID)', example: '550e8400-e29b-...' })
+  @ApiProperty({
+    description: '그룹핑용 UUID (Batch ID)',
+    example: '550e8400-e29b-...',
+  })
   @Index('idx_food_group_uuid') // ✅ UUID로 묶어서 조회할 때 속도 향상
   @Column({ name: 'group_uuid', type: 'varchar', length: 36 })
   groupUuid: string;

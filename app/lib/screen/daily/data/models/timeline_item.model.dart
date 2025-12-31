@@ -1,4 +1,4 @@
-import 'package:app/helpers/extensions/l10n.extension.dart';
+import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -22,6 +22,8 @@ enum HealthLogType {
 }
 
 extension HealthLogTypeExtension on HealthLogType {
+  String get code => name;
+
   String displayName(BuildContext context) {
     switch (this) {
       case HealthLogType.SCT:

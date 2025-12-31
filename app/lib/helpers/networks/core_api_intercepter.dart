@@ -1,13 +1,21 @@
 import 'dart:io';
 
 import 'package:app/helpers/commons/common_funcs.dart';
+import 'package:app/helpers/extensions/l10n_extension.dart';
+import 'package:app/helpers/routers/router.dart';
+import 'package:app/helpers/storages/user_info.dart';
+import 'package:app/widgets/show_dialogs/single_dialog_widget.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class CoreApiIntercepter extends Interceptor {
+  final Ref ref;
   final FlutterSecureStorage storage;
+  BuildContext? get context => rootNavigatorKey.currentContext;
 
-  CoreApiIntercepter(this.storage);
+  CoreApiIntercepter(this.ref, this.storage);
 
   @override
   void onRequest(
@@ -24,29 +32,42 @@ class CoreApiIntercepter extends Interceptor {
     try {
       options.headers['Accept-Language'] = Platform.localeName;
       options.headers['x-timezone'] = DateTime.now().timeZoneName;
-      options.headers['x-platform'] = Platform.isAndroid ? 'android' : 'ios';
+      options.headers['x-platform'] = deviceType;
     } catch (e) {
       debugMessage('기기 정보 헤더 설정 실패: $e');
     }
 
     final accessToken = await storage.read(key: 'accessToken');
-    // final refreshToken = await storage.read(key: 'refreshToken');
+    final refreshToken = await storage.read(key: 'refreshToken');
 
     if (accessToken != null) {
       options.headers['Authorization'] = 'Bearer $accessToken';
     }
 
-    // refreshToken은 아직 헤더에서 사용하지 않음
-    // if (refreshToken != null) {
-    //   options.headers['x-refresh-token'] = refreshToken;
-    // }
+    if (refreshToken != null) {
+      options.headers['x-refreshToken'] = refreshToken;
+    }
 
     super.onRequest(options, handler);
   }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    // 에러 처리 로직 추가 가능
+    debugMessage([
+      'API 요청 중 에러 발생(core_api_intercepter.dart)',
+      'code: ${err.response?.statusCode}',
+      '${err.message}',
+    ]);
+
+    if (err.response?.statusCode == 401 && context != null) {
+      final tr = context!.tr;
+      singleDialogWidget(
+        context!,
+        tr.expiredLoginTokenText,
+        title: tr.expiredLoginTokenTitleText,
+        onConfirm: () => ref.read(userInfoProvider.notifier).logout(),
+      );
+    }
     super.onError(err, handler);
   }
 }

@@ -146,11 +146,47 @@ abstract class AppLocalizations {
   /// **'사용자 정보가 없습니다.'**
   String get noUserInfoAvailable;
 
+  /// No description provided for @expiredLoginTokenText.
+  ///
+  /// In ko, this message translates to:
+  /// **'로그인 세션이 만료되었습니다. 다시 로그인해주세요.'**
+  String get expiredLoginTokenText;
+
+  /// No description provided for @expiredLoginTokenTitleText.
+  ///
+  /// In ko, this message translates to:
+  /// **'인증오류'**
+  String get expiredLoginTokenTitleText;
+
   /// No description provided for @buttonLogoutText.
   ///
   /// In ko, this message translates to:
   /// **'로그아웃'**
   String get buttonLogoutText;
+
+  /// No description provided for @dialogConfirmTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'확인'**
+  String get dialogConfirmTitle;
+
+  /// No description provided for @dialogCancelTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'취소'**
+  String get dialogCancelTitle;
+
+  /// No description provided for @dialogSavedTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'저장'**
+  String get dialogSavedTitle;
+
+  /// No description provided for @dialogClosedTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'닫기'**
+  String get dialogClosedTitle;
 
   /// No description provided for @dailyNoLogsText.
   ///
@@ -185,13 +221,13 @@ abstract class AppLocalizations {
   /// No description provided for @bloodPressureTypeText.
   ///
   /// In ko, this message translates to:
-  /// **'심박수'**
+  /// **'혈압수치'**
   String get bloodPressureTypeText;
 
   /// No description provided for @bloodGlucoseTypeText.
   ///
   /// In ko, this message translates to:
-  /// **'수면시간'**
+  /// **'혈당수치'**
   String get bloodGlucoseTypeText;
 
   /// No description provided for @weightTypeText.
@@ -199,6 +235,78 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'체중'**
   String get weightTypeText;
+
+  /// No description provided for @weightLogRecordTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'체중 기록/수정'**
+  String get weightLogRecordTitle;
+
+  /// No description provided for @weightLogInputHintWeightText.
+  ///
+  /// In ko, this message translates to:
+  /// **'체중을 입력하세요'**
+  String get weightLogInputHintWeightText;
+
+  /// No description provided for @stepcountLogRecordTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'걸음수 기록/수정'**
+  String get stepcountLogRecordTitle;
+
+  /// No description provided for @stepcountLogInputHintStepcountText.
+  ///
+  /// In ko, this message translates to:
+  /// **'걸음수를 입력하세요'**
+  String get stepcountLogInputHintStepcountText;
+
+  /// No description provided for @bloodGlucoseLogRecordTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'혈당 기록/수정'**
+  String get bloodGlucoseLogRecordTitle;
+
+  /// No description provided for @bloodGlucoseLogInputHintBloodGlucoseText.
+  ///
+  /// In ko, this message translates to:
+  /// **'혈당을 입력하세요'**
+  String get bloodGlucoseLogInputHintBloodGlucoseText;
+
+  /// No description provided for @bloodPressureLogRecordTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'혈압 기록/수정'**
+  String get bloodPressureLogRecordTitle;
+
+  /// No description provided for @bloodPressureLogInputHintDiastolicText.
+  ///
+  /// In ko, this message translates to:
+  /// **'이완기 혈압을 입력하세요'**
+  String get bloodPressureLogInputHintDiastolicText;
+
+  /// No description provided for @bloodPressureLogInputHintSystolicText.
+  ///
+  /// In ko, this message translates to:
+  /// **'수축기 혈압을 입력하세요'**
+  String get bloodPressureLogInputHintSystolicText;
+
+  /// No description provided for @bloodPressureLogInputHintBloodPressureText.
+  ///
+  /// In ko, this message translates to:
+  /// **'혈압을 입력하세요'**
+  String get bloodPressureLogInputHintBloodPressureText;
+
+  /// No description provided for @inputDateText.
+  ///
+  /// In ko, this message translates to:
+  /// **'날짜'**
+  String get inputDateText;
+
+  /// No description provided for @inputHintMemoText.
+  ///
+  /// In ko, this message translates to:
+  /// **'메모를 입력하세요 (선택사항)'**
+  String get inputHintMemoText;
 }
 
 class _AppLocalizationsDelegate

@@ -1,13 +1,22 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn, Index } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  ManyToOne,
+  JoinColumn,
+  Index,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from './user.entity';
 import { TimelineGroup } from './timeline-group.entity';
+import { IsISO8601 } from 'class-validator';
 
 // ✅ 스크린샷의 코멘트를 참고하여 Enum 정의 (타입 안전성 확보)
 export enum HealthType {
-  STEP_COUNT = 'SCT',    // 걸음수
+  STEP_COUNT = 'SCT', // 걸음수
   BLOOD_PRESSURE = 'BPT', // 혈압
-  BLOOD_GLUCOSE = 'BGT',  // 혈당
+  BLOOD_GLUCOSE = 'BGT', // 혈당
 }
 
 @Entity('health_logs')
@@ -24,29 +33,33 @@ export class HealthLog {
 
   // 3. group_uuid (Batch ID)
   // UUID로 묶어서 조회하는 경우가 많으므로 인덱스 추가
-  @ApiProperty({ description: '그룹핑용 UUID (Batch ID)', example: '550e8400-e29b-...' })
-  @Index('idx_health_group_uuid') 
+  @ApiProperty({
+    description: '그룹핑용 UUID (Batch ID)',
+    example: '550e8400-e29b-...',
+  })
+  @Index('idx_health_group_uuid')
   @Column({ name: 'group_uuid', type: 'varchar', length: 36 })
   groupUuid: string;
 
   // 4. health_type (CHAR 3)
-  @ApiProperty({ 
-    description: '건강 데이터 타입 (SCT:걸음수, BPT:혈압, BGT:혈당)', 
+  @ApiProperty({
+    description: '건강 데이터 타입 (SCT:걸음수, BPT:혈압, BGT:혈당)',
     enum: HealthType,
-    example: HealthType.STEP_COUNT 
+    example: HealthType.STEP_COUNT,
   })
   @Column({
     name: 'health_type',
     type: 'char',
     length: 3,
     default: HealthType.STEP_COUNT,
-    comment: 'SCT: Step Count Type(걸음수)\nBPT: Blood Pressure Type(혈압)\nBGT: Blood Glucose Type(혈당)',
+    comment:
+      'SCT: Step Count Type(걸음수)\nBPT: Blood Pressure Type(혈압)\nBGT: Blood Glucose Type(혈당)',
   })
   healthType: HealthType;
 
   // 5. health_value (DECIMAL 10, 3)
   // 기존 step_count, heart_rate 등이 통합된 컬럼입니다.
-  @ApiProperty({ description: '측정 값 (소수점 3자리)', example: 120.500 })
+  @ApiProperty({ description: '측정 값 (소수점 3자리)', example: 120.5 })
   @Column({
     name: 'health_value',
     type: 'decimal',
@@ -55,12 +68,12 @@ export class HealthLog {
     default: 0,
     transformer: {
       to: (value) => value,
-      from: (value) => parseFloat(value), 
+      from: (value) => parseFloat(value),
     },
   })
   healthValue: number;
 
-  @ApiProperty({ description: '추가 측정 값 (소수점 3자리)', example: 120.500 })
+  @ApiProperty({ description: '추가 측정 값 (소수점 3자리)', example: 120.5 })
   @Column({
     name: 'health_extra_value',
     type: 'decimal',
@@ -69,7 +82,7 @@ export class HealthLog {
     default: 0,
     transformer: {
       to: (value) => value,
-      from: (value) => parseFloat(value), 
+      from: (value) => parseFloat(value),
     },
   })
   healthExtraValue: number;
@@ -82,12 +95,18 @@ export class HealthLog {
   // 7. record_date
   @ApiProperty({ description: '측정 시간 (정렬 기준)' })
   @Column({ name: 'record_date', type: 'datetime' })
+  @IsISO8601()
   recordDate: Date;
 
   // 8. create_date
   @ApiProperty({ description: '데이터 생성일' })
   @CreateDateColumn({ name: 'create_date', type: 'timestamp' })
   createDate: Date;
+
+  // 9. 메모
+  @ApiProperty({ description: '메모', example: '아침 측정' })
+  @Column({ name: 'memo', type: 'tinytext', nullable: true })
+  memo?: string;
 
   // ✅ User 테이블과의 관계 설정
   @ManyToOne(() => User, (user) => user.healthLogs, {

@@ -65,7 +65,7 @@ CoreApiProvider coreApiProvider(Ref ref) {
     ),
   );
 
-  dio.interceptors.add(CoreApiIntercepter(storage)); // 공통 인터셉터 추가
+  dio.interceptors.add(CoreApiIntercepter(ref, storage)); // 공통 인터셉터 추가
   dio.interceptors.add(LoadingIndicatorIntercept(ref)); // 로딩 인디케이터 인터셉터 추가
 
   // // 개발(디버그모드) 중에만 로그 찍기

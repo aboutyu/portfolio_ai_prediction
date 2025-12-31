@@ -1,6 +1,12 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { Type } from "class-transformer";
-import { ValidateNested, IsArray } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+import {
+  ValidateNested,
+  IsArray,
+  IsString,
+  Matches,
+  IsOptional,
+} from 'class-validator';
 
 export class SaveFoodlogDto {
   @ApiProperty({
@@ -37,6 +43,18 @@ export class SaveFoodlogDto {
     required: true,
   })
   recordDate: Date;
+
+  @IsOptional()
+  @IsString()
+  @Matches(/^\d{4}-\d{2}-\d{2}$/) // YYYY-MM-DD 형식 검증
+  timelineDate?: string | null; // 예: "2025-12-30"
+
+  @ApiProperty({
+    description: '메모',
+    default: '점심 식사',
+    required: false,
+  })
+  memo?: string;
 }
 
 export class SaveFoodBatchDto {

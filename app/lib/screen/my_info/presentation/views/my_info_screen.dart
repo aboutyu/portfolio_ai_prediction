@@ -1,4 +1,4 @@
-import 'package:app/helpers/extensions/l10n.extension.dart';
+import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/helpers/storages/user_info.dart';
 import 'package:app/widgets/appbar_widgets/appbar_widget.dart';
 import 'package:flutter/material.dart';

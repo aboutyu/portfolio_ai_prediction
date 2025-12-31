@@ -1,7 +1,7 @@
 import 'package:app/helpers/networks/core_api_provider.dart';
 import 'package:app/helpers/networks/enums/api_endpoint.dart';
 import 'package:app/helpers/networks/model/core_response.model.dart';
-import 'package:app/screen/daily/data/dto/timeline.dto.dart';
+import 'package:app/screen/daily/data/dto/timeline_dto.dart';
 import 'package:app/screen/daily/data/models/timeline_item.model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

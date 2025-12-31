@@ -9,7 +9,14 @@
   "myinfoAppbarText": "MyInfo",
 
   "noUserInfoAvailable": "No user information available.",
+  "expiredLoginTokenText": "Your login session has expired. Please log in again.",
+  "expiredLoginTokenTitleText": "Authentication Error",
   "buttonLogoutText": "Logout",
+
+  "dialogConfirmTitle": "Confirm",
+  "dialogCancelTitle": "Cancel",
+  "dialogSavedTitle": "Save",
+  "dialogClosedTitle": "Close",
 
   "dailyNoLogsText": "No logs available.",
 
@@ -20,5 +27,22 @@
   "stepCountTypeText": "Step Count",
   "bloodPressureTypeText": "Blood Pressure",
   "bloodGlucoseTypeText": "Blood Glucose",
-  "weightTypeText": "Weight"
+  "weightTypeText": "Weight",
+
+  "weightLogRecordTitle": "Record Weight Write/Edit",
+  "weightLogInputHintWeightText": "Enter your weight",
+
+  "stepcountLogRecordTitle": "Record Step Count Write/Edit",
+  "stepcountLogInputHintStepcountText": "Enter your step count",
+
+  "bloodGlucoseLogRecordTitle": "Record Blood Glucose Write/Edit",
+  "bloodGlucoseLogInputHintBloodGlucoseText": "Enter your blood glucose",
+  
+  "bloodPressureLogRecordTitle": "Record Blood Pressure Write/Edit",
+  "bloodPressureLogInputHintDiastolicText": "Enter your diastolic blood pressure",
+  "bloodPressureLogInputHintSystolicText": "Enter your systolic blood pressure",
+  "bloodPressureLogInputHintBloodPressureText": "Enter your blood pressure",
+
+  "inputDateText": "Date",
+  "inputHintMemoText": "Enter a memo (optional)"
 }
