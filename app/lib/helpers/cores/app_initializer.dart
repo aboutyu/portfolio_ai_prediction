@@ -1,11 +1,10 @@
-import 'package:app/firebase_options.dart';
+import 'package:app/helpers/commons/common_funcs.dart';
 import 'package:app/helpers/cores/app_config.dart';
 import 'package:app/helpers/enums/app_environment.enum.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
 
 class AppInitializer {
   const AppInitializer._();
@@ -15,18 +14,16 @@ class AppInitializer {
 
     await _loadEnvFile();
 
-    debugPrint("========================================");
-    debugPrint("🚀 앱 초기화 시작 (환경: ${AppConfig.env.name})");
-    debugPrint("🌐 호스트 주소: ${AppConfig.host}");
-    debugPrint("========================================");
+    debugMessage([
+      "🚀 앱 초기화 시작 (환경: ${AppConfig.env.name})",
+      "🌐 호스트 주소: ${AppConfig.host}",
+    ]);
 
     // intl 패키지의 날짜 포맷 초기화
     await initializeDateFormatting();
 
     // firebase 초기화
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+    await Firebase.initializeApp(options: AppConfig.firebaseOptions);
   }
 
   static Future<void> _loadEnvFile() async {
@@ -37,7 +34,7 @@ class AppInitializer {
     // .env 파일 로드
     await dotenv.load(fileName: env.fileName);
 
-    // 결정된 환경 정보를 AppConfig에 등록! ✨
+    // 환경 정보를 AppConfig에 등록!
     AppConfig.setEnvironment(env);
   }
 }

@@ -1,8 +1,6 @@
 import 'package:app/helpers/commons/common_funcs.dart';
 import 'package:app/screen/daily/data/models/timeline_item.model.dart';
-import 'package:app/screen/daily/data/repositories/daily_repository.dart';
 import 'package:app/screen/daily/data/repositories/record_health_repository.dart';
-import 'package:app/screen/daily/presentation/view_models/daily_view_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'record_health_view_model.g.dart';

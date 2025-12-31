@@ -1,4 +1,4 @@
-package com.example.app
+package portfolio.ai.prediction
 
 import io.flutter.embedding.android.FlutterActivity
 
