@@ -182,6 +182,18 @@ abstract class AppLocalizations {
   /// **'저장'**
   String get dialogSavedTitle;
 
+  /// No description provided for @dialogChangeTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'변경'**
+  String get dialogChangeTitle;
+
+  /// No description provided for @dialogDeleteTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'삭제'**
+  String get dialogDeleteTitle;
+
   /// No description provided for @dialogClosedTitle.
   ///
   /// In ko, this message translates to:
@@ -193,6 +205,36 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'기록이 없습니다.'**
   String get dailyNoLogsText;
+
+  /// No description provided for @dailyFloatingFoodText.
+  ///
+  /// In ko, this message translates to:
+  /// **'식사기록'**
+  String get dailyFloatingFoodText;
+
+  /// No description provided for @dailyFloatingWeightText.
+  ///
+  /// In ko, this message translates to:
+  /// **'체중기록'**
+  String get dailyFloatingWeightText;
+
+  /// No description provided for @dailyFloatingStepcountText.
+  ///
+  /// In ko, this message translates to:
+  /// **'걸음수기록'**
+  String get dailyFloatingStepcountText;
+
+  /// No description provided for @dailyFloatingBloodGlucoseText.
+  ///
+  /// In ko, this message translates to:
+  /// **'혈당기록'**
+  String get dailyFloatingBloodGlucoseText;
+
+  /// No description provided for @dailyFloatingBloodPressureText.
+  ///
+  /// In ko, this message translates to:
+  /// **'혈압기록'**
+  String get dailyFloatingBloodPressureText;
 
   /// No description provided for @dailyFoodLogTitle.
   ///
@@ -239,7 +281,7 @@ abstract class AppLocalizations {
   /// No description provided for @weightLogRecordTitle.
   ///
   /// In ko, this message translates to:
-  /// **'체중 기록/수정'**
+  /// **'체중수정'**
   String get weightLogRecordTitle;
 
   /// No description provided for @weightLogInputHintWeightText.
@@ -251,7 +293,7 @@ abstract class AppLocalizations {
   /// No description provided for @stepcountLogRecordTitle.
   ///
   /// In ko, this message translates to:
-  /// **'걸음수 기록/수정'**
+  /// **'걸음수수정'**
   String get stepcountLogRecordTitle;
 
   /// No description provided for @stepcountLogInputHintStepcountText.
@@ -263,7 +305,7 @@ abstract class AppLocalizations {
   /// No description provided for @bloodGlucoseLogRecordTitle.
   ///
   /// In ko, this message translates to:
-  /// **'혈당 기록/수정'**
+  /// **'혈당수정'**
   String get bloodGlucoseLogRecordTitle;
 
   /// No description provided for @bloodGlucoseLogInputHintBloodGlucoseText.
@@ -275,7 +317,7 @@ abstract class AppLocalizations {
   /// No description provided for @bloodPressureLogRecordTitle.
   ///
   /// In ko, this message translates to:
-  /// **'혈압 기록/수정'**
+  /// **'혈압수정'**
   String get bloodPressureLogRecordTitle;
 
   /// No description provided for @bloodPressureLogInputHintDiastolicText.

@@ -51,10 +51,31 @@ class AppLocalizationsKo extends AppLocalizations {
   String get dialogSavedTitle => '저장';
 
   @override
+  String get dialogChangeTitle => '변경';
+
+  @override
+  String get dialogDeleteTitle => '삭제';
+
+  @override
   String get dialogClosedTitle => '닫기';
 
   @override
   String get dailyNoLogsText => '기록이 없습니다.';
+
+  @override
+  String get dailyFloatingFoodText => '식사기록';
+
+  @override
+  String get dailyFloatingWeightText => '체중기록';
+
+  @override
+  String get dailyFloatingStepcountText => '걸음수기록';
+
+  @override
+  String get dailyFloatingBloodGlucoseText => '혈당기록';
+
+  @override
+  String get dailyFloatingBloodPressureText => '혈압기록';
 
   @override
   String get dailyFoodLogTitle => '음식기록';
@@ -78,25 +99,25 @@ class AppLocalizationsKo extends AppLocalizations {
   String get weightTypeText => '체중';
 
   @override
-  String get weightLogRecordTitle => '체중 기록/수정';
+  String get weightLogRecordTitle => '체중수정';
 
   @override
   String get weightLogInputHintWeightText => '체중을 입력하세요';
 
   @override
-  String get stepcountLogRecordTitle => '걸음수 기록/수정';
+  String get stepcountLogRecordTitle => '걸음수수정';
 
   @override
   String get stepcountLogInputHintStepcountText => '걸음수를 입력하세요';
 
   @override
-  String get bloodGlucoseLogRecordTitle => '혈당 기록/수정';
+  String get bloodGlucoseLogRecordTitle => '혈당수정';
 
   @override
   String get bloodGlucoseLogInputHintBloodGlucoseText => '혈당을 입력하세요';
 
   @override
-  String get bloodPressureLogRecordTitle => '혈압 기록/수정';
+  String get bloodPressureLogRecordTitle => '혈압수정';
 
   @override
   String get bloodPressureLogInputHintDiastolicText => '이완기 혈압을 입력하세요';

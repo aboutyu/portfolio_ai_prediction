@@ -1,3 +1,4 @@
+import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:flutter/material.dart';
 
 enum DailyExpandableFabQuickMenuType {
@@ -9,7 +10,7 @@ enum DailyExpandableFabQuickMenuType {
 }
 
 class DailyExpandableFabWidget extends StatefulWidget {
-  DailyExpandableFabWidget({super.key, required this.onSelected});
+  const DailyExpandableFabWidget({super.key, required this.onSelected});
 
   final Function(DailyExpandableFabQuickMenuType type) onSelected;
 
@@ -76,31 +77,31 @@ class _DailyExpandableFabWidgetState extends State<DailyExpandableFabWidget>
         _buildChildButton(
           type: DailyExpandableFabQuickMenuType.meal,
           icon: Icons.restaurant,
-          label: '식사',
+          label: context.tr.dailyFloatingFoodText,
           color: Colors.green,
         ),
         _buildChildButton(
           type: DailyExpandableFabQuickMenuType.weight,
           icon: Icons.monitor_weight,
-          label: '체중',
+          label: context.tr.dailyFloatingWeightText,
           color: Colors.blue,
         ),
         _buildChildButton(
           type: DailyExpandableFabQuickMenuType.stepCount,
           icon: Icons.directions_walk,
-          label: '걸음수',
+          label: context.tr.dailyFloatingStepcountText,
           color: Colors.teal,
         ),
         _buildChildButton(
           type: DailyExpandableFabQuickMenuType.glucose,
-          icon: Icons.water_drop, // 혈당 아이콘 대체
-          label: '혈당',
+          icon: Icons.water_drop,
+          label: context.tr.dailyFloatingBloodGlucoseText,
           color: Colors.red,
         ),
         _buildChildButton(
           type: DailyExpandableFabQuickMenuType.bp,
           icon: Icons.favorite,
-          label: '혈압',
+          label: context.tr.dailyFloatingBloodPressureText,
           color: Colors.pink,
         ),
 
@@ -109,7 +110,7 @@ class _DailyExpandableFabWidgetState extends State<DailyExpandableFabWidget>
         // --- 메인 FAB (회전함) ---
         FloatingActionButton(
           onPressed: _toggle,
-          elevation: 2, // 펼쳐졌을 때 그림자 살짝
+          elevation: 2,
           backgroundColor: Colors.orange,
           shape: const CircleBorder(),
           child: RotationTransition(

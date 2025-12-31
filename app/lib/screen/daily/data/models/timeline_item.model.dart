@@ -133,6 +133,7 @@ abstract class HealthLog with _$HealthLog {
     required double healthValue,
     required DateTime recordDate,
     double? healthExtraValue,
+    String? memo,
   }) = _HealthLog;
 
   factory HealthLog.fromJson(Map<String, dynamic> json) =>

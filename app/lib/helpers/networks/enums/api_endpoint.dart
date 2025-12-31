@@ -15,6 +15,10 @@ enum ApiEndpoint {
 
   recordHealth(path: '/record/health', method: 'POST'), // 건강기록 생성
   recordHealthUpdate(path: '/record/health/update', method: 'PATCH'), // 건강기록 수정
+  recordHealthDelete(
+    path: '/record/health/delete',
+    method: 'DELETE',
+  ), // 건강기록 삭제
   recordFood(path: '/record/food', method: 'POST'), // 음식기록
   recordFoodUpdate(path: '/record/food/update', method: 'PATCH') // 음식기록 수정
   ;
@@ -98,6 +102,15 @@ enum ApiEndpoint {
             (dataJson) => (dataJson as List<dynamic>)
                 .map((e) => HealthLog.fromJson(e as Map<String, dynamic>))
                 .toList(),
+          );
+          return wrapper as CoreResponse<T>;
+        };
+
+      case ApiEndpoint.recordHealthDelete:
+        return <T>(json) {
+          final wrapper = CoreResponse<HealthLog>.fromJson(
+            json as Map<String, dynamic>,
+            (dataJson) => HealthLog.fromJson(dataJson as Map<String, dynamic>),
           );
           return wrapper as CoreResponse<T>;
         };

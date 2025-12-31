@@ -145,12 +145,12 @@ export class RecordController {
   }
 
   // 음식 삭제
-  @Delete('food/delete/:sequence')
+  @Delete('food/delete')
   @ApiOperation({
     summary: '음식 기록 삭제 API',
     description: '사용자의 음식 기록을 삭제합니다.',
   })
-  async deleteFoodRecord(@Param('sequence') sequence?: number) {
+  async deleteFoodRecord(@Query('sequence') sequence?: number) {
     return this.recordService.deleteFoodRecord(sequence);
   }
 
@@ -171,18 +171,18 @@ export class RecordController {
     summary: '건강 기록 수정 API',
     description: '사용자의 건강 기록을 수정합니다.',
   })
-  @ApiBody({ type: SaveHealthlogDto })
-  async updateHealthRecord(@Body() data: SaveHealthlogDto) {
-    return this.recordService.updateHealthRecord(data);
+  @ApiBody({ type: SaveHealthBatchDto })
+  async updateHealthRecord(@Body() data: SaveHealthBatchDto) {
+    return this.recordService.updateHealthRecord(data.records);
   }
 
   // 건강 삭제
-  @Delete('health/delete/:sequence')
+  @Delete('health/delete')
   @ApiOperation({
     summary: '건강 기록 삭제 API',
     description: '사용자의 건강 기록을 삭제합니다.',
   })
-  async deleteHealthRecord(@Param('sequence') sequence?: number) {
+  async deleteHealthRecord(@Query('sequence') sequence?: number) {
     return this.recordService.deleteHealthRecord(sequence);
   }
 }

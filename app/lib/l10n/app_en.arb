@@ -16,12 +16,20 @@
   "dialogConfirmTitle": "Confirm",
   "dialogCancelTitle": "Cancel",
   "dialogSavedTitle": "Save",
+  "dialogChangeTitle": "Change",
+  "dialogDeleteTitle": "Delete",
   "dialogClosedTitle": "Close",
 
   "dailyNoLogsText": "No logs available.",
 
-  "dailyFoodLogTitle": "Food Log",
-  "dailyHealthLogTitle": "Health Log",
+  "dailyFloatingFoodText": "Food Record",
+  "dailyFloatingWeightText": "Weight Record",
+  "dailyFloatingStepcountText": "Step Count Record",
+  "dailyFloatingBloodGlucoseText": "Blood Glucose Record",
+  "dailyFloatingBloodPressureText": "Blood Pressure Record",
+
+  "dailyFoodLogTitle": "Food Record",
+  "dailyHealthLogTitle": "Health Record",
   "recordDateText": "Record Time",
 
   "stepCountTypeText": "Step Count",
@@ -29,16 +37,16 @@
   "bloodGlucoseTypeText": "Blood Glucose",
   "weightTypeText": "Weight",
 
-  "weightLogRecordTitle": "Record Weight Write/Edit",
+  "weightLogRecordTitle": "Weight Edit",
   "weightLogInputHintWeightText": "Enter your weight",
 
-  "stepcountLogRecordTitle": "Record Step Count Write/Edit",
+  "stepcountLogRecordTitle": "Step Count Edit",
   "stepcountLogInputHintStepcountText": "Enter your step count",
 
-  "bloodGlucoseLogRecordTitle": "Record Blood Glucose Write/Edit",
+  "bloodGlucoseLogRecordTitle": "Blood Glucose Edit",
   "bloodGlucoseLogInputHintBloodGlucoseText": "Enter your blood glucose",
   
-  "bloodPressureLogRecordTitle": "Record Blood Pressure Write/Edit",
+  "bloodPressureLogRecordTitle": "Blood Pressure Edit",
   "bloodPressureLogInputHintDiastolicText": "Enter your diastolic blood pressure",
   "bloodPressureLogInputHintSystolicText": "Enter your systolic blood pressure",
   "bloodPressureLogInputHintBloodPressureText": "Enter your blood pressure",

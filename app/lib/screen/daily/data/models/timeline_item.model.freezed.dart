@@ -863,7 +863,7 @@ as String,
 /// @nodoc
 mixin _$HealthLog {
 
- int get sequence; String get groupUuid; HealthLogType get healthType; double get healthValue; DateTime get recordDate; double? get healthExtraValue;
+ int get sequence; String get groupUuid; HealthLogType get healthType; double get healthValue; DateTime get recordDate; double? get healthExtraValue; String? get memo;
 /// Create a copy of HealthLog
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -876,16 +876,16 @@ $HealthLogCopyWith<HealthLog> get copyWith => _$HealthLogCopyWithImpl<HealthLog>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HealthLog&&(identical(other.sequence, sequence) || other.sequence == sequence)&&(identical(other.groupUuid, groupUuid) || other.groupUuid == groupUuid)&&(identical(other.healthType, healthType) || other.healthType == healthType)&&(identical(other.healthValue, healthValue) || other.healthValue == healthValue)&&(identical(other.recordDate, recordDate) || other.recordDate == recordDate)&&(identical(other.healthExtraValue, healthExtraValue) || other.healthExtraValue == healthExtraValue));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HealthLog&&(identical(other.sequence, sequence) || other.sequence == sequence)&&(identical(other.groupUuid, groupUuid) || other.groupUuid == groupUuid)&&(identical(other.healthType, healthType) || other.healthType == healthType)&&(identical(other.healthValue, healthValue) || other.healthValue == healthValue)&&(identical(other.recordDate, recordDate) || other.recordDate == recordDate)&&(identical(other.healthExtraValue, healthExtraValue) || other.healthExtraValue == healthExtraValue)&&(identical(other.memo, memo) || other.memo == memo));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,sequence,groupUuid,healthType,healthValue,recordDate,healthExtraValue);
+int get hashCode => Object.hash(runtimeType,sequence,groupUuid,healthType,healthValue,recordDate,healthExtraValue,memo);
 
 @override
 String toString() {
-  return 'HealthLog(sequence: $sequence, groupUuid: $groupUuid, healthType: $healthType, healthValue: $healthValue, recordDate: $recordDate, healthExtraValue: $healthExtraValue)';
+  return 'HealthLog(sequence: $sequence, groupUuid: $groupUuid, healthType: $healthType, healthValue: $healthValue, recordDate: $recordDate, healthExtraValue: $healthExtraValue, memo: $memo)';
 }
 
 
@@ -896,7 +896,7 @@ abstract mixin class $HealthLogCopyWith<$Res>  {
   factory $HealthLogCopyWith(HealthLog value, $Res Function(HealthLog) _then) = _$HealthLogCopyWithImpl;
 @useResult
 $Res call({
- int sequence, String groupUuid, HealthLogType healthType, double healthValue, DateTime recordDate, double? healthExtraValue
+ int sequence, String groupUuid, HealthLogType healthType, double healthValue, DateTime recordDate, double? healthExtraValue, String? memo
 });
 
 
@@ -913,7 +913,7 @@ class _$HealthLogCopyWithImpl<$Res>
 
 /// Create a copy of HealthLog
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? sequence = null,Object? groupUuid = null,Object? healthType = null,Object? healthValue = null,Object? recordDate = null,Object? healthExtraValue = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? sequence = null,Object? groupUuid = null,Object? healthType = null,Object? healthValue = null,Object? recordDate = null,Object? healthExtraValue = freezed,Object? memo = freezed,}) {
   return _then(_self.copyWith(
 sequence: null == sequence ? _self.sequence : sequence // ignore: cast_nullable_to_non_nullable
 as int,groupUuid: null == groupUuid ? _self.groupUuid : groupUuid // ignore: cast_nullable_to_non_nullable
@@ -921,7 +921,8 @@ as String,healthType: null == healthType ? _self.healthType : healthType // igno
 as HealthLogType,healthValue: null == healthValue ? _self.healthValue : healthValue // ignore: cast_nullable_to_non_nullable
 as double,recordDate: null == recordDate ? _self.recordDate : recordDate // ignore: cast_nullable_to_non_nullable
 as DateTime,healthExtraValue: freezed == healthExtraValue ? _self.healthExtraValue : healthExtraValue // ignore: cast_nullable_to_non_nullable
-as double?,
+as double?,memo: freezed == memo ? _self.memo : memo // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -1006,10 +1007,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int sequence,  String groupUuid,  HealthLogType healthType,  double healthValue,  DateTime recordDate,  double? healthExtraValue)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int sequence,  String groupUuid,  HealthLogType healthType,  double healthValue,  DateTime recordDate,  double? healthExtraValue,  String? memo)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _HealthLog() when $default != null:
-return $default(_that.sequence,_that.groupUuid,_that.healthType,_that.healthValue,_that.recordDate,_that.healthExtraValue);case _:
+return $default(_that.sequence,_that.groupUuid,_that.healthType,_that.healthValue,_that.recordDate,_that.healthExtraValue,_that.memo);case _:
   return orElse();
 
 }
@@ -1027,10 +1028,10 @@ return $default(_that.sequence,_that.groupUuid,_that.healthType,_that.healthValu
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int sequence,  String groupUuid,  HealthLogType healthType,  double healthValue,  DateTime recordDate,  double? healthExtraValue)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int sequence,  String groupUuid,  HealthLogType healthType,  double healthValue,  DateTime recordDate,  double? healthExtraValue,  String? memo)  $default,) {final _that = this;
 switch (_that) {
 case _HealthLog():
-return $default(_that.sequence,_that.groupUuid,_that.healthType,_that.healthValue,_that.recordDate,_that.healthExtraValue);case _:
+return $default(_that.sequence,_that.groupUuid,_that.healthType,_that.healthValue,_that.recordDate,_that.healthExtraValue,_that.memo);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1047,10 +1048,10 @@ return $default(_that.sequence,_that.groupUuid,_that.healthType,_that.healthValu
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int sequence,  String groupUuid,  HealthLogType healthType,  double healthValue,  DateTime recordDate,  double? healthExtraValue)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int sequence,  String groupUuid,  HealthLogType healthType,  double healthValue,  DateTime recordDate,  double? healthExtraValue,  String? memo)?  $default,) {final _that = this;
 switch (_that) {
 case _HealthLog() when $default != null:
-return $default(_that.sequence,_that.groupUuid,_that.healthType,_that.healthValue,_that.recordDate,_that.healthExtraValue);case _:
+return $default(_that.sequence,_that.groupUuid,_that.healthType,_that.healthValue,_that.recordDate,_that.healthExtraValue,_that.memo);case _:
   return null;
 
 }
@@ -1062,7 +1063,7 @@ return $default(_that.sequence,_that.groupUuid,_that.healthType,_that.healthValu
 @JsonSerializable()
 
 class _HealthLog implements HealthLog {
-   _HealthLog({required this.sequence, required this.groupUuid, required this.healthType, required this.healthValue, required this.recordDate, this.healthExtraValue});
+   _HealthLog({required this.sequence, required this.groupUuid, required this.healthType, required this.healthValue, required this.recordDate, this.healthExtraValue, this.memo});
   factory _HealthLog.fromJson(Map<String, dynamic> json) => _$HealthLogFromJson(json);
 
 @override final  int sequence;
@@ -1071,6 +1072,7 @@ class _HealthLog implements HealthLog {
 @override final  double healthValue;
 @override final  DateTime recordDate;
 @override final  double? healthExtraValue;
+@override final  String? memo;
 
 /// Create a copy of HealthLog
 /// with the given fields replaced by the non-null parameter values.
@@ -1085,16 +1087,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HealthLog&&(identical(other.sequence, sequence) || other.sequence == sequence)&&(identical(other.groupUuid, groupUuid) || other.groupUuid == groupUuid)&&(identical(other.healthType, healthType) || other.healthType == healthType)&&(identical(other.healthValue, healthValue) || other.healthValue == healthValue)&&(identical(other.recordDate, recordDate) || other.recordDate == recordDate)&&(identical(other.healthExtraValue, healthExtraValue) || other.healthExtraValue == healthExtraValue));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HealthLog&&(identical(other.sequence, sequence) || other.sequence == sequence)&&(identical(other.groupUuid, groupUuid) || other.groupUuid == groupUuid)&&(identical(other.healthType, healthType) || other.healthType == healthType)&&(identical(other.healthValue, healthValue) || other.healthValue == healthValue)&&(identical(other.recordDate, recordDate) || other.recordDate == recordDate)&&(identical(other.healthExtraValue, healthExtraValue) || other.healthExtraValue == healthExtraValue)&&(identical(other.memo, memo) || other.memo == memo));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,sequence,groupUuid,healthType,healthValue,recordDate,healthExtraValue);
+int get hashCode => Object.hash(runtimeType,sequence,groupUuid,healthType,healthValue,recordDate,healthExtraValue,memo);
 
 @override
 String toString() {
-  return 'HealthLog(sequence: $sequence, groupUuid: $groupUuid, healthType: $healthType, healthValue: $healthValue, recordDate: $recordDate, healthExtraValue: $healthExtraValue)';
+  return 'HealthLog(sequence: $sequence, groupUuid: $groupUuid, healthType: $healthType, healthValue: $healthValue, recordDate: $recordDate, healthExtraValue: $healthExtraValue, memo: $memo)';
 }
 
 
@@ -1105,7 +1107,7 @@ abstract mixin class _$HealthLogCopyWith<$Res> implements $HealthLogCopyWith<$Re
   factory _$HealthLogCopyWith(_HealthLog value, $Res Function(_HealthLog) _then) = __$HealthLogCopyWithImpl;
 @override @useResult
 $Res call({
- int sequence, String groupUuid, HealthLogType healthType, double healthValue, DateTime recordDate, double? healthExtraValue
+ int sequence, String groupUuid, HealthLogType healthType, double healthValue, DateTime recordDate, double? healthExtraValue, String? memo
 });
 
 
@@ -1122,7 +1124,7 @@ class __$HealthLogCopyWithImpl<$Res>
 
 /// Create a copy of HealthLog
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? sequence = null,Object? groupUuid = null,Object? healthType = null,Object? healthValue = null,Object? recordDate = null,Object? healthExtraValue = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? sequence = null,Object? groupUuid = null,Object? healthType = null,Object? healthValue = null,Object? recordDate = null,Object? healthExtraValue = freezed,Object? memo = freezed,}) {
   return _then(_HealthLog(
 sequence: null == sequence ? _self.sequence : sequence // ignore: cast_nullable_to_non_nullable
 as int,groupUuid: null == groupUuid ? _self.groupUuid : groupUuid // ignore: cast_nullable_to_non_nullable
@@ -1130,7 +1132,8 @@ as String,healthType: null == healthType ? _self.healthType : healthType // igno
 as HealthLogType,healthValue: null == healthValue ? _self.healthValue : healthValue // ignore: cast_nullable_to_non_nullable
 as double,recordDate: null == recordDate ? _self.recordDate : recordDate // ignore: cast_nullable_to_non_nullable
 as DateTime,healthExtraValue: freezed == healthExtraValue ? _self.healthExtraValue : healthExtraValue // ignore: cast_nullable_to_non_nullable
-as double?,
+as double?,memo: freezed == memo ? _self.memo : memo // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

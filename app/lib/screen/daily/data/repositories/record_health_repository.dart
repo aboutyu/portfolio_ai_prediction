@@ -39,4 +39,37 @@ class RecordHealthRepository {
       dto: logDto,
     );
   }
+
+  Future<CoreResponse<List<HealthLog>>> updateRecordHealthLog(
+    int sequence,
+    String groupUuid,
+    HealthLogType healthType,
+    double healthValue,
+    double? healthExtraValue,
+    String? memo,
+    DateTime recordDate,
+  ) async {
+    final dto = RecordHealthDto(
+      sequence: sequence,
+      groupUuid: groupUuid,
+      healthType: healthType,
+      healthValue: healthValue,
+      healthExtraValue: healthExtraValue,
+      memo: memo,
+      recordDate: recordDate,
+    );
+    final logDto = RecordHealthLogDto(records: [dto]);
+
+    return await _client.request<List<HealthLog>>(
+      endpoint: ApiEndpoint.recordHealthUpdate,
+      dto: logDto,
+    );
+  }
+
+  Future<CoreResponse<HealthLog>> deleteRecordHealthLog(int sequence) async {
+    return await _client.request<HealthLog>(
+      endpoint: ApiEndpoint.recordHealthDelete,
+      parameters: {'sequence': sequence},
+    );
+  }
 }

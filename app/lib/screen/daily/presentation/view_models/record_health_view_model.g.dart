@@ -42,7 +42,7 @@ final class RecordHealthViewModelProvider
 }
 
 String _$recordHealthViewModelHash() =>
-    r'025876ac74e12230179cf3405d4d17521c82291c';
+    r'86834308c65193b8f1cd2eed3f40d60004a56de8';
 
 abstract class _$RecordHealthViewModel extends $Notifier<void> {
   void build();

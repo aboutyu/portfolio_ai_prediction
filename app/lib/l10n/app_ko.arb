@@ -16,9 +16,17 @@
   "dialogConfirmTitle": "확인",
   "dialogCancelTitle": "취소",
   "dialogSavedTitle": "저장",
+  "dialogChangeTitle": "변경",
+  "dialogDeleteTitle": "삭제",
   "dialogClosedTitle": "닫기",
 
   "dailyNoLogsText": "기록이 없습니다.",
+
+  "dailyFloatingFoodText": "식사기록",
+  "dailyFloatingWeightText": "체중기록",
+  "dailyFloatingStepcountText": "걸음수기록",
+  "dailyFloatingBloodGlucoseText": "혈당기록",
+  "dailyFloatingBloodPressureText": "혈압기록",
 
   "dailyFoodLogTitle": "음식기록",
   "dailyHealthLogTitle": "건강기록",
@@ -29,16 +37,16 @@
   "bloodGlucoseTypeText": "혈당수치",
   "weightTypeText": "체중",
 
-  "weightLogRecordTitle": "체중 기록/수정",
+  "weightLogRecordTitle": "체중수정",
   "weightLogInputHintWeightText": "체중을 입력하세요",
 
-  "stepcountLogRecordTitle": "걸음수 기록/수정",
+  "stepcountLogRecordTitle": "걸음수수정",
   "stepcountLogInputHintStepcountText": "걸음수를 입력하세요",
 
-  "bloodGlucoseLogRecordTitle": "혈당 기록/수정",
+  "bloodGlucoseLogRecordTitle": "혈당수정",
   "bloodGlucoseLogInputHintBloodGlucoseText": "혈당을 입력하세요",
 
-  "bloodPressureLogRecordTitle": "혈압 기록/수정",
+  "bloodPressureLogRecordTitle": "혈압수정",
   "bloodPressureLogInputHintDiastolicText": "이완기 혈압을 입력하세요",
   "bloodPressureLogInputHintSystolicText": "수축기 혈압을 입력하세요",
   "bloodPressureLogInputHintBloodPressureText": "혈압을 입력하세요",

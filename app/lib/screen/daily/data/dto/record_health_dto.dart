@@ -15,18 +15,34 @@ class RecordHealthLogDto extends BaseRequestDto {
 }
 
 class RecordHealthDto extends BaseRequestDto {
+  //   {
+  //   "sequence": 1,
+  //   "groupUuid": "550e8400-e29b-41d4-a716-446655440000",
+  //   "healthType": "SCT",
+  //   "healthValue": 1,
+  //   "healthExtraValue": 1,
+  //   "deviceType": "IOS",
+  //   "recordDate": "2024-06-01T12:00:00Z"
+  // }
+
   HealthLogType healthType;
   double healthValue;
+  DateTime recordDate;
+
+  int? sequence;
+  String? groupUuid;
   double? healthExtraValue;
   String? memo;
-  DateTime recordDate;
 
   RecordHealthDto({
     required this.healthType,
     required this.healthValue,
+    required this.recordDate,
+
+    this.sequence,
+    this.groupUuid,
     this.healthExtraValue,
     this.memo,
-    required this.recordDate,
   });
 
   @override
@@ -37,6 +53,8 @@ class RecordHealthDto extends BaseRequestDto {
     final timelineDate = DateFormat('yyyy-MM-dd').format(recordDate.toLocal());
 
     return {
+      "sequence": sequence,
+      "groupUuid": groupUuid,
       "healthType": healthType.code,
       "healthValue": healthValue,
       "healthExtraValue": healthExtraValue,

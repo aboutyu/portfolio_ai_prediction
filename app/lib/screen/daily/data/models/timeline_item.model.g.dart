@@ -55,6 +55,7 @@ _HealthLog _$HealthLogFromJson(Map<String, dynamic> json) => _HealthLog(
   healthValue: (json['healthValue'] as num).toDouble(),
   recordDate: DateTime.parse(json['recordDate'] as String),
   healthExtraValue: (json['healthExtraValue'] as num?)?.toDouble(),
+  memo: json['memo'] as String?,
 );
 
 Map<String, dynamic> _$HealthLogToJson(_HealthLog instance) =>
@@ -65,6 +66,7 @@ Map<String, dynamic> _$HealthLogToJson(_HealthLog instance) =>
       'healthValue': instance.healthValue,
       'recordDate': instance.recordDate.toIso8601String(),
       'healthExtraValue': instance.healthExtraValue,
+      'memo': instance.memo,
     };
 
 const _$HealthLogTypeEnumMap = {

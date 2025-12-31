@@ -1,34 +1,42 @@
-import 'package:app/helpers/commons/common_funcs.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/screen/daily/data/models/timeline_item.model.dart';
 import 'package:app/screen/daily/presentation/view_models/daily_view_model.dart';
 import 'package:app/screen/daily/presentation/view_models/record_health_view_model.dart';
+import 'package:app/screen/daily/presentation/widgets/record_button_widget.dart';
 import 'package:app/screen/daily/presentation/widgets/record_datetime_widget.dart';
 import 'package:app/screen/daily/presentation/widgets/record_title_widget.dart';
 import 'package:app/widgets/show_dialogs/single_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RecordStepcountScreen extends ConsumerStatefulWidget {
-  const RecordStepcountScreen({super.key});
+class RecordStepcountDetailScreen extends ConsumerStatefulWidget {
+  const RecordStepcountDetailScreen({required this.healthLog, super.key});
+
+  final HealthLog healthLog;
 
   @override
-  ConsumerState<RecordStepcountScreen> createState() =>
-      _RecordStepcountScreenState();
+  ConsumerState<RecordStepcountDetailScreen> createState() =>
+      _RecordStepcountDetailScreenState();
 }
 
-class _RecordStepcountScreenState extends ConsumerState<RecordStepcountScreen> {
+class _RecordStepcountDetailScreenState
+    extends ConsumerState<RecordStepcountDetailScreen> {
   // 입력 컨트롤러
   final TextEditingController _stepcountController = TextEditingController();
   final TextEditingController _memoController = TextEditingController();
 
   // 현재 선택된 날짜 (초기값은 Provider에서 가져옴)
   late DateTime _selectedDate;
+  late HealthLog _healthLog;
 
   @override
   void initState() {
     super.initState();
     _selectedDate = ref.read(dailyDateProvider);
+    _healthLog = widget.healthLog;
+
+    _stepcountController.text = _healthLog.healthValue.toString();
+    _memoController.text = _healthLog.memo ?? '';
   }
 
   @override
@@ -36,39 +44,6 @@ class _RecordStepcountScreenState extends ConsumerState<RecordStepcountScreen> {
     _stepcountController.dispose();
     _memoController.dispose();
     super.dispose();
-  }
-
-  // 날짜 변경 팝업
-  Future<void> _pickDate() async {
-    final date = await showDatePicker(
-      context: context,
-      initialDate: _selectedDate,
-      firstDate: firstCalendarDate,
-      lastDate: lastCalendarDate,
-    );
-
-    if (date == null) return; // 취소하면 종료
-
-    if (!mounted) return; // context 안전 확인
-    final time = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.fromDateTime(_selectedDate),
-      builder: (context, child) {
-        return child!;
-      },
-    );
-
-    if (time == null) return; // 취소하면 종료
-
-    setState(() {
-      _selectedDate = DateTime(
-        date.year,
-        date.month,
-        date.day,
-        time.hour,
-        time.minute,
-      );
-    });
   }
 
   // 저장 로직
@@ -83,7 +58,9 @@ class _RecordStepcountScreenState extends ConsumerState<RecordStepcountScreen> {
     try {
       await ref
           .read(recordHealthViewModelProvider.notifier)
-          .addRecordHealthLog(
+          .updateRecordHealthLog(
+            _healthLog.sequence,
+            _healthLog.groupUuid,
             HealthLogType.SCT,
             double.parse(stepcount),
             null,
@@ -95,7 +72,25 @@ class _RecordStepcountScreenState extends ConsumerState<RecordStepcountScreen> {
       if (!context.mounted) return;
       Navigator.pop(context, _selectedDate);
     } catch (e) {
-      debugMessage('체중 기록 저장 실패: $e');
+      if (!context.mounted) return;
+      singleDialogWidget(
+        context,
+        '실패',
+        onConfirm: () => Navigator.pop(context, null),
+      );
+    }
+  }
+
+  Future<void> _onDelete() async {
+    try {
+      await ref
+          .read(recordHealthViewModelProvider.notifier)
+          .deleteRecordHealthLog(_healthLog.sequence);
+
+      // 팝업 닫기
+      if (!context.mounted) return;
+      Navigator.pop(context, _selectedDate);
+    } catch (e) {
       if (!context.mounted) return;
       singleDialogWidget(
         context,
@@ -114,14 +109,18 @@ class _RecordStepcountScreenState extends ConsumerState<RecordStepcountScreen> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          RecordTitleWidget(title: context.tr.dailyFloatingStepcountText),
+          RecordTitleWidget(title: context.tr.stepcountLogRecordTitle),
           const SizedBox(height: 20),
 
           // 2. 날짜 선택 행
-          RecordDateTimeWidget(selectedDate: _selectedDate, onTap: _pickDate),
+          RecordDateTimeWidget(
+            selectedDate: _selectedDate,
+            isChangeable: false,
+            onTap: () async => {},
+          ),
           const SizedBox(height: 16),
 
-          // 3. 걸음수 입력
+          // 3. 걸음 수 입력
           TextField(
             controller: _stepcountController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -144,46 +143,22 @@ class _RecordStepcountScreenState extends ConsumerState<RecordStepcountScreen> {
             decoration: InputDecoration(
               labelText: context.tr.inputHintMemoText,
               border: OutlineInputBorder(),
-              alignLabelWithHint: true, // 라벨을 위쪽으로 정렬
+              alignLabelWithHint: true,
             ),
           ),
           const SizedBox(height: 24),
 
-          Row(
-            children: [
-              // 닫기 버튼
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: () => Navigator.pop(context),
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    side: const BorderSide(color: Colors.grey),
-                  ),
-                  child: Text(
-                    context.tr.dialogClosedTitle,
-                    style: const TextStyle(color: Colors.black),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 10),
-              // 저장 버튼
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: _onSave,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange, // 포인트 컬러
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                  ),
-                  child: Text(
-                    context.tr.dialogSavedTitle,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ],
+          RecordButtonWidget(
+            isDeleted: true,
+            onTapped: (type) async {
+              if (type == RecordButtonType.close) {
+                Navigator.pop(context);
+              } else if (type == RecordButtonType.save) {
+                await _onSave();
+              } else if (type == RecordButtonType.delete) {
+                await _onDelete();
+              }
+            },
           ),
         ],
       ),

@@ -52,16 +52,37 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dialogSavedTitle => 'Save';
 
   @override
+  String get dialogChangeTitle => 'Change';
+
+  @override
+  String get dialogDeleteTitle => 'Delete';
+
+  @override
   String get dialogClosedTitle => 'Close';
 
   @override
   String get dailyNoLogsText => 'No logs available.';
 
   @override
-  String get dailyFoodLogTitle => 'Food Log';
+  String get dailyFloatingFoodText => 'Food Record';
 
   @override
-  String get dailyHealthLogTitle => 'Health Log';
+  String get dailyFloatingWeightText => 'Weight Record';
+
+  @override
+  String get dailyFloatingStepcountText => 'Step Count Record';
+
+  @override
+  String get dailyFloatingBloodGlucoseText => 'Blood Glucose Record';
+
+  @override
+  String get dailyFloatingBloodPressureText => 'Blood Pressure Record';
+
+  @override
+  String get dailyFoodLogTitle => 'Food Record';
+
+  @override
+  String get dailyHealthLogTitle => 'Health Record';
 
   @override
   String get recordDateText => 'Record Time';
@@ -79,26 +100,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get weightTypeText => 'Weight';
 
   @override
-  String get weightLogRecordTitle => 'Record Weight Write/Edit';
+  String get weightLogRecordTitle => 'Weight Edit';
 
   @override
   String get weightLogInputHintWeightText => 'Enter your weight';
 
   @override
-  String get stepcountLogRecordTitle => 'Record Step Count Write/Edit';
+  String get stepcountLogRecordTitle => 'Step Count Edit';
 
   @override
   String get stepcountLogInputHintStepcountText => 'Enter your step count';
 
   @override
-  String get bloodGlucoseLogRecordTitle => 'Record Blood Glucose Write/Edit';
+  String get bloodGlucoseLogRecordTitle => 'Blood Glucose Edit';
 
   @override
   String get bloodGlucoseLogInputHintBloodGlucoseText =>
       'Enter your blood glucose';
 
   @override
-  String get bloodPressureLogRecordTitle => 'Record Blood Pressure Write/Edit';
+  String get bloodPressureLogRecordTitle => 'Blood Pressure Edit';
 
   @override
   String get bloodPressureLogInputHintDiastolicText =>

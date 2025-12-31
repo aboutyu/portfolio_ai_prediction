@@ -528,7 +528,7 @@ export class RecordService {
       }
 
       const response = savedHealths.map((health) => {
-        const { userSequence, createDate, ...resp } = health;
+        const { ...resp } = health;
         return resp;
       });
 
@@ -538,33 +538,60 @@ export class RecordService {
 
   // 건강 수정
   async updateHealthRecord(
-    data: SaveHealthlogDto,
-  ): Promise<ApiResponse<HealthLog | null>> {
-    if (!data.sequence) {
-      return failureResponse(FailureCode.DO_NOT_HAVE_SEQUENCE);
+    dtos: SaveHealthlogDto[], // 👈 파라미터를 배열로 변경 (이름도 data -> dtos로 명확하게)
+  ): Promise<ApiResponse<HealthLog[] | null>> {
+    // 👈 반환 타입도 단일 객체에서 배열([])로 변경
+
+    const updatedLogs: HealthLog[] = []; // 업데이트된 결과들을 담을 리스트
+
+    // 1. 배열을 순회하며 하나씩 처리
+    for (const data of dtos) {
+      // (1) Sequence 유효성 검사 (없으면 해당 건은 스킵하거나 에러 처리)
+      if (!data.sequence) {
+        // continue; // 시퀀스가 없으면 무시하고 다음 데이터로 넘어감
+        return failureResponse(FailureCode.DO_NOT_HAVE_SEQUENCE);
+      }
+
+      // (2) 수정할 대상 찾기
+      const healthLog = await this.healthLogRepository.findOne({
+        where: {
+          sequence: data.sequence,
+          userSequence: 1, // ⚠️ 실제 서비스에선 user.id 사용 권장
+        },
+      });
+
+      // (3) 데이터가 없으면 스킵
+      if (!healthLog) {
+        continue;
+      }
+
+      // (4) 데이터 병합 (Object.assign)
+      Object.assign(healthLog, {
+        healthValue: data.healthValue,
+        healthExtraValue: data.healthExtraValue,
+        deviceType: data.deviceType,
+        recordDate: data.recordDate,
+        // 필요하다면 healthType 등 다른 필드도 추가
+      });
+
+      // (5) 저장 및 결과 리스트에 추가
+      const savedLog = await this.healthLogRepository.save(healthLog);
+      updatedLogs.push(savedLog);
     }
 
-    const healthLog = await this.healthLogRepository.findOne({
-      where: {
-        sequence: data.sequence,
-        userSequence: 1,
-      },
-    });
-
-    if (!healthLog) {
+    // 2. 결과가 하나도 없다면 에러 처리 (선택 사항)
+    if (updatedLogs.length === 0) {
       return failureResponse(FailureCode.DO_NOT_HAVE_DATA);
     }
 
-    healthLog.healthType = data.healthType;
-    healthLog.healthValue = data.healthValue;
-    healthLog.healthExtraValue = data.healthExtraValue;
-    healthLog.deviceType = data.deviceType;
-    healthLog.recordDate = data.recordDate;
+    // 3. 업데이트된 리스트 반환
+    // (userSequence 등 민감 정보 제거 로직이 필요하면 map으로 처리)
+    const response = updatedLogs.map((log) => {
+      const { ...rest } = log;
+      return rest as HealthLog;
+    });
 
-    const updatedHealth = await this.healthLogRepository.save(healthLog);
-    const { userSequence, createDate, ...response } = updatedHealth;
-
-    return successResponse(response as HealthLog);
+    return successResponse(response);
   }
 
   // 건강 삭제

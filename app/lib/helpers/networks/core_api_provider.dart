@@ -18,13 +18,15 @@ class CoreApiProvider {
   Future<CoreResponse<T>> request<T>({
     required ApiEndpoint endpoint,
     BaseRequestDto? dto,
+    Map<String, dynamic>? parameters,
   }) async {
     try {
       final bodyData = endpoint.method != 'GET' && dto != null
           ? dto.toJson()
           : null;
-      final queryParameters = endpoint.method == 'GET' && dto != null
-          ? dto.toJson()
+      final queryParameters =
+          (endpoint.method == 'GET' || endpoint.method == 'DELETE')
+          ? (dto?.toJson() ?? parameters)
           : null;
       final response = await _dio.request(
         endpoint.path,
