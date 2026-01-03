@@ -1,3 +1,4 @@
+import 'package:app/helpers/extensions/async_value_extension.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/helpers/storages/user_info.dart';
 import 'package:app/widgets/appbar_widgets/appbar_widget.dart';
@@ -15,7 +16,7 @@ class MyInfoScreen extends ConsumerWidget {
     return Scaffold(
       appBar: appBarWidget(context.tr.myinfoAppbarText),
       body: Center(
-        child: userInfoAsync.when(
+        child: userInfoAsync.draws(
           data: (userInfo) {
             if (userInfo == null) {
               return Text(context.tr.noUserInfoAvailable);
@@ -41,8 +42,6 @@ class MyInfoScreen extends ConsumerWidget {
               ],
             );
           },
-          loading: () => const CircularProgressIndicator(),
-          error: (error, stack) => Text('Error: $error'),
         ),
       ),
     );

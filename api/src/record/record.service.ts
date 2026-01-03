@@ -282,6 +282,7 @@ export class RecordService {
 
   // 음식 저장
   async saveFoodRecord(
+    userSequence: number,
     data: SaveFoodlogDto[],
   ): Promise<ApiResponse<FoodLog[] | null>> {
     if (!data || data.length === 0) {
@@ -323,7 +324,7 @@ export class RecordService {
           // A. DB 조회: 해당 날짜(UTC 0시)의 그룹이 있는지 확인
           let existingGroup = await manager.findOne(TimelineGroup, {
             where: {
-              userSequence: 1, // TODO: 실제 유저 ID
+              userSequence: userSequence, // TODO: 실제 유저 ID
               recordTime: targetGroupDate,
             },
           });
@@ -333,7 +334,7 @@ export class RecordService {
             const newUuid = uuidv4();
             existingGroup = await manager.save(TimelineGroup, {
               uuid: newUuid,
-              userSequence: 1,
+              userSequence: userSequence,
               // 그룹 날짜는 무조건 UTC 0시로 저장 (약속)
               recordTime: targetGroupDate,
             });
@@ -349,7 +350,7 @@ export class RecordService {
         // =========================================================
         entities.push(
           manager.create(FoodLog, {
-            userSequence: 1,
+            userSequence: userSequence,
             groupUuid: groupUuid, // 찾아낸(혹은 만든) UUID 사용
             foodName: item.foodName,
             calories: item.calories,
@@ -378,6 +379,7 @@ export class RecordService {
   }
   // 음식 수정
   async updateFoodRecord(
+    userSequence: number,
     data: SaveFoodlogDto,
   ): Promise<ApiResponse<FoodLog | null>> {
     if (!data.sequence) {
@@ -387,7 +389,7 @@ export class RecordService {
     const foodLog = await this.foodLogRepository.findOne({
       where: {
         sequence: data.sequence,
-        userSequence: 1,
+        userSequence: userSequence,
       },
     });
 
@@ -400,7 +402,7 @@ export class RecordService {
     foodLog.recordDate = data.recordDate;
 
     const updatedFood = await this.foodLogRepository.save(foodLog);
-    const { userSequence, createDate, ...response } = updatedFood;
+    const { createDate, ...response } = updatedFood;
 
     return successResponse(response as FoodLog);
   }
@@ -452,6 +454,7 @@ export class RecordService {
 
   // 건강 저장
   async saveHealthRecord(
+    userSequence: number,
     data: SaveHealthlogDto[],
   ): Promise<ApiResponse<HealthLog[] | null>> {
     return await this.dataSource.transaction(async (manager) => {
@@ -486,7 +489,7 @@ export class RecordService {
           // A. DB 조회
           let existingGroup = await manager.findOne(TimelineGroup, {
             where: {
-              userSequence: 1, // TODO: User ID
+              userSequence: userSequence, // TODO: User ID
               // DB에 저장된 UTC 0시 값과 비교
               recordTime: targetGroupDate,
             },
@@ -497,7 +500,7 @@ export class RecordService {
             const newUuid = uuidv4();
             existingGroup = await manager.save(TimelineGroup, {
               uuid: newUuid,
-              userSequence: 1,
+              userSequence: userSequence,
               // 그룹 날짜는 무조건 UTC 0시로 저장 (약속)
               recordTime: targetGroupDate,
             });
@@ -510,7 +513,7 @@ export class RecordService {
 
         entities.push(
           this.healthLogRepository.create({
-            userSequence: 1,
+            userSequence: userSequence,
             groupUuid: item.groupUuid || groupUuid,
             healthType: item.healthType,
             healthValue: item.healthValue,
@@ -538,6 +541,7 @@ export class RecordService {
 
   // 건강 수정
   async updateHealthRecord(
+    userSequence: number,
     dtos: SaveHealthlogDto[], // 👈 파라미터를 배열로 변경 (이름도 data -> dtos로 명확하게)
   ): Promise<ApiResponse<HealthLog[] | null>> {
     // 👈 반환 타입도 단일 객체에서 배열([])로 변경
@@ -556,7 +560,7 @@ export class RecordService {
       const healthLog = await this.healthLogRepository.findOne({
         where: {
           sequence: data.sequence,
-          userSequence: 1, // ⚠️ 실제 서비스에선 user.id 사용 권장
+          userSequence: userSequence, // ⚠️ 실제 서비스에선 user.id 사용 권장
         },
       });
 

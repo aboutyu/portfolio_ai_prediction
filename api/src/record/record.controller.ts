@@ -129,8 +129,12 @@ export class RecordController {
     description: '사용자의 음식 기록을 저장합니다.',
   })
   @ApiBody({ type: SaveFoodBatchDto })
-  async saveFoodRecord(@Body() data: SaveFoodBatchDto) {
-    return this.recordService.saveFoodRecord(data.records);
+  async saveFoodRecord(
+    @Body() data: SaveFoodBatchDto,
+    @Req() request: express.Request,
+  ) {
+    const user = request.user as AccessTokenPayload;
+    return this.recordService.saveFoodRecord(user.userSequence, data.records);
   }
 
   // 음식 수정
@@ -140,8 +144,12 @@ export class RecordController {
     description: '사용자의 음식 기록을 수정합니다.',
   })
   @ApiBody({ type: SaveFoodlogDto })
-  async updateFoodRecord(@Body() data: SaveFoodlogDto) {
-    return this.recordService.updateFoodRecord(data);
+  async updateFoodRecord(
+    @Body() data: SaveFoodlogDto,
+    @Req() request: express.Request,
+  ) {
+    const user = request.user as AccessTokenPayload;
+    return this.recordService.updateFoodRecord(user.userSequence, data);
   }
 
   // 음식 삭제
@@ -161,8 +169,12 @@ export class RecordController {
     description: '사용자의 건강 기록을 저장합니다.',
   })
   @ApiBody({ type: SaveHealthBatchDto })
-  async saveHealthRecord(@Body() data: SaveHealthBatchDto) {
-    return this.recordService.saveHealthRecord(data.records);
+  async saveHealthRecord(
+    @Body() data: SaveHealthBatchDto,
+    @Req() request: express.Request,
+  ) {
+    const user = request.user as AccessTokenPayload;
+    return this.recordService.saveHealthRecord(user.userSequence, data.records);
   }
 
   // 건강 수정
@@ -172,8 +184,15 @@ export class RecordController {
     description: '사용자의 건강 기록을 수정합니다.',
   })
   @ApiBody({ type: SaveHealthBatchDto })
-  async updateHealthRecord(@Body() data: SaveHealthBatchDto) {
-    return this.recordService.updateHealthRecord(data.records);
+  async updateHealthRecord(
+    @Body() data: SaveHealthBatchDto,
+    @Req() request: express.Request,
+  ) {
+    const user = request.user as AccessTokenPayload;
+    return this.recordService.updateHealthRecord(
+      user.userSequence,
+      data.records,
+    );
   }
 
   // 건강 삭제
