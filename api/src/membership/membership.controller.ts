@@ -113,7 +113,7 @@ export class MembershipController {
       htmlTemplate = htmlTemplate.replace('{{content}}', termData.content);
       htmlTemplate = htmlTemplate.replace(
         '{{create_date}}',
-        termData.create_date.toISOString().split('T')[0],
+        termData.createDate.toISOString().split('T')[0],
       );
 
       // 5. HTML 응답 전송
