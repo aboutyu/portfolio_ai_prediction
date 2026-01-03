@@ -2,14 +2,16 @@ import 'package:app/helpers/commons/common_funcs.dart';
 import 'package:app/helpers/cores/app_config.dart';
 import 'package:app/helpers/extensions/async_value_extension.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
-import 'package:app/screen/auth/data/dto/terms.dto.dart';
+import 'package:app/screen/auth/data/models/terms_model.dart';
 import 'package:app/screen/auth/presentation/view_models/terms_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class TermsScreen extends ConsumerStatefulWidget {
-  const TermsScreen({super.key});
+  const TermsScreen({super.key, this.index = 0});
+
+  final int index;
 
   @override
   ConsumerState<TermsScreen> createState() => _TermsScreenState();
@@ -17,7 +19,7 @@ class TermsScreen extends ConsumerStatefulWidget {
 
 class _TermsScreenState extends ConsumerState<TermsScreen> {
   late final WebViewController _webViewController;
-  int _selectedIndex = 0;
+  late int _selectedIndex = widget.index;
 
   void _loadUrl(TermsType type) {
     final typeStr = type.name;

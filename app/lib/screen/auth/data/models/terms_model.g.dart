@@ -11,11 +11,13 @@ _TermsModel _$TermsModelFromJson(Map<String, dynamic> json) => _TermsModel(
   type:
       $enumDecodeNullable(_$TermsTypeEnumMap, json['type']) ??
       TermsType.service,
-  title: json['title'] as String,
-  content: json['content'] as String,
-  isRequired: json['isRequired'] as bool,
-  isActivate: json['isActivate'] as bool,
-  createDate: DateTime.parse(json['create_date'] as String),
+  title: json['title'] as String? ?? '',
+  content: json['content'] as String? ?? '',
+  isRequired: json['isRequired'] as bool? ?? false,
+  isActivate: json['isActivate'] as bool? ?? false,
+  createDate: json['createDate'] == null
+      ? null
+      : DateTime.parse(json['createDate'] as String),
   termsName: json['termsName'] as String,
 );
 
@@ -27,7 +29,7 @@ Map<String, dynamic> _$TermsModelToJson(_TermsModel instance) =>
       'content': instance.content,
       'isRequired': instance.isRequired,
       'isActivate': instance.isActivate,
-      'create_date': instance.createDate.toIso8601String(),
+      'createDate': instance.createDate?.toIso8601String(),
       'termsName': instance.termsName,
     };
 

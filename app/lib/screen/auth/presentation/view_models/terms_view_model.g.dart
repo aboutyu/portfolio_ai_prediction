@@ -33,7 +33,7 @@ final class TermsViewModelProvider
   TermsViewModel create() => TermsViewModel();
 }
 
-String _$termsViewModelHash() => r'630a57b00273acc394b3023121b1535602495d80';
+String _$termsViewModelHash() => r'8af214eb854d8689ff0b121755b22e0c4e1d0284';
 
 abstract class _$TermsViewModel extends $AsyncNotifier<List<TermsModel>> {
   FutureOr<List<TermsModel>> build();

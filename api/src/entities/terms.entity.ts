@@ -60,7 +60,7 @@ export class Terms {
   })
   isActivate: boolean;
 
-  @CreateDateColumn({ type: 'datetime' })
+  @CreateDateColumn({ name: 'create_date', type: 'datetime' })
   createDate: Date;
 
   // DB에서 로드된 후(AfterLoad) 자동으로 값 채우기(DB 컬럼에 존재하지 않음)

@@ -96,9 +96,16 @@ GoRouter router(Ref ref) {
       GoRoute(
         path: '/terms',
         pageBuilder: (context, state) {
+          final index =
+              state.extra != null &&
+                  state.extra is Map<String, dynamic> &&
+                  (state.extra as Map<String, dynamic>).containsKey('index')
+              ? (state.extra as Map<String, dynamic>)['index'] as int
+              : 0;
+
           return MaterialPage(
             key: state.pageKey,
-            child: TermsScreen(),
+            child: TermsScreen(index: index),
             fullscreenDialog: true,
           );
         },

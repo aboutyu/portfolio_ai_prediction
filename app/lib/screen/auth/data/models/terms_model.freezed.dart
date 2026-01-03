@@ -22,7 +22,7 @@ mixin _$TermsModel {
  String get content;/// 필수 동의 여부
  bool get isRequired;/// 활성화 여부
  bool get isActivate;/// 생성일
-@JsonKey(name: 'create_date') DateTime get createDate; String get termsName;
+ DateTime? get createDate; String get termsName;
 /// Create a copy of TermsModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -55,7 +55,7 @@ abstract mixin class $TermsModelCopyWith<$Res>  {
   factory $TermsModelCopyWith(TermsModel value, $Res Function(TermsModel) _then) = _$TermsModelCopyWithImpl;
 @useResult
 $Res call({
- int sequence, TermsType type, String title, String content, bool isRequired, bool isActivate,@JsonKey(name: 'create_date') DateTime createDate, String termsName
+ int sequence, TermsType type, String title, String content, bool isRequired, bool isActivate, DateTime? createDate, String termsName
 });
 
 
@@ -72,7 +72,7 @@ class _$TermsModelCopyWithImpl<$Res>
 
 /// Create a copy of TermsModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? sequence = null,Object? type = null,Object? title = null,Object? content = null,Object? isRequired = null,Object? isActivate = null,Object? createDate = null,Object? termsName = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? sequence = null,Object? type = null,Object? title = null,Object? content = null,Object? isRequired = null,Object? isActivate = null,Object? createDate = freezed,Object? termsName = null,}) {
   return _then(_self.copyWith(
 sequence: null == sequence ? _self.sequence : sequence // ignore: cast_nullable_to_non_nullable
 as int,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
@@ -80,8 +80,8 @@ as TermsType,title: null == title ? _self.title : title // ignore: cast_nullable
 as String,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,isRequired: null == isRequired ? _self.isRequired : isRequired // ignore: cast_nullable_to_non_nullable
 as bool,isActivate: null == isActivate ? _self.isActivate : isActivate // ignore: cast_nullable_to_non_nullable
-as bool,createDate: null == createDate ? _self.createDate : createDate // ignore: cast_nullable_to_non_nullable
-as DateTime,termsName: null == termsName ? _self.termsName : termsName // ignore: cast_nullable_to_non_nullable
+as bool,createDate: freezed == createDate ? _self.createDate : createDate // ignore: cast_nullable_to_non_nullable
+as DateTime?,termsName: null == termsName ? _self.termsName : termsName // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -167,7 +167,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int sequence,  TermsType type,  String title,  String content,  bool isRequired,  bool isActivate, @JsonKey(name: 'create_date')  DateTime createDate,  String termsName)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int sequence,  TermsType type,  String title,  String content,  bool isRequired,  bool isActivate,  DateTime? createDate,  String termsName)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TermsModel() when $default != null:
 return $default(_that.sequence,_that.type,_that.title,_that.content,_that.isRequired,_that.isActivate,_that.createDate,_that.termsName);case _:
@@ -188,7 +188,7 @@ return $default(_that.sequence,_that.type,_that.title,_that.content,_that.isRequ
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int sequence,  TermsType type,  String title,  String content,  bool isRequired,  bool isActivate, @JsonKey(name: 'create_date')  DateTime createDate,  String termsName)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int sequence,  TermsType type,  String title,  String content,  bool isRequired,  bool isActivate,  DateTime? createDate,  String termsName)  $default,) {final _that = this;
 switch (_that) {
 case _TermsModel():
 return $default(_that.sequence,_that.type,_that.title,_that.content,_that.isRequired,_that.isActivate,_that.createDate,_that.termsName);case _:
@@ -208,7 +208,7 @@ return $default(_that.sequence,_that.type,_that.title,_that.content,_that.isRequ
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int sequence,  TermsType type,  String title,  String content,  bool isRequired,  bool isActivate, @JsonKey(name: 'create_date')  DateTime createDate,  String termsName)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int sequence,  TermsType type,  String title,  String content,  bool isRequired,  bool isActivate,  DateTime? createDate,  String termsName)?  $default,) {final _that = this;
 switch (_that) {
 case _TermsModel() when $default != null:
 return $default(_that.sequence,_that.type,_that.title,_that.content,_that.isRequired,_that.isActivate,_that.createDate,_that.termsName);case _:
@@ -223,7 +223,7 @@ return $default(_that.sequence,_that.type,_that.title,_that.content,_that.isRequ
 @JsonSerializable()
 
 class _TermsModel implements TermsModel {
-  const _TermsModel({required this.sequence, this.type = TermsType.service, required this.title, required this.content, required this.isRequired, required this.isActivate, @JsonKey(name: 'create_date') required this.createDate, required this.termsName});
+  const _TermsModel({required this.sequence, this.type = TermsType.service, this.title = '', this.content = '', this.isRequired = false, this.isActivate = false, this.createDate, required this.termsName});
   factory _TermsModel.fromJson(Map<String, dynamic> json) => _$TermsModelFromJson(json);
 
 /// Primary Key
@@ -231,15 +231,15 @@ class _TermsModel implements TermsModel {
 /// 약관 타입 (Enum)
 @override@JsonKey() final  TermsType type;
 /// 약관 제목
-@override final  String title;
+@override@JsonKey() final  String title;
 /// 약관 내용
-@override final  String content;
+@override@JsonKey() final  String content;
 /// 필수 동의 여부
-@override final  bool isRequired;
+@override@JsonKey() final  bool isRequired;
 /// 활성화 여부
-@override final  bool isActivate;
+@override@JsonKey() final  bool isActivate;
 /// 생성일
-@override@JsonKey(name: 'create_date') final  DateTime createDate;
+@override final  DateTime? createDate;
 @override final  String termsName;
 
 /// Create a copy of TermsModel
@@ -275,7 +275,7 @@ abstract mixin class _$TermsModelCopyWith<$Res> implements $TermsModelCopyWith<$
   factory _$TermsModelCopyWith(_TermsModel value, $Res Function(_TermsModel) _then) = __$TermsModelCopyWithImpl;
 @override @useResult
 $Res call({
- int sequence, TermsType type, String title, String content, bool isRequired, bool isActivate,@JsonKey(name: 'create_date') DateTime createDate, String termsName
+ int sequence, TermsType type, String title, String content, bool isRequired, bool isActivate, DateTime? createDate, String termsName
 });
 
 
@@ -292,7 +292,7 @@ class __$TermsModelCopyWithImpl<$Res>
 
 /// Create a copy of TermsModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? sequence = null,Object? type = null,Object? title = null,Object? content = null,Object? isRequired = null,Object? isActivate = null,Object? createDate = null,Object? termsName = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? sequence = null,Object? type = null,Object? title = null,Object? content = null,Object? isRequired = null,Object? isActivate = null,Object? createDate = freezed,Object? termsName = null,}) {
   return _then(_TermsModel(
 sequence: null == sequence ? _self.sequence : sequence // ignore: cast_nullable_to_non_nullable
 as int,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
@@ -300,8 +300,8 @@ as TermsType,title: null == title ? _self.title : title // ignore: cast_nullable
 as String,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,isRequired: null == isRequired ? _self.isRequired : isRequired // ignore: cast_nullable_to_non_nullable
 as bool,isActivate: null == isActivate ? _self.isActivate : isActivate // ignore: cast_nullable_to_non_nullable
-as bool,createDate: null == createDate ? _self.createDate : createDate // ignore: cast_nullable_to_non_nullable
-as DateTime,termsName: null == termsName ? _self.termsName : termsName // ignore: cast_nullable_to_non_nullable
+as bool,createDate: freezed == createDate ? _self.createDate : createDate // ignore: cast_nullable_to_non_nullable
+as DateTime?,termsName: null == termsName ? _self.termsName : termsName // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }

@@ -49,7 +49,7 @@ class CoreApiProvider {
 
       return result;
     } catch (e) {
-      debugMessage('API 요청 중 오류 발생: $e');
+      debugMessage(['API 요청 중 에러 발생(request)', e.toString()]);
       throw Exception(e);
     }
   }
