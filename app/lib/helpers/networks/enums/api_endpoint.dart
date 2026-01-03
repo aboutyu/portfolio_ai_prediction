@@ -1,6 +1,7 @@
 import 'package:app/helpers/networks/model/core_response.model.dart';
 import 'package:app/screen/auth/data/models/login_response.model.dart';
 import 'package:app/screen/auth/data/models/signup_response.model.dart';
+import 'package:app/screen/auth/data/models/terms_model.dart';
 import 'package:app/screen/daily/data/models/timeline_item.model.dart';
 
 enum ApiEndpoint {
@@ -9,6 +10,7 @@ enum ApiEndpoint {
   signup(path: '/membership/signup', method: 'POST'), // 회원가입
   logout(path: '/membership/logout', method: 'DELETE'), // 로그아웃
   leave(path: '/membership/leave', method: 'DELETE'), // 회원탈퇴
+  termsList(path: '/membership/terms/list', method: 'GET'), // 약관목록 조회
 
   timeline(path: '/record/timeline', method: 'GET'), // 타임라인 조회
   timelineDate(path: '/record/timeline/date', method: 'GET'), // 특정 날짜 타임라인 조회
@@ -62,6 +64,17 @@ enum ApiEndpoint {
         return <T>(data) => LoginResponse.fromJson(data) as CoreResponse<T>;
       case ApiEndpoint.logout:
         return <T>(data) => LoginResponse.fromJson(data) as CoreResponse<T>;
+
+      case ApiEndpoint.termsList:
+        return <T>(json) {
+          final wrapper = CoreResponse<List<TermsModel>>.fromJson(
+            json as Map<String, dynamic>,
+            (dataJson) => (dataJson as List<dynamic>)
+                .map((e) => TermsModel.fromJson(e as Map<String, dynamic>))
+                .toList(),
+          );
+          return wrapper as CoreResponse<T>;
+        };
 
       case ApiEndpoint.timeline:
         return <T>(json) {

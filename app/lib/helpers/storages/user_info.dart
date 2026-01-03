@@ -37,9 +37,7 @@ class UserInfo extends _$UserInfo {
 
   // ✅ 로그인 성공 시 호출 (외부에서 부름)
   Future<void> setInfo(LoginResponse? data) async {
-    if (data == null) {
-      return;
-    }
+    if (data == null) return;
 
     await ref.read(authStorageProvider).saveLoginData(data);
     state = AsyncValue.data(data);

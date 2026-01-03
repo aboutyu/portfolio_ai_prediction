@@ -1,11 +1,11 @@
 import 'package:app/helpers/commons/common_funcs.dart';
+import 'package:app/helpers/extensions/buildcontext_extension.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/screen/daily/data/models/timeline_item.model.dart';
 import 'package:app/screen/daily/presentation/view_models/daily_view_model.dart';
 import 'package:app/screen/daily/presentation/view_models/record_health_view_model.dart';
 import 'package:app/screen/daily/presentation/widgets/record_datetime_widget.dart';
 import 'package:app/screen/daily/presentation/widgets/record_title_widget.dart';
-import 'package:app/widgets/show_dialogs/single_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -92,16 +92,9 @@ class _RecordStepcountScreenState extends ConsumerState<RecordStepcountScreen> {
           );
 
       // 팝업 닫기
-      if (!context.mounted) return;
-      Navigator.pop(context, _selectedDate);
+      context.safePop(_selectedDate);
     } catch (e) {
-      debugMessage('체중 기록 저장 실패: $e');
-      if (!context.mounted) return;
-      singleDialogWidget(
-        context,
-        '실패',
-        onConfirm: () => Navigator.pop(context, null),
-      );
+      await context.showTryCatchErrorDialog(e);
     }
   }
 

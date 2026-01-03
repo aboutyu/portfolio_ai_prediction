@@ -38,6 +38,11 @@ dependencies:
   # Core Packages
   flutter_dotenv: ^6.0.0
 
+  # Localization
+  intl: ^0.20.2
+  flutter_localizations:
+    sdk: flutter
+
   # State Management
   flutter_riverpod: ^3.0.3
   riverpod_annotation: ^3.0.3
@@ -53,11 +58,8 @@ dependencies:
   package_info_plus: ^9.0.0
   json_annotation: ^4.9.0
   go_router: ^17.0.1
-
-  # Localization
-  intl: ^0.20.2
-  flutter_localizations:
-    sdk: flutter
+  
+  webview_flutter: ^4.13.0
   
 dev_dependencies:
   flutter_test:

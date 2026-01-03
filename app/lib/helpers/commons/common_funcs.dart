@@ -19,6 +19,5 @@ void debugMessage(dynamic message) {
   } else {
     debugPrint(message);
   }
-
   debugPrint("=============================================");
 }

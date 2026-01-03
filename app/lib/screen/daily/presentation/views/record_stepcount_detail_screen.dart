@@ -1,3 +1,4 @@
+import 'package:app/helpers/extensions/buildcontext_extension.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/screen/daily/data/models/timeline_item.model.dart';
 import 'package:app/screen/daily/presentation/view_models/daily_view_model.dart';
@@ -5,7 +6,6 @@ import 'package:app/screen/daily/presentation/view_models/record_health_view_mod
 import 'package:app/screen/daily/presentation/widgets/record_button_widget.dart';
 import 'package:app/screen/daily/presentation/widgets/record_datetime_widget.dart';
 import 'package:app/screen/daily/presentation/widgets/record_title_widget.dart';
-import 'package:app/widgets/show_dialogs/single_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -46,7 +46,6 @@ class _RecordStepcountDetailScreenState
     super.dispose();
   }
 
-  // 저장 로직
   Future<void> _onSave() async {
     final stepcount = _stepcountController.text;
     final memo = _memoController.text;
@@ -69,15 +68,9 @@ class _RecordStepcountDetailScreenState
           );
 
       // 팝업 닫기
-      if (!context.mounted) return;
-      Navigator.pop(context, _selectedDate);
+      context.safePop(_selectedDate);
     } catch (e) {
-      if (!context.mounted) return;
-      singleDialogWidget(
-        context,
-        '실패',
-        onConfirm: () => Navigator.pop(context, null),
-      );
+      await context.showTryCatchErrorDialog(e);
     }
   }
 
@@ -88,15 +81,9 @@ class _RecordStepcountDetailScreenState
           .deleteRecordHealthLog(_healthLog.sequence);
 
       // 팝업 닫기
-      if (!context.mounted) return;
-      Navigator.pop(context, _selectedDate);
+      context.safePop(_selectedDate);
     } catch (e) {
-      if (!context.mounted) return;
-      singleDialogWidget(
-        context,
-        '실패',
-        onConfirm: () => Navigator.pop(context, null),
-      );
+      await context.showTryCatchErrorDialog(e);
     }
   }
 

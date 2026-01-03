@@ -1,4 +1,6 @@
 import 'package:app/helpers/commons/common_funcs.dart';
+import 'package:app/helpers/extensions/async_value_extension.dart';
+import 'package:app/helpers/extensions/buildcontext_extension.dart';
 import 'package:app/helpers/extensions/datetime_extension.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/screen/daily/data/models/timeline_item.model.dart';
@@ -16,6 +18,8 @@ import 'package:app/screen/daily/presentation/widgets/daily_food_log_widget.dart
 import 'package:app/screen/daily/presentation/widgets/daily_health_log_widget.dart';
 import 'package:app/widgets/appbar_widgets/appbar_widget.dart';
 import 'package:app/widgets/list_widgets/no_item_widget.dart';
+import 'package:app/widgets/show_dialogs/base_dialog.dart';
+import 'package:app/widgets/show_dialogs/single_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -36,10 +40,7 @@ class DailyScreen extends ConsumerWidget {
         (DateTime selectedDate) async =>
             _fetchDailyTimeline(context, ref, selectedDate),
       ),
-      body: logsResponse.when(
-        // 데이터가 이미 있는 상태라면, 갱신 중이어도 data()를 계속 보여줍니다.
-        skipLoadingOnRefresh: true,
-        skipLoadingOnReload: true,
+      body: logsResponse.draws(
         data: (logs) {
           if (logs.isEmpty) return noItemWidget(context);
 
@@ -103,7 +104,7 @@ class DailyScreen extends ConsumerWidget {
                       );
 
                       // 화면 갱신
-                      await _refreshList(ref, resultDate);
+                      await _refreshList(ref, context, resultDate);
                     },
                     // 기존 위젯 표시
                     child: DailyHealthLogWidget(healthLog: healthLogData),
@@ -123,8 +124,6 @@ class DailyScreen extends ConsumerWidget {
             },
           );
         },
-        error: (err, stack) => null,
-        loading: () => null,
       ),
       floatingActionButton: DailyExpandableFabWidget(
         onSelected: (DailyExpandableFabQuickMenuType type) async {
@@ -162,7 +161,9 @@ class DailyScreen extends ConsumerWidget {
           .fetchDateTimeline(dateTime: selectedDate);
       debugMessage('타임라인 데이터: $response');
     } catch (e) {
-      debugMessage('타임라인 데이터 불러오기 실패: $e');
+      SingleDialogWidget(
+        content: context.tr.tryCatchErrorText(e.toString()),
+      ).show(context);
     }
   }
 
@@ -191,16 +192,20 @@ class DailyScreen extends ConsumerWidget {
         );
       },
     );
-    await _refreshList(ref, resultDate);
+    await _refreshList(ref, context, resultDate);
   }
 
-  Future<void> _refreshList(WidgetRef ref, DateTime? resultDate) async {
+  Future<void> _refreshList(
+    WidgetRef ref,
+    BuildContext context,
+    DateTime? resultDate,
+  ) async {
     if (resultDate == null) return;
     try {
       await ref.read(dailyDateProvider.notifier).update(resultDate);
       ref.invalidate(dailyViewModelProvider);
     } catch (e) {
-      debugMessage('리스트 갱신 실패: $e');
+      await context.showTryCatchErrorDialog(e);
     }
   }
 }

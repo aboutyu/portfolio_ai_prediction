@@ -9,6 +9,36 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String tryCatchErrorText(String errorCode) {
+    return 'An error has occurred. Please try again later. (Error code: $errorCode)';
+  }
+
+  @override
+  String get signupText => 'Sign Up';
+
+  @override
+  String get loginText => 'Log In';
+
+  @override
+  String get loginInputEmptyErrorText =>
+      'Please enter your user ID and password.';
+
+  @override
+  String get useridHintText => 'Enter your user ID';
+
+  @override
+  String get passwordHintText => 'Enter your password';
+
+  @override
+  String get passwordConfirmHintText => 'Re-enter your password';
+
+  @override
+  String get usernameHintText => 'Enter your name';
+
+  @override
+  String get termsAgreeButtonText => ' Terms of Service';
+
+  @override
   String get homeNavigationText => 'Home';
 
   @override

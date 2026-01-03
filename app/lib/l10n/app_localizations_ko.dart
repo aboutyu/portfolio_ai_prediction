@@ -9,6 +9,35 @@ class AppLocalizationsKo extends AppLocalizations {
   AppLocalizationsKo([String locale = 'ko']) : super(locale);
 
   @override
+  String tryCatchErrorText(String errorCode) {
+    return '문제가 발생했습니다. 잠시 후 다시 시도해주세요.(에러코드: $errorCode)';
+  }
+
+  @override
+  String get signupText => '회원가입';
+
+  @override
+  String get loginText => '로그인';
+
+  @override
+  String get loginInputEmptyErrorText => '아이디 또는 비밀번호를 입력해주세요.';
+
+  @override
+  String get useridHintText => '아이디를 입력하세요';
+
+  @override
+  String get passwordHintText => '비밀번호를 입력하세요';
+
+  @override
+  String get passwordConfirmHintText => '비밀번호를 다시 입력하세요';
+
+  @override
+  String get usernameHintText => '이름을 입력하세요';
+
+  @override
+  String get termsAgreeButtonText => '이용약관';
+
+  @override
   String get homeNavigationText => '홈';
 
   @override

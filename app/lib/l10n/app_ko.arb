@@ -1,4 +1,25 @@
 {
+  "tryCatchErrorText": "문제가 발생했습니다. 잠시 후 다시 시도해주세요.(에러코드: {errorCode})",
+  "@tryCatchErrorText": {
+    "description": "에러 발생 시 에러코드와 함께 보여주는 메시지",
+    "placeholders": {
+      "errorCode": {
+        "type": "String",
+        "example": "E-404"
+      }
+    }
+  },
+
+  "signupText": "회원가입",
+  "loginText": "로그인",
+  "loginInputEmptyErrorText": "아이디 또는 비밀번호를 입력해주세요.",
+  "useridHintText": "아이디를 입력하세요",
+  "passwordHintText": "비밀번호를 입력하세요",
+  "passwordConfirmHintText": "비밀번호를 다시 입력하세요",
+  "usernameHintText": "이름을 입력하세요",
+  "termsAgreeButtonText": "이용약관",
+
+
   "homeNavigationText": "홈",
   "dailyNavigationText": "데일리",
   "chatNavigationText": "채팅",

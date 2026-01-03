@@ -1,4 +1,26 @@
 {
+  "tryCatchErrorText": "An error has occurred. Please try again later. (Error code: {errorCode})",
+  "@tryCatchErrorText": {
+    "description": " An error message displayed along with the error code when an error occurs",
+    "placeholders": {
+      "errorCode": {
+        "type": "String",
+        "example": "E-404"
+      }
+    }
+  },
+
+  "signupText": "Sign Up",
+  "loginText": "Log In",
+  "loginInputEmptyErrorText": "Please enter your user ID and password.",
+  "useridHintText": "Enter your user ID",
+  "passwordHintText": "Enter your password",
+  "passwordConfirmHintText": "Re-enter your password",
+  "usernameHintText": "Enter your name",
+  "termsAgreeButtonText": " Terms of Service",
+
+
+
   "homeNavigationText": "Home",
   "dailyNavigationText": "Daily",
   "chatNavigationText": "Chat",

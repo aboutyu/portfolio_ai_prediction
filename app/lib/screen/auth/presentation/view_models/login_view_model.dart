@@ -50,6 +50,7 @@ class LoginViewModel extends _$LoginViewModel {
     String username,
   ) async {
     final repository = ref.read(authRepositoryProvider);
+    final userRepository = ref.read(userInfoProvider.notifier);
     final response = await repository.signup(userId, password, username);
 
     if (response.status == StatusCode.failed) {
@@ -58,7 +59,7 @@ class LoginViewModel extends _$LoginViewModel {
     }
 
     final loginResponse = await repository.login(userId, password);
-    await ref.read(userInfoProvider.notifier).setInfo(loginResponse.data);
+    await userRepository.setInfo(loginResponse.data);
     return loginResponse;
   }
 }

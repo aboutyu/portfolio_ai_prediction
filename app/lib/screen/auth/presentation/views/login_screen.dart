@@ -1,6 +1,11 @@
+import 'package:app/helpers/extensions/buildcontext_extension.dart';
+import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/screen/auth/presentation/view_models/login_view_model.dart';
+import 'package:app/widgets/show_dialogs/base_dialog.dart';
+import 'package:app/widgets/show_dialogs/single_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginScreen extends ConsumerWidget {
   LoginScreen({super.key});
@@ -24,7 +29,9 @@ class LoginScreen extends ConsumerWidget {
 
               child: TextField(
                 controller: _userIdController,
-                decoration: const InputDecoration(labelText: 'Username'),
+                decoration: InputDecoration(
+                  labelText: context.tr.useridHintText,
+                ),
               ),
             ),
             const SizedBox(height: 5),
@@ -32,7 +39,9 @@ class LoginScreen extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 40.0),
               child: TextField(
                 controller: _passwordController,
-                decoration: const InputDecoration(labelText: 'Password'),
+                decoration: InputDecoration(
+                  labelText: context.tr.passwordHintText,
+                ),
                 obscureText: true,
               ),
             ),
@@ -42,12 +51,12 @@ class LoginScreen extends ConsumerWidget {
               children: [
                 ElevatedButton(
                   onPressed: () async => _onLoginPressed(context, ref),
-                  child: const Text('Login'),
+                  child: Text(context.tr.loginText),
                 ),
                 const SizedBox(width: 20),
                 ElevatedButton(
                   onPressed: () async => _onRegisterPressed(context, ref),
-                  child: const Text('Register'),
+                  child: Text(context.tr.signupText),
                 ),
               ],
             ),
@@ -61,7 +70,10 @@ class LoginScreen extends ConsumerWidget {
     FocusScope.of(context).unfocus();
 
     if (_userIdController.text.isEmpty || _passwordController.text.isEmpty) {
-      debugPrint("아이디와 비밀번호를 모두 입력해주세요.");
+      SingleDialogWidget(
+        content: context.tr.loginInputEmptyErrorText,
+        onConfirm: () => Navigator.pop(context, null),
+      ).show(context);
       return;
     }
 
@@ -70,15 +82,12 @@ class LoginScreen extends ConsumerWidget {
           .read(loginViewModelProvider.notifier)
           .login(_userIdController.text, _passwordController.text);
     } catch (e) {
-      debugPrint("에러 발생: $e");
+      await context.showTryCatchErrorDialog(e);
     }
   }
 
   void _onRegisterPressed(BuildContext context, WidgetRef ref) async {
     FocusScope.of(context).unfocus();
-
-    await ref
-        .read(loginViewModelProvider.notifier)
-        .signup('2@a.com', 'a', 'user2');
+    context.push('/signup');
   }
 }

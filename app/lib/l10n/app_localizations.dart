@@ -98,6 +98,60 @@ abstract class AppLocalizations {
     Locale('ko'),
   ];
 
+  /// 에러 발생 시 에러코드와 함께 보여주는 메시지
+  ///
+  /// In ko, this message translates to:
+  /// **'문제가 발생했습니다. 잠시 후 다시 시도해주세요.(에러코드: {errorCode})'**
+  String tryCatchErrorText(String errorCode);
+
+  /// No description provided for @signupText.
+  ///
+  /// In ko, this message translates to:
+  /// **'회원가입'**
+  String get signupText;
+
+  /// No description provided for @loginText.
+  ///
+  /// In ko, this message translates to:
+  /// **'로그인'**
+  String get loginText;
+
+  /// No description provided for @loginInputEmptyErrorText.
+  ///
+  /// In ko, this message translates to:
+  /// **'아이디 또는 비밀번호를 입력해주세요.'**
+  String get loginInputEmptyErrorText;
+
+  /// No description provided for @useridHintText.
+  ///
+  /// In ko, this message translates to:
+  /// **'아이디를 입력하세요'**
+  String get useridHintText;
+
+  /// No description provided for @passwordHintText.
+  ///
+  /// In ko, this message translates to:
+  /// **'비밀번호를 입력하세요'**
+  String get passwordHintText;
+
+  /// No description provided for @passwordConfirmHintText.
+  ///
+  /// In ko, this message translates to:
+  /// **'비밀번호를 다시 입력하세요'**
+  String get passwordConfirmHintText;
+
+  /// No description provided for @usernameHintText.
+  ///
+  /// In ko, this message translates to:
+  /// **'이름을 입력하세요'**
+  String get usernameHintText;
+
+  /// No description provided for @termsAgreeButtonText.
+  ///
+  /// In ko, this message translates to:
+  /// **'이용약관'**
+  String get termsAgreeButtonText;
+
   /// No description provided for @homeNavigationText.
   ///
   /// In ko, this message translates to:

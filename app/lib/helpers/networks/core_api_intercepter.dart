@@ -1,9 +1,9 @@
 import 'dart:io';
-
 import 'package:app/helpers/commons/common_funcs.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/helpers/routers/router.dart';
 import 'package:app/helpers/storages/user_info.dart';
+import 'package:app/widgets/show_dialogs/base_dialog.dart';
 import 'package:app/widgets/show_dialogs/single_dialog_widget.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +34,7 @@ class CoreApiIntercepter extends Interceptor {
       options.headers['x-timezone'] = DateTime.now().timeZoneName;
       options.headers['x-platform'] = deviceType;
     } catch (e) {
-      debugMessage('기기 정보 헤더 설정 실패: $e');
+      debugMessage(['기기 정보 헤더 설정 실패', e]);
     }
 
     final accessToken = await storage.read(key: 'accessToken');
@@ -60,13 +60,13 @@ class CoreApiIntercepter extends Interceptor {
     ]);
 
     if (err.response?.statusCode == 401 && context != null) {
-      final tr = context!.tr;
-      singleDialogWidget(
-        context!,
-        tr.expiredLoginTokenText,
+      final ctx = context!;
+      final tr = ctx.tr;
+      SingleDialogWidget(
+        content: tr.expiredLoginTokenText,
         title: tr.expiredLoginTokenTitleText,
         onConfirm: () => ref.read(userInfoProvider.notifier).logout(),
-      );
+      ).show(ctx);
     }
     super.onError(err, handler);
   }

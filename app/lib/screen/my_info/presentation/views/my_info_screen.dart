@@ -3,6 +3,7 @@ import 'package:app/helpers/storages/user_info.dart';
 import 'package:app/widgets/appbar_widgets/appbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class MyInfoScreen extends ConsumerWidget {
   const MyInfoScreen({super.key});
@@ -31,6 +32,11 @@ class MyInfoScreen extends ConsumerWidget {
                     await ref.read(userInfoProvider.notifier).logout();
                   },
                   child: Text(context.tr.buttonLogoutText),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () async => context.push('/terms'),
+                  child: Text(context.tr.termsAgreeButtonText),
                 ),
               ],
             );
