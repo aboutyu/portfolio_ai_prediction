@@ -32,3 +32,8 @@ flutter pub get
 ```bash
 adb reverse tcp:3000 tcp:3000
 ```
+
+### 오픈소스라이브러리 라이선스 갱신(생성)
+```bash
+dart run dart_pubspec_licenses:generate -o assets/licenses.json --json
+```

@@ -176,6 +176,18 @@ abstract class AppLocalizations {
   /// **'내정보'**
   String get myinfoNavigationText;
 
+  /// No description provided for @licenseInfoButtonText.
+  ///
+  /// In ko, this message translates to:
+  /// **'오픈소스 라이선스'**
+  String get licenseInfoButtonText;
+
+  /// No description provided for @noLicenseInfoAvailable.
+  ///
+  /// In ko, this message translates to:
+  /// **'라이선스 정보가 없습니다.'**
+  String get noLicenseInfoAvailable;
+
   /// No description provided for @dailyAppbarText.
   ///
   /// In ko, this message translates to:

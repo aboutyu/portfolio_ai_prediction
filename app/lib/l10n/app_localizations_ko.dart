@@ -50,6 +50,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get myinfoNavigationText => '내정보';
 
   @override
+  String get licenseInfoButtonText => '오픈소스 라이선스';
+
+  @override
+  String get noLicenseInfoAvailable => '라이선스 정보가 없습니다.';
+
+  @override
   String get dailyAppbarText => '데일리';
 
   @override

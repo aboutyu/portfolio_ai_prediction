@@ -51,6 +51,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get myinfoNavigationText => 'MyInfo';
 
   @override
+  String get licenseInfoButtonText => 'Open Source Licenses';
+
+  @override
+  String get noLicenseInfoAvailable => 'No license information available.';
+
+  @override
   String get dailyAppbarText => 'Daily';
 
   @override

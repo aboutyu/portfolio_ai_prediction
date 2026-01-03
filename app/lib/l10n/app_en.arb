@@ -26,6 +26,9 @@
   "chatNavigationText": "Chat",
   "myinfoNavigationText": "MyInfo",
 
+  "licenseInfoButtonText": "Open Source Licenses",
+  "noLicenseInfoAvailable": "No license information available.",
+
   "dailyAppbarText": "Daily",
   "chatAppbarText": "Chat",
   "myinfoAppbarText": "MyInfo",

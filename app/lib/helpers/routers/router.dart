@@ -6,6 +6,7 @@ import 'package:app/screen/chat/presentation/views/chat_screen.dart';
 import 'package:app/screen/daily/presentation/views/daily_screen.dart';
 import 'package:app/screen/daily/presentation/views/record_food_screen.dart';
 import 'package:app/screen/home/presentation/views/home_screen.dart';
+import 'package:app/screen/my_info/presentation/views/license_screen.dart';
 import 'package:app/screen/my_info/presentation/views/my_info_screen.dart';
 import 'package:app/screen/tabbar/presentation/views/tabbar_screen.dart';
 import 'package:flutter/material.dart';
@@ -102,13 +103,16 @@ GoRouter router(Ref ref) {
                   (state.extra as Map<String, dynamic>).containsKey('index')
               ? (state.extra as Map<String, dynamic>)['index'] as int
               : 0;
-
           return MaterialPage(
             key: state.pageKey,
             child: TermsScreen(index: index),
             fullscreenDialog: true,
           );
         },
+      ),
+      GoRoute(
+        path: '/licenses',
+        builder: (context, state) => const LicenseScreen(),
       ),
 
       StatefulShellRoute.indexedStack(
