@@ -20,6 +20,8 @@ import {
 } from 'src/auth/cert-token.service';
 import { RoleType } from 'src/helpers/enums/role-type.enum';
 import { RequestTokenDto } from 'src/dto/membership.requestToken.dto';
+import { TermsDto } from 'src/dto/membership.terms.dto';
+import { Terms } from 'src/entities/terms.entity';
 
 @Injectable()
 export class MembershipService {
@@ -30,6 +32,9 @@ export class MembershipService {
     @InjectRepository(UserDevice)
     private readonly userDeviceRepository: Repository<UserDevice>,
 
+    @InjectRepository(Terms)
+    private readonly termsRepository: Repository<Terms>,
+
     private readonly certTokenService: CertTokenService,
     private readonly dataSource: DataSource,
   ) {}
@@ -39,6 +44,16 @@ export class MembershipService {
     userId: true,
     username: true,
     lastLogin: true,
+  } as const;
+
+  private readonly termsSelection = {
+    sequence: true,
+    type: true,
+    title: true,
+    content: true,
+    isRequired: true,
+    isActivate: true,
+    create_date: true,
   } as const;
 
   async login(data: LoginDto): Promise<ApiResponse<User | null>> {
@@ -241,5 +256,44 @@ export class MembershipService {
     } else {
       return failureResponse(FailureCode.NOT_FOUND_USER);
     }
+  }
+
+  async terms(): Promise<ApiResponse<Terms[]>> {
+    const termsList = await this.termsRepository
+      .createQueryBuilder('term')
+      .where('term.isActivate = :isActive', { isActive: 'Y' }) // 활성화된 것 중에서
+      .andWhere((qb) => {
+        // 서브쿼리: "활성화된 녀석들 중, 각 타입(type)별로 가장 큰 sequence(최신)를 찾아라"
+        const subQuery = qb
+          .subQuery()
+          .select('MAX(sub.sequence)')
+          .from(Terms, 'sub')
+          .where('sub.isActivate = :subActive', { subActive: 'Y' })
+          .groupBy('sub.type')
+          .getQuery();
+        return 'term.sequence IN ' + subQuery;
+      })
+      .getMany();
+    return successResponse(termsList);
+  }
+
+  async termsHtml(dto: TermsDto): Promise<ApiResponse<Terms | null>> {
+    const { sequence, type } = dto;
+
+    const findCondition: any = {
+      type,
+      isActivate: true,
+    };
+
+    if (sequence) {
+      findCondition.sequence = sequence;
+    }
+
+    const terms = await this.termsRepository.findOne({
+      where: findCondition,
+      select: this.termsSelection,
+    });
+
+    return successResponse(terms);
   }
 }
