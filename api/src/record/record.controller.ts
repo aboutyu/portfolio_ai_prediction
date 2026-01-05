@@ -3,8 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  Param,
-  ParseArrayPipe,
   ParseIntPipe,
   Patch,
   Post,
@@ -13,21 +11,12 @@ import {
 } from '@nestjs/common';
 import express from 'express';
 import { RecordService } from './record.service';
-import {
-  ApiBearerAuth,
-  ApiBody,
-  ApiOperation,
-  ApiSecurity,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   SaveFoodBatchDto,
   SaveFoodlogDto,
 } from 'src/dto/record.save-foodlog.dto';
-import {
-  SaveHealthBatchDto,
-  SaveHealthlogDto,
-} from 'src/dto/record.save-healthlog.dto';
+import { SaveHealthBatchDto } from 'src/dto/record.save-healthlog.dto';
 import { ApiResponse } from 'src/helpers/dto/api.response.dto';
 import { AccessTokenPayload } from 'src/auth/cert-token.service';
 

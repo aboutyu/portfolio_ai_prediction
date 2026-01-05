@@ -53,7 +53,8 @@ export class MembershipService {
     content: true,
     isRequired: true,
     isActivate: true,
-    create_date: true,
+    startDate: true,
+    createDate: true,
   } as const;
 
   async login(data: LoginDto): Promise<ApiResponse<User | null>> {
