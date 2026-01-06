@@ -1,6 +1,4 @@
 import 'package:app/helpers/storages/auth_storage.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:app/screen/auth/data/models/login_response.model.dart';
 

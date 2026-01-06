@@ -39,6 +39,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get termsAgreeButtonText => ' Terms of Service';
 
   @override
+  String get noticesButtonText => 'Notices';
+
+  @override
+  String get faqsButtonText => 'Frequently Asked Questions';
+
+  @override
   String get homeNavigationText => 'Home';
 
   @override

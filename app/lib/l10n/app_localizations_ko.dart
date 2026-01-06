@@ -38,6 +38,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get termsAgreeButtonText => '이용약관';
 
   @override
+  String get noticesButtonText => '공지사항';
+
+  @override
+  String get faqsButtonText => '자주 묻는 질문';
+
+  @override
   String get homeNavigationText => '홈';
 
   @override

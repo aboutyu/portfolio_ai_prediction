@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 const bool isDebug = kDebugMode;
 final String deviceType = Platform.isAndroid ? 'aos' : 'ios';
 
+final int defaultPageNum = 20;
+
 // 캘린더의 첫 번째 날짜와 마지막 날짜 정의
 final firstCalendarDate = DateTime(2025, 1, 1);
 DateTime get lastCalendarDate => DateTime.now();

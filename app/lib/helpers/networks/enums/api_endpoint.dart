@@ -3,6 +3,8 @@ import 'package:app/screen/auth/data/models/login_response.model.dart';
 import 'package:app/screen/auth/data/models/signup_response.model.dart';
 import 'package:app/screen/auth/data/models/terms_model.dart';
 import 'package:app/screen/daily/data/models/timeline_item.model.dart';
+import 'package:app/screen/notices/data/models/faq_category_model.dart';
+import 'package:app/screen/notices/data/models/notice_model.dart';
 
 enum ApiEndpoint {
   login(path: '/membership/login', method: 'POST'), // 로그인
@@ -22,7 +24,11 @@ enum ApiEndpoint {
     method: 'DELETE',
   ), // 건강기록 삭제
   recordFood(path: '/record/food', method: 'POST'), // 음식기록
-  recordFoodUpdate(path: '/record/food/update', method: 'PATCH') // 음식기록 수정
+  recordFoodUpdate(path: '/record/food/update', method: 'PATCH'), // 음식기록 수정
+
+  noticeList(path: '/notice/list', method: 'GET'), // 공지사항 목록 조회
+  faqList(path: '/notice/faq/list', method: 'GET'), // FAQ 목록 조회
+  faqTypeList(path: '/notice/faq/types', method: 'GET') // FAQ 유형 목록 조회
   ;
 
   final String path;
@@ -145,6 +151,41 @@ enum ApiEndpoint {
             json as Map<String, dynamic>,
             (dataJson) => (dataJson as List<dynamic>)
                 .map((e) => FoodLog.fromJson(e as Map<String, dynamic>))
+                .toList(),
+          );
+          return wrapper as CoreResponse<T>;
+        };
+
+      case ApiEndpoint.noticeList:
+        return <T>(json) {
+          final wrapper = CoreResponse<List<NoticeModel>>.fromJson(
+            json as Map<String, dynamic>,
+            (dataJson) => (dataJson as List<dynamic>)
+                .map((e) => NoticeModel.fromJson(e as Map<String, dynamic>))
+                .toList(),
+          );
+          return wrapper as CoreResponse<T>;
+        };
+
+      case ApiEndpoint.faqList:
+        return <T>(json) {
+          final wrapper = CoreResponse<List<NoticeModel>>.fromJson(
+            json as Map<String, dynamic>,
+            (dataJson) => (dataJson as List<dynamic>)
+                .map((e) => NoticeModel.fromJson(e as Map<String, dynamic>))
+                .toList(),
+          );
+          return wrapper as CoreResponse<T>;
+        };
+
+      case ApiEndpoint.faqTypeList:
+        return <T>(json) {
+          final wrapper = CoreResponse<List<FaqCategoryModel>>.fromJson(
+            json as Map<String, dynamic>,
+            (dataJson) => (dataJson as List<dynamic>)
+                .map(
+                  (e) => FaqCategoryModel.fromJson(e as Map<String, dynamic>),
+                )
                 .toList(),
           );
           return wrapper as CoreResponse<T>;

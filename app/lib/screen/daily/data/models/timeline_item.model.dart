@@ -38,8 +38,7 @@ extension HealthLogTypeExtension on HealthLogType {
   }
 }
 
-/// 1. 타임라인 개별 아이템 (리스트의 요소)
-/// CoreResponse<List<TimelineItem>> 형태로 사용하게 됩니다.
+/// 타임라인 아이템
 @freezed
 abstract class TimelineItem with _$TimelineItem {
   const TimelineItem._();

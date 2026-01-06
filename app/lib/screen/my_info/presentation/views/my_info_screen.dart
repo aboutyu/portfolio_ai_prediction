@@ -48,6 +48,16 @@ class MyInfoScreen extends ConsumerWidget {
                   onPressed: () async => context.push('/licenses'),
                   child: Text(context.tr.licenseInfoButtonText),
                 ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () async => context.push('/notice'),
+                  child: Text(context.tr.noticesButtonText),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () async => context.push('/faq'),
+                  child: Text(context.tr.faqsButtonText),
+                ),
               ],
             );
           },

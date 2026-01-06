@@ -15,7 +15,10 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PageResponseDto {
 
- int get page; int get totalCount; int get pageCount; int get pageNum;
+ int get page;// 현재 페이지 번호
+ int get totalCount;// 전체 아이템 수
+ int get pageCount;// 현재 페이지에 몇개의 아이템이 있는지
+ int get pageNum;
 /// Create a copy of PageResponseDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -216,8 +219,11 @@ class _PageResponseDto implements PageResponseDto {
   factory _PageResponseDto.fromJson(Map<String, dynamic> json) => _$PageResponseDtoFromJson(json);
 
 @override@JsonKey() final  int page;
+// 현재 페이지 번호
 @override@JsonKey() final  int totalCount;
+// 전체 아이템 수
 @override@JsonKey() final  int pageCount;
+// 현재 페이지에 몇개의 아이템이 있는지
 @override@JsonKey() final  int pageNum;
 
 /// Create a copy of PageResponseDto

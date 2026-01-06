@@ -36,6 +36,9 @@ abstract class TermsModel with _$TermsModel {
     /// 생성일
     DateTime? createDate,
 
+    /// 약관적용일(시작일)
+    DateTime? startDate,
+
     required String termsName,
   }) = _TermsModel;
 

@@ -152,6 +152,18 @@ abstract class AppLocalizations {
   /// **'이용약관'**
   String get termsAgreeButtonText;
 
+  /// No description provided for @noticesButtonText.
+  ///
+  /// In ko, this message translates to:
+  /// **'공지사항'**
+  String get noticesButtonText;
+
+  /// No description provided for @faqsButtonText.
+  ///
+  /// In ko, this message translates to:
+  /// **'자주 묻는 질문'**
+  String get faqsButtonText;
+
   /// No description provided for @homeNavigationText.
   ///
   /// In ko, this message translates to:

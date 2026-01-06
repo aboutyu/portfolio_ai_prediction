@@ -8,6 +8,8 @@ import 'package:app/screen/daily/presentation/views/record_food_screen.dart';
 import 'package:app/screen/home/presentation/views/home_screen.dart';
 import 'package:app/screen/my_info/presentation/views/license_screen.dart';
 import 'package:app/screen/my_info/presentation/views/my_info_screen.dart';
+import 'package:app/screen/notices/presentation/views/faq_screen.dart';
+import 'package:app/screen/notices/presentation/views/notice_screen.dart';
 import 'package:app/screen/tabbar/presentation/views/tabbar_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -114,6 +116,11 @@ GoRouter router(Ref ref) {
         path: '/licenses',
         builder: (context, state) => const LicenseScreen(),
       ),
+      GoRoute(
+        path: '/notice',
+        builder: (context, state) => const NoticeScreen(),
+      ),
+      GoRoute(path: '/faq', builder: (context, state) => const FaqScreen()),
 
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {

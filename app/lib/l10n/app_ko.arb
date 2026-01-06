@@ -18,6 +18,8 @@
   "passwordConfirmHintText": "비밀번호를 다시 입력하세요",
   "usernameHintText": "이름을 입력하세요",
   "termsAgreeButtonText": "이용약관",
+  "noticesButtonText": "공지사항",
+  "faqsButtonText": "자주 묻는 질문",
 
 
   "homeNavigationText": "홈",

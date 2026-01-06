@@ -18,6 +18,9 @@ _TermsModel _$TermsModelFromJson(Map<String, dynamic> json) => _TermsModel(
   createDate: json['createDate'] == null
       ? null
       : DateTime.parse(json['createDate'] as String),
+  startDate: json['startDate'] == null
+      ? null
+      : DateTime.parse(json['startDate'] as String),
   termsName: json['termsName'] as String,
 );
 
@@ -30,6 +33,7 @@ Map<String, dynamic> _$TermsModelToJson(_TermsModel instance) =>
       'isRequired': instance.isRequired,
       'isActivate': instance.isActivate,
       'createDate': instance.createDate?.toIso8601String(),
+      'startDate': instance.startDate?.toIso8601String(),
       'termsName': instance.termsName,
     };
 
