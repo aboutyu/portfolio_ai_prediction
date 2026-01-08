@@ -7,7 +7,7 @@ services:
     ports:
       - "3000:3000"
     env_file:
-      - ./api/.env
+      - ./api/.env/.development.env
     restart: always
   # admin:
   #   build: ./admin
