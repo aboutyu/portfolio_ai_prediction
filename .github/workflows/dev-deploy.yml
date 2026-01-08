@@ -1,0 +1,41 @@
+name: Dev Branch Deploy
+
+on:
+  push:
+    branches: ["dev"]
+
+jobs:
+  server-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH Remote Commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd ~/Documents/portfolio_ai_prediction
+            git pull origin dev
+            docker-compose up -d --build
+
+  # app-deploy:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: subosito/flutter-action@v2
+  #       with:
+  #         channel: "stable"
+
+  #     - name: Build APK
+  #       run: |
+  #         cd app
+  #         flutter pub get
+  #         flutter build apk --release --build-number=${{ github.run_number }}
+
+  #     - name: Upload to Firebase Distribution
+  #       uses: w9jds/firebase-action@master
+  #       with:
+  #         args: appdistribution:distribute app/build/app/outputs/flutter-apk/app-release.apk --app ${{ secrets.FIREBASE_APP_ID }}
+  #       env:
+  #         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
