@@ -22,7 +22,9 @@ jobs:
           script: |
             cd ~/Documents/portfolio_ai_prediction
             git pull origin dev
-            docker-compose up -d --build
+            docker compose up -d --build api
+            # docker compose up -d --build admin
+            # docker compose up -d --build web
 
   # app-deploy:
   #   runs-on: ubuntu-latest
