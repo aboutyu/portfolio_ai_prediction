@@ -20,7 +20,6 @@ RUN npm ci
 COPY . .
 
 # NestJS 빌드
-# (TypeScript → JavaScript, dist/ 생성)
 RUN npm run build
 
 

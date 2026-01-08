@@ -9,10 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
     steps:
-      - name: Check Secrets (디버깅용 - 잘 되면 삭제하세요)
-        run: |
-          if [ -z "${{ secrets.HOST }}" ]; then echo "HOST is EMPTY"; else echo "HOST is SET"; fi
-
       - name: SSH Remote Commands
         uses: appleboy/ssh-action@master
         with:
