@@ -95,26 +95,26 @@ export class NoticeService {
 
     const sortOrder = Object.values(NoticeFaqType);
 
-    return (
-      rawResult
-        .map((item) => {
-          const kind = item.faqKind as NoticeFaqType;
-          return {
-            faqKind: kind,
-            faqName: NoticeTypeLabel[kind] || kind,
-          };
-        })
-        // 정의해둔 순서(sortOrder)의 인덱스를 비교하여 정렬
-        .sort((a, b) => {
-          const indexA = sortOrder.indexOf(a.faqKind);
-          const indexB = sortOrder.indexOf(b.faqKind);
+    const sortedFaqTypes = rawResult
+      .map((item) => {
+        const kind = item.faqKind as NoticeFaqType;
+        return {
+          faqKind: kind,
+          faqName: NoticeTypeLabel[kind] || kind,
+        };
+      })
+      // 정의해둔 순서(sortOrder)의 인덱스를 비교하여 정렬
+      .sort((a, b) => {
+        const indexA = sortOrder.indexOf(a.faqKind);
+        const indexB = sortOrder.indexOf(b.faqKind);
 
-          // Enum에 없는 값이 혹시 있다면 맨 뒤로 보냄
-          if (indexA === -1) return 1;
-          if (indexB === -1) return -1;
+        // Enum에 없는 값이 혹시 있다면 맨 뒤로 보냄
+        if (indexA === -1) return 1;
+        if (indexB === -1) return -1;
 
-          return indexA - indexB; // 오름차순 정렬
-        })
-    );
+        return indexA - indexB; // 오름차순 정렬
+      });
+
+    return successResponse(sortedFaqTypes);
   }
 }
