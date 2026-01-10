@@ -47,6 +47,8 @@
   "dialogClosedTitle": "닫기",
 
   "dailyNoLogsText": "기록이 없습니다.",
+  "noticeNoText": "공지사항이 없습니다.",
+  "faqNoText": "자주 묻는 질문이 없습니다.",
 
   "dailyFloatingFoodText": "식사기록",
   "dailyFloatingWeightText": "체중기록",

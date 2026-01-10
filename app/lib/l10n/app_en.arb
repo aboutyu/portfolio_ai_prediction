@@ -19,7 +19,7 @@
   "usernameHintText": "Enter your name",
   "termsAgreeButtonText": " Terms of Service",
   "noticesButtonText": "Notices",
-  "faqsButtonText": "Frequently Asked Questions",
+  "faqsButtonText": "FAQ",
 
 
 
@@ -48,6 +48,8 @@
   "dialogClosedTitle": "Close",
 
   "dailyNoLogsText": "No logs available.",
+  "noticeNoText": "No notices available.",
+  "faqNoText": "No frequently asked questions available.",
 
   "dailyFloatingFoodText": "Food Record",
   "dailyFloatingWeightText": "Weight Record",

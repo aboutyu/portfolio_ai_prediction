@@ -29,7 +29,7 @@ mixin _$NoticeModel {
  DateTime get createDate;/// 7. Is Activate
 /// TypeORM Transformer에 의해 DB에는 'Y'/'N'이지만
 /// API JSON 응답은 boolean(true/false)으로 내려오므로 bool 사용
- bool get isActivate;
+ bool get isActivate; String? get categoryName;
 /// Create a copy of NoticeModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -42,16 +42,16 @@ $NoticeModelCopyWith<NoticeModel> get copyWith => _$NoticeModelCopyWithImpl<Noti
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NoticeModel&&(identical(other.sequence, sequence) || other.sequence == sequence)&&(identical(other.type, type) || other.type == type)&&(identical(other.faqKind, faqKind) || other.faqKind == faqKind)&&(identical(other.title, title) || other.title == title)&&(identical(other.content, content) || other.content == content)&&(identical(other.createDate, createDate) || other.createDate == createDate)&&(identical(other.isActivate, isActivate) || other.isActivate == isActivate));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NoticeModel&&(identical(other.sequence, sequence) || other.sequence == sequence)&&(identical(other.type, type) || other.type == type)&&(identical(other.faqKind, faqKind) || other.faqKind == faqKind)&&(identical(other.title, title) || other.title == title)&&(identical(other.content, content) || other.content == content)&&(identical(other.createDate, createDate) || other.createDate == createDate)&&(identical(other.isActivate, isActivate) || other.isActivate == isActivate)&&(identical(other.categoryName, categoryName) || other.categoryName == categoryName));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,sequence,type,faqKind,title,content,createDate,isActivate);
+int get hashCode => Object.hash(runtimeType,sequence,type,faqKind,title,content,createDate,isActivate,categoryName);
 
 @override
 String toString() {
-  return 'NoticeModel(sequence: $sequence, type: $type, faqKind: $faqKind, title: $title, content: $content, createDate: $createDate, isActivate: $isActivate)';
+  return 'NoticeModel(sequence: $sequence, type: $type, faqKind: $faqKind, title: $title, content: $content, createDate: $createDate, isActivate: $isActivate, categoryName: $categoryName)';
 }
 
 
@@ -62,7 +62,7 @@ abstract mixin class $NoticeModelCopyWith<$Res>  {
   factory $NoticeModelCopyWith(NoticeModel value, $Res Function(NoticeModel) _then) = _$NoticeModelCopyWithImpl;
 @useResult
 $Res call({
- int sequence, NoticeType type, NoticeFaqType? faqKind, String title, String content, DateTime createDate, bool isActivate
+ int sequence, NoticeType type, NoticeFaqType? faqKind, String title, String content, DateTime createDate, bool isActivate, String? categoryName
 });
 
 
@@ -79,7 +79,7 @@ class _$NoticeModelCopyWithImpl<$Res>
 
 /// Create a copy of NoticeModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? sequence = null,Object? type = null,Object? faqKind = freezed,Object? title = null,Object? content = null,Object? createDate = null,Object? isActivate = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? sequence = null,Object? type = null,Object? faqKind = freezed,Object? title = null,Object? content = null,Object? createDate = null,Object? isActivate = null,Object? categoryName = freezed,}) {
   return _then(_self.copyWith(
 sequence: null == sequence ? _self.sequence : sequence // ignore: cast_nullable_to_non_nullable
 as int,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
@@ -88,7 +88,8 @@ as NoticeFaqType?,title: null == title ? _self.title : title // ignore: cast_nul
 as String,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,createDate: null == createDate ? _self.createDate : createDate // ignore: cast_nullable_to_non_nullable
 as DateTime,isActivate: null == isActivate ? _self.isActivate : isActivate // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,categoryName: freezed == categoryName ? _self.categoryName : categoryName // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -173,10 +174,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int sequence,  NoticeType type,  NoticeFaqType? faqKind,  String title,  String content,  DateTime createDate,  bool isActivate)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int sequence,  NoticeType type,  NoticeFaqType? faqKind,  String title,  String content,  DateTime createDate,  bool isActivate,  String? categoryName)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _NoticeModel() when $default != null:
-return $default(_that.sequence,_that.type,_that.faqKind,_that.title,_that.content,_that.createDate,_that.isActivate);case _:
+return $default(_that.sequence,_that.type,_that.faqKind,_that.title,_that.content,_that.createDate,_that.isActivate,_that.categoryName);case _:
   return orElse();
 
 }
@@ -194,10 +195,10 @@ return $default(_that.sequence,_that.type,_that.faqKind,_that.title,_that.conten
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int sequence,  NoticeType type,  NoticeFaqType? faqKind,  String title,  String content,  DateTime createDate,  bool isActivate)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int sequence,  NoticeType type,  NoticeFaqType? faqKind,  String title,  String content,  DateTime createDate,  bool isActivate,  String? categoryName)  $default,) {final _that = this;
 switch (_that) {
 case _NoticeModel():
-return $default(_that.sequence,_that.type,_that.faqKind,_that.title,_that.content,_that.createDate,_that.isActivate);case _:
+return $default(_that.sequence,_that.type,_that.faqKind,_that.title,_that.content,_that.createDate,_that.isActivate,_that.categoryName);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -214,10 +215,10 @@ return $default(_that.sequence,_that.type,_that.faqKind,_that.title,_that.conten
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int sequence,  NoticeType type,  NoticeFaqType? faqKind,  String title,  String content,  DateTime createDate,  bool isActivate)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int sequence,  NoticeType type,  NoticeFaqType? faqKind,  String title,  String content,  DateTime createDate,  bool isActivate,  String? categoryName)?  $default,) {final _that = this;
 switch (_that) {
 case _NoticeModel() when $default != null:
-return $default(_that.sequence,_that.type,_that.faqKind,_that.title,_that.content,_that.createDate,_that.isActivate);case _:
+return $default(_that.sequence,_that.type,_that.faqKind,_that.title,_that.content,_that.createDate,_that.isActivate,_that.categoryName);case _:
   return null;
 
 }
@@ -229,7 +230,7 @@ return $default(_that.sequence,_that.type,_that.faqKind,_that.title,_that.conten
 @JsonSerializable()
 
 class _NoticeModel implements NoticeModel {
-  const _NoticeModel({required this.sequence, this.type = NoticeType.notice, this.faqKind, required this.title, required this.content, required this.createDate, this.isActivate = false});
+  const _NoticeModel({required this.sequence, this.type = NoticeType.notice, this.faqKind, required this.title, required this.content, required this.createDate, this.isActivate = false, this.categoryName});
   factory _NoticeModel.fromJson(Map<String, dynamic> json) => _$NoticeModelFromJson(json);
 
 /// 1. Sequence (PK)
@@ -253,6 +254,7 @@ class _NoticeModel implements NoticeModel {
 /// TypeORM Transformer에 의해 DB에는 'Y'/'N'이지만
 /// API JSON 응답은 boolean(true/false)으로 내려오므로 bool 사용
 @override@JsonKey() final  bool isActivate;
+@override final  String? categoryName;
 
 /// Create a copy of NoticeModel
 /// with the given fields replaced by the non-null parameter values.
@@ -267,16 +269,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NoticeModel&&(identical(other.sequence, sequence) || other.sequence == sequence)&&(identical(other.type, type) || other.type == type)&&(identical(other.faqKind, faqKind) || other.faqKind == faqKind)&&(identical(other.title, title) || other.title == title)&&(identical(other.content, content) || other.content == content)&&(identical(other.createDate, createDate) || other.createDate == createDate)&&(identical(other.isActivate, isActivate) || other.isActivate == isActivate));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NoticeModel&&(identical(other.sequence, sequence) || other.sequence == sequence)&&(identical(other.type, type) || other.type == type)&&(identical(other.faqKind, faqKind) || other.faqKind == faqKind)&&(identical(other.title, title) || other.title == title)&&(identical(other.content, content) || other.content == content)&&(identical(other.createDate, createDate) || other.createDate == createDate)&&(identical(other.isActivate, isActivate) || other.isActivate == isActivate)&&(identical(other.categoryName, categoryName) || other.categoryName == categoryName));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,sequence,type,faqKind,title,content,createDate,isActivate);
+int get hashCode => Object.hash(runtimeType,sequence,type,faqKind,title,content,createDate,isActivate,categoryName);
 
 @override
 String toString() {
-  return 'NoticeModel(sequence: $sequence, type: $type, faqKind: $faqKind, title: $title, content: $content, createDate: $createDate, isActivate: $isActivate)';
+  return 'NoticeModel(sequence: $sequence, type: $type, faqKind: $faqKind, title: $title, content: $content, createDate: $createDate, isActivate: $isActivate, categoryName: $categoryName)';
 }
 
 
@@ -287,7 +289,7 @@ abstract mixin class _$NoticeModelCopyWith<$Res> implements $NoticeModelCopyWith
   factory _$NoticeModelCopyWith(_NoticeModel value, $Res Function(_NoticeModel) _then) = __$NoticeModelCopyWithImpl;
 @override @useResult
 $Res call({
- int sequence, NoticeType type, NoticeFaqType? faqKind, String title, String content, DateTime createDate, bool isActivate
+ int sequence, NoticeType type, NoticeFaqType? faqKind, String title, String content, DateTime createDate, bool isActivate, String? categoryName
 });
 
 
@@ -304,7 +306,7 @@ class __$NoticeModelCopyWithImpl<$Res>
 
 /// Create a copy of NoticeModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? sequence = null,Object? type = null,Object? faqKind = freezed,Object? title = null,Object? content = null,Object? createDate = null,Object? isActivate = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? sequence = null,Object? type = null,Object? faqKind = freezed,Object? title = null,Object? content = null,Object? createDate = null,Object? isActivate = null,Object? categoryName = freezed,}) {
   return _then(_NoticeModel(
 sequence: null == sequence ? _self.sequence : sequence // ignore: cast_nullable_to_non_nullable
 as int,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
@@ -313,7 +315,8 @@ as NoticeFaqType?,title: null == title ? _self.title : title // ignore: cast_nul
 as String,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,createDate: null == createDate ? _self.createDate : createDate // ignore: cast_nullable_to_non_nullable
 as DateTime,isActivate: null == isActivate ? _self.isActivate : isActivate // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,categoryName: freezed == categoryName ? _self.categoryName : categoryName // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

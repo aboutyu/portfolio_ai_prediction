@@ -104,6 +104,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get dailyNoLogsText => '기록이 없습니다.';
 
   @override
+  String get noticeNoText => '공지사항이 없습니다.';
+
+  @override
+  String get faqNoText => '자주 묻는 질문이 없습니다.';
+
+  @override
   String get dailyFloatingFoodText => '식사기록';
 
   @override

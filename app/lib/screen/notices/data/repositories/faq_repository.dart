@@ -46,7 +46,7 @@ class FaqCategoriesRepository {
 
   Future<CoreResponse<List<FaqCategoryModel>>> fetchFaqCategories() async {
     return await _client.request<List<FaqCategoryModel>>(
-      endpoint: ApiEndpoint.faqList,
+      endpoint: ApiEndpoint.faqCategoryList,
     );
   }
 }

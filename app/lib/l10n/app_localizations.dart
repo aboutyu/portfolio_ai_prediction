@@ -284,6 +284,18 @@ abstract class AppLocalizations {
   /// **'기록이 없습니다.'**
   String get dailyNoLogsText;
 
+  /// No description provided for @noticeNoText.
+  ///
+  /// In ko, this message translates to:
+  /// **'공지사항이 없습니다.'**
+  String get noticeNoText;
+
+  /// No description provided for @faqNoText.
+  ///
+  /// In ko, this message translates to:
+  /// **'자주 묻는 질문이 없습니다.'**
+  String get faqNoText;
+
   /// No description provided for @dailyFloatingFoodText.
   ///
   /// In ko, this message translates to:

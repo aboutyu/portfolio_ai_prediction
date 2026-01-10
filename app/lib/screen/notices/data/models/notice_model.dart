@@ -19,6 +19,8 @@ enum NoticeFaqType {
   service,
   @JsonValue('payment')
   payment,
+  @JsonValue('unknown')
+  unknown,
 }
 
 @freezed
@@ -51,6 +53,8 @@ abstract class NoticeModel with _$NoticeModel {
     /// TypeORM Transformer에 의해 DB에는 'Y'/'N'이지만
     /// API JSON 응답은 boolean(true/false)으로 내려오므로 bool 사용
     @Default(false) bool isActivate,
+
+    String? categoryName,
   }) = _NoticeModel;
 
   factory NoticeModel.fromJson(Map<String, dynamic> json) =>

@@ -42,7 +42,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noticesButtonText => 'Notices';
 
   @override
-  String get faqsButtonText => 'Frequently Asked Questions';
+  String get faqsButtonText => 'FAQ';
 
   @override
   String get homeNavigationText => 'Home';
@@ -104,6 +104,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dailyNoLogsText => 'No logs available.';
+
+  @override
+  String get noticeNoText => 'No notices available.';
+
+  @override
+  String get faqNoText => 'No frequently asked questions available.';
 
   @override
   String get dailyFloatingFoodText => 'Food Record';

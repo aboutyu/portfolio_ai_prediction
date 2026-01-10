@@ -16,6 +16,7 @@ _NoticeModel _$NoticeModelFromJson(Map<String, dynamic> json) => _NoticeModel(
   content: json['content'] as String,
   createDate: DateTime.parse(json['createDate'] as String),
   isActivate: json['isActivate'] as bool? ?? false,
+  categoryName: json['categoryName'] as String?,
 );
 
 Map<String, dynamic> _$NoticeModelToJson(_NoticeModel instance) =>
@@ -27,6 +28,7 @@ Map<String, dynamic> _$NoticeModelToJson(_NoticeModel instance) =>
       'content': instance.content,
       'createDate': instance.createDate.toIso8601String(),
       'isActivate': instance.isActivate,
+      'categoryName': instance.categoryName,
     };
 
 const _$NoticeTypeEnumMap = {
@@ -38,4 +40,5 @@ const _$NoticeFaqTypeEnumMap = {
   NoticeFaqType.user: 'user',
   NoticeFaqType.service: 'service',
   NoticeFaqType.payment: 'payment',
+  NoticeFaqType.unknown: 'unknown',
 };

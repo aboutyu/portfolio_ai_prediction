@@ -28,7 +28,7 @@ enum ApiEndpoint {
 
   noticeList(path: '/notice/list', method: 'GET'), // 공지사항 목록 조회
   faqList(path: '/notice/faq/list', method: 'GET'), // FAQ 목록 조회
-  faqTypeList(path: '/notice/faq/types', method: 'GET') // FAQ 유형 목록 조회
+  faqCategoryList(path: '/notice/faq/types', method: 'GET') // FAQ 유형 목록 조회
   ;
 
   final String path;
@@ -178,7 +178,7 @@ enum ApiEndpoint {
           return wrapper as CoreResponse<T>;
         };
 
-      case ApiEndpoint.faqTypeList:
+      case ApiEndpoint.faqCategoryList:
         return <T>(json) {
           final wrapper = CoreResponse<List<FaqCategoryModel>>.fromJson(
             json as Map<String, dynamic>,
