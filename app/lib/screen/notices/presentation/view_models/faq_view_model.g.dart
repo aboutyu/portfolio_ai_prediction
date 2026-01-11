@@ -33,7 +33,7 @@ final class FaqViewModelProvider
   FaqViewModel create() => FaqViewModel();
 }
 
-String _$faqViewModelHash() => r'4ba2c8bddadbb58b112e570e85315f2f12fad377';
+String _$faqViewModelHash() => r'0ed56e6dd12f14b8c3654563163f3d3f339c6a39';
 
 abstract class _$FaqViewModel extends $AsyncNotifier<List<NoticeModel>> {
   FutureOr<List<NoticeModel>> build();

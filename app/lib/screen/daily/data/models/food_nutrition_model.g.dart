@@ -1,0 +1,111 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'food_nutrition_model.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_FoodNutritionModel _$FoodNutritionModelFromJson(Map<String, dynamic> json) =>
+    _FoodNutritionModel(
+      foodCode: json['foodCode'] as String,
+      foodName: json['foodName'] as String,
+      representativeFoodName: json['representativeFoodName'] as String?,
+      categoryLarge: json['categoryLarge'] as String?,
+      categoryMedium: json['categoryMedium'] as String?,
+      categorySmall: json['categorySmall'] as String?,
+      manufacturerName: json['manufacturerName'] as String?,
+      foodManufactureNumber: json['foodManufactureNumber'] as String?,
+      importerName: json['importerName'] as String?,
+      distributorName: json['distributorName'] as String?,
+      originCountry: json['originCountry'] as String?,
+      isImported: json['isImported'] as String? ?? 'N',
+      sourceName: json['sourceName'] as String?,
+      providerName: json['providerName'] as String?,
+      dataGenMethod: json['dataGenMethod'] as String?,
+      dataCreatedDate: json['dataCreatedDate'] == null
+          ? null
+          : DateTime.parse(json['dataCreatedDate'] as String),
+      servingStandardAmount: json['servingStandardAmount'] as String?,
+      servingAAmount: json['servingAAmount'] as String?,
+      foodAAmount: json['foodAAmount'] as String?,
+      energyKcal: (json['energyKcal'] as num?)?.toDouble(),
+      moistureG: (json['moistureG'] as num?)?.toDouble(),
+      proteinG: (json['proteinG'] as num?)?.toDouble(),
+      fatG: (json['fatG'] as num?)?.toDouble(),
+      ashG: (json['ashG'] as num?)?.toDouble(),
+      carbohydrateG: (json['carbohydrateG'] as num?)?.toDouble(),
+      sugarG: (json['sugarG'] as num?)?.toDouble(),
+      dietaryFiberG: (json['dietaryFiberG'] as num?)?.toDouble(),
+      calciumMg: (json['calciumMg'] as num?)?.toDouble(),
+      ironMg: (json['ironMg'] as num?)?.toDouble(),
+      phosphorusMg: (json['phosphorusMg'] as num?)?.toDouble(),
+      potassiumMg: (json['potassiumMg'] as num?)?.toDouble(),
+      sodiumMg: (json['sodiumMg'] as num?)?.toDouble(),
+      vitaminAUg: (json['vitaminAUg'] as num?)?.toDouble(),
+      retinolUg: (json['retinolUg'] as num?)?.toDouble(),
+      betaCaroteneUg: (json['betaCaroteneUg'] as num?)?.toDouble(),
+      thiaminMg: (json['thiaminMg'] as num?)?.toDouble(),
+      riboflavinMg: (json['riboflavinMg'] as num?)?.toDouble(),
+      niacinMg: (json['niacinMg'] as num?)?.toDouble(),
+      vitaminCMg: (json['vitaminCMg'] as num?)?.toDouble(),
+      vitaminDUg: (json['vitaminDUg'] as num?)?.toDouble(),
+      cholesterolMg: (json['cholesterolMg'] as num?)?.toDouble(),
+      saturatedFatG: (json['saturatedFatG'] as num?)?.toDouble(),
+      transFatG: (json['transFatG'] as num?)?.toDouble(),
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
+    );
+
+Map<String, dynamic> _$FoodNutritionModelToJson(_FoodNutritionModel instance) =>
+    <String, dynamic>{
+      'foodCode': instance.foodCode,
+      'foodName': instance.foodName,
+      'representativeFoodName': instance.representativeFoodName,
+      'categoryLarge': instance.categoryLarge,
+      'categoryMedium': instance.categoryMedium,
+      'categorySmall': instance.categorySmall,
+      'manufacturerName': instance.manufacturerName,
+      'foodManufactureNumber': instance.foodManufactureNumber,
+      'importerName': instance.importerName,
+      'distributorName': instance.distributorName,
+      'originCountry': instance.originCountry,
+      'isImported': instance.isImported,
+      'sourceName': instance.sourceName,
+      'providerName': instance.providerName,
+      'dataGenMethod': instance.dataGenMethod,
+      'dataCreatedDate': instance.dataCreatedDate?.toIso8601String(),
+      'servingStandardAmount': instance.servingStandardAmount,
+      'servingAAmount': instance.servingAAmount,
+      'foodAAmount': instance.foodAAmount,
+      'energyKcal': instance.energyKcal,
+      'moistureG': instance.moistureG,
+      'proteinG': instance.proteinG,
+      'fatG': instance.fatG,
+      'ashG': instance.ashG,
+      'carbohydrateG': instance.carbohydrateG,
+      'sugarG': instance.sugarG,
+      'dietaryFiberG': instance.dietaryFiberG,
+      'calciumMg': instance.calciumMg,
+      'ironMg': instance.ironMg,
+      'phosphorusMg': instance.phosphorusMg,
+      'potassiumMg': instance.potassiumMg,
+      'sodiumMg': instance.sodiumMg,
+      'vitaminAUg': instance.vitaminAUg,
+      'retinolUg': instance.retinolUg,
+      'betaCaroteneUg': instance.betaCaroteneUg,
+      'thiaminMg': instance.thiaminMg,
+      'riboflavinMg': instance.riboflavinMg,
+      'niacinMg': instance.niacinMg,
+      'vitaminCMg': instance.vitaminCMg,
+      'vitaminDUg': instance.vitaminDUg,
+      'cholesterolMg': instance.cholesterolMg,
+      'saturatedFatG': instance.saturatedFatG,
+      'transFatG': instance.transFatG,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
+    };

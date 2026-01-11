@@ -2,6 +2,7 @@ import 'package:app/helpers/networks/model/core_response.model.dart';
 import 'package:app/screen/auth/data/models/login_response.model.dart';
 import 'package:app/screen/auth/data/models/signup_response.model.dart';
 import 'package:app/screen/auth/data/models/terms_model.dart';
+import 'package:app/screen/daily/data/models/food_nutrition_model.dart';
 import 'package:app/screen/daily/data/models/timeline_item.model.dart';
 import 'package:app/screen/notices/data/models/faq_category_model.dart';
 import 'package:app/screen/notices/data/models/notice_model.dart';
@@ -25,6 +26,11 @@ enum ApiEndpoint {
   ), // 건강기록 삭제
   recordFood(path: '/record/food', method: 'POST'), // 음식기록
   recordFoodUpdate(path: '/record/food/update', method: 'PATCH'), // 음식기록 수정
+  recordFoodSearch(
+    path: '/record/food/search/foodname',
+    method: 'GET',
+  ), // 음식기록 검색
+  recordFoodAnalysis(path: '/record/food/analyze', method: 'GET'), // 음식기록 분석
 
   noticeList(path: '/notice/list', method: 'GET'), // 공지사항 목록 조회
   faqList(path: '/notice/faq/list', method: 'GET'), // FAQ 목록 조회
@@ -151,6 +157,32 @@ enum ApiEndpoint {
             json as Map<String, dynamic>,
             (dataJson) => (dataJson as List<dynamic>)
                 .map((e) => FoodLog.fromJson(e as Map<String, dynamic>))
+                .toList(),
+          );
+          return wrapper as CoreResponse<T>;
+        };
+
+      case ApiEndpoint.recordFoodSearch:
+        return <T>(json) {
+          final wrapper = CoreResponse<List<FoodNutritionModel>>.fromJson(
+            json as Map<String, dynamic>,
+            (dataJson) => (dataJson as List<dynamic>)
+                .map(
+                  (e) => FoodNutritionModel.fromJson(e as Map<String, dynamic>),
+                )
+                .toList(),
+          );
+          return wrapper as CoreResponse<T>;
+        };
+
+      case ApiEndpoint.recordFoodAnalysis:
+        return <T>(json) {
+          final wrapper = CoreResponse<List<FoodNutritionModel>>.fromJson(
+            json as Map<String, dynamic>,
+            (dataJson) => (dataJson as List<dynamic>)
+                .map(
+                  (e) => FoodNutritionModel.fromJson(e as Map<String, dynamic>),
+                )
                 .toList(),
           );
           return wrapper as CoreResponse<T>;
