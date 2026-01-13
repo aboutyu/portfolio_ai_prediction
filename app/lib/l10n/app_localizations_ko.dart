@@ -101,6 +101,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get dialogClosedTitle => '닫기';
 
   @override
+  String get dialogSearchTitle => '검색';
+
+  @override
   String get dailyNoLogsText => '기록이 없습니다.';
 
   @override
@@ -108,6 +111,12 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get faqNoText => '자주 묻는 질문이 없습니다.';
+
+  @override
+  String get searchResultNoText => '검색결과가 없습니다.';
+
+  @override
+  String get dialogSearchHintText => '검색어를 입력해주세요.';
 
   @override
   String get dailyFloatingFoodText => '식사기록';
@@ -132,6 +141,30 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get recordDateText => '기록시간';
+
+  @override
+  String get foodLogCaloryText => '칼로리';
+
+  @override
+  String get foodLogCarbohydrateText => '탄수화물';
+
+  @override
+  String get foodLogProteinText => '단백질';
+
+  @override
+  String get foodLogFatText => '지방';
+
+  @override
+  String get foodLogSugarText => '당류';
+
+  @override
+  String get foodLogSodiumText => '나트륨';
+
+  @override
+  String get foodLogServingSizeText => '1회 제공량';
+
+  @override
+  String get foodLogNoCategoryText => '미분류';
 
   @override
   String get stepCountTypeText => '걸음수';

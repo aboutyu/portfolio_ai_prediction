@@ -3,6 +3,17 @@ import 'package:app/helpers/dto/base_request.dto.dart';
 
 enum RecordFoodModelType { local, gemini }
 
+extension RecordFoodModelTypeExtension on RecordFoodModelType {
+  String get name {
+    switch (this) {
+      case RecordFoodModelType.local:
+        return 'local';
+      case RecordFoodModelType.gemini:
+        return 'gemini';
+    }
+  }
+}
+
 class RecordFoodAnalysisDto extends BaseRequestDto {
   final String foodName;
   final RecordFoodModelType useModel;
@@ -16,7 +27,7 @@ class RecordFoodAnalysisDto extends BaseRequestDto {
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{
       'foodName': foodName,
-      'useModel': useModel.toString(),
+      'useModel': useModel.name,
     };
     return map;
   }

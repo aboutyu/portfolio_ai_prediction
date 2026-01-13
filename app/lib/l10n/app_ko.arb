@@ -45,10 +45,13 @@
   "dialogChangeTitle": "변경",
   "dialogDeleteTitle": "삭제",
   "dialogClosedTitle": "닫기",
+  "dialogSearchTitle": "검색",
 
   "dailyNoLogsText": "기록이 없습니다.",
   "noticeNoText": "공지사항이 없습니다.",
   "faqNoText": "자주 묻는 질문이 없습니다.",
+  "searchResultNoText": "검색결과가 없습니다.",
+  "dialogSearchHintText": "검색어를 입력해주세요.",
 
   "dailyFloatingFoodText": "식사기록",
   "dailyFloatingWeightText": "체중기록",
@@ -59,6 +62,15 @@
   "dailyFoodLogTitle": "음식기록",
   "dailyHealthLogTitle": "건강기록",
   "recordDateText": "기록시간",
+
+  "foodLogCaloryText": "칼로리",
+  "foodLogCarbohydrateText": "탄수화물",
+  "foodLogProteinText": "단백질",
+  "foodLogFatText": "지방",
+  "foodLogSugarText": "당류",
+  "foodLogSodiumText": "나트륨",
+  "foodLogServingSizeText": "1회 제공량",
+  "foodLogNoCategoryText": "미분류",
 
   "stepCountTypeText": "걸음수",
   "bloodPressureTypeText": "혈압수치",

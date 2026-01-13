@@ -103,6 +103,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dialogClosedTitle => 'Close';
 
   @override
+  String get dialogSearchTitle => 'Search';
+
+  @override
   String get dailyNoLogsText => 'No logs available.';
 
   @override
@@ -110,6 +113,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get faqNoText => 'No frequently asked questions available.';
+
+  @override
+  String get searchResultNoText => 'No Search Result';
+
+  @override
+  String get dialogSearchHintText => 'Input Search Keyword';
 
   @override
   String get dailyFloatingFoodText => 'Food Record';
@@ -134,6 +143,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get recordDateText => 'Record Time';
+
+  @override
+  String get foodLogCaloryText => 'Energy';
+
+  @override
+  String get foodLogCarbohydrateText => 'Carbohydrate';
+
+  @override
+  String get foodLogProteinText => 'Protein';
+
+  @override
+  String get foodLogFatText => 'Fat';
+
+  @override
+  String get foodLogSugarText => 'Sugar';
+
+  @override
+  String get foodLogSodiumText => 'Sodium';
+
+  @override
+  String get foodLogServingSizeText => 'Serving Size';
+
+  @override
+  String get foodLogNoCategoryText => 'No Category';
 
   @override
   String get stepCountTypeText => 'Step Count';

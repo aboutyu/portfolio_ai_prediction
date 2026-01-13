@@ -278,6 +278,12 @@ abstract class AppLocalizations {
   /// **'닫기'**
   String get dialogClosedTitle;
 
+  /// No description provided for @dialogSearchTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'검색'**
+  String get dialogSearchTitle;
+
   /// No description provided for @dailyNoLogsText.
   ///
   /// In ko, this message translates to:
@@ -295,6 +301,18 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'자주 묻는 질문이 없습니다.'**
   String get faqNoText;
+
+  /// No description provided for @searchResultNoText.
+  ///
+  /// In ko, this message translates to:
+  /// **'검색결과가 없습니다.'**
+  String get searchResultNoText;
+
+  /// No description provided for @dialogSearchHintText.
+  ///
+  /// In ko, this message translates to:
+  /// **'검색어를 입력해주세요.'**
+  String get dialogSearchHintText;
 
   /// No description provided for @dailyFloatingFoodText.
   ///
@@ -343,6 +361,54 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'기록시간'**
   String get recordDateText;
+
+  /// No description provided for @foodLogCaloryText.
+  ///
+  /// In ko, this message translates to:
+  /// **'칼로리'**
+  String get foodLogCaloryText;
+
+  /// No description provided for @foodLogCarbohydrateText.
+  ///
+  /// In ko, this message translates to:
+  /// **'탄수화물'**
+  String get foodLogCarbohydrateText;
+
+  /// No description provided for @foodLogProteinText.
+  ///
+  /// In ko, this message translates to:
+  /// **'단백질'**
+  String get foodLogProteinText;
+
+  /// No description provided for @foodLogFatText.
+  ///
+  /// In ko, this message translates to:
+  /// **'지방'**
+  String get foodLogFatText;
+
+  /// No description provided for @foodLogSugarText.
+  ///
+  /// In ko, this message translates to:
+  /// **'당류'**
+  String get foodLogSugarText;
+
+  /// No description provided for @foodLogSodiumText.
+  ///
+  /// In ko, this message translates to:
+  /// **'나트륨'**
+  String get foodLogSodiumText;
+
+  /// No description provided for @foodLogServingSizeText.
+  ///
+  /// In ko, this message translates to:
+  /// **'1회 제공량'**
+  String get foodLogServingSizeText;
+
+  /// No description provided for @foodLogNoCategoryText.
+  ///
+  /// In ko, this message translates to:
+  /// **'미분류'**
+  String get foodLogNoCategoryText;
 
   /// No description provided for @stepCountTypeText.
   ///

@@ -35,7 +35,7 @@ final class RecordFoodViewModelProvider
 }
 
 String _$recordFoodViewModelHash() =>
-    r'7feb90f5f513327340931cf2180845f5b873168a';
+    r'2efa9aee99c0874b743f79206e3b44477c60cdb9';
 
 abstract class _$RecordFoodViewModel
     extends $AsyncNotifier<List<FoodNutritionModel>> {

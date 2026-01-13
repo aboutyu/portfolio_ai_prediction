@@ -28,20 +28,29 @@ class CoreApiProvider {
           (endpoint.method == 'GET' || endpoint.method == 'DELETE')
           ? (dto?.toJson() ?? parameters)
           : null;
+      final options = Options(
+        method: endpoint.method,
+        receiveTimeout: Duration(seconds: endpoint.timeout),
+        sendTimeout: Duration(seconds: endpoint.timeout),
+      );
+
       final response = await _dio.request(
         endpoint.path,
         data: bodyData,
         queryParameters: queryParameters,
-        options: Options(method: endpoint.method),
+        options: options,
       );
 
       final result = endpoint.decoder<T>(response.data);
 
       debugMessage([
-        'URL: ${response.realUri}',
+        'API 요청 완료: ${response.requestOptions.uri}',
         'Method: ${endpoint.method}',
-        'Headers: ${response.requestOptions.headers}',
+        'Timeout: ${endpoint.timeout} seconds',
         'Request(dto): ${dto?.toJson()}',
+        'Request Headers: ${response.requestOptions.headers}',
+        'Response Headers: ${response.headers}',
+        'Body Data: $bodyData',
         'Status Code: ${response.statusCode}',
         'Response(data): ${response.data}',
         'Decoded Result: $result',

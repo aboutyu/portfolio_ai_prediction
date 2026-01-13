@@ -54,9 +54,16 @@ class CoreApiIntercepter extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     debugMessage([
-      'API 요청 중 에러 발생(core_api_intercepter.dart)',
-      'code: ${err.response?.statusCode}',
-      '${err.message}',
+      'API 요청 에러: ${err.requestOptions.path}',
+      'Method: ${err.requestOptions.method}',
+      'Send Timeout: ${err.requestOptions.sendTimeout} seconds',
+      'Receive Timeout: ${err.requestOptions.receiveTimeout} seconds',
+      'Request Headers: ${err.requestOptions.headers}',
+      'Response Headers: ${err.response?.headers}',
+      'Parameters: ${err.requestOptions.queryParameters}',
+      'Body Data: ${err.requestOptions.data}',
+      'Status Code: ${err.response?.statusCode}',
+      'Error Message: ${err.message}',
     ]);
 
     if (err.response?.statusCode == 401 && context != null) {

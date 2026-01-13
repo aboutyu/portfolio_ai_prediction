@@ -30,7 +30,11 @@ enum ApiEndpoint {
     path: '/record/food/search/foodname',
     method: 'GET',
   ), // 음식기록 검색
-  recordFoodAnalysis(path: '/record/food/analyze', method: 'GET'), // 음식기록 분석
+  recordFoodAnalysis(
+    path: '/record/food/analyze',
+    method: 'GET',
+    timeout: 300,
+  ), // 음식기록 분석
 
   noticeList(path: '/notice/list', method: 'GET'), // 공지사항 목록 조회
   faqList(path: '/notice/faq/list', method: 'GET'), // FAQ 목록 조회
@@ -39,7 +43,12 @@ enum ApiEndpoint {
 
   final String path;
   final String method;
-  const ApiEndpoint({required this.path, required this.method});
+  final int timeout;
+  const ApiEndpoint({
+    required this.path,
+    required this.method,
+    this.timeout = 60,
+  });
 
   CoreResponse<T> Function<T>(dynamic data) get decoder {
     switch (this) {
