@@ -16,6 +16,8 @@ export const FoodAnalysisPrompt = {
        (e.g., Corn usually has ~100kcal, ~3g protein per 100g).
     5. Translate all string values to Korean.
     6. "foodCode" must be "AI_GENERATED".
+    7. "sourceName" must be "AI Analysis".
+    8. "dataGenMethod" must be the AI model name: "${aiModel}".
 
     [JSON Template to Fill]
     {
@@ -33,7 +35,7 @@ export const FoodAnalysisPrompt = {
       "isImported": "String (Y/N)",
       "sourceName": "AI Analysis",
       "providerName": null,
-      "dataGenMethod": "AI Prediction",
+      "dataGenMethod": "model name",
       "servingStandardAmount": "100g",
       "servingAAmount": "String (e.g., 70g)",
       "foodAAmount": null,

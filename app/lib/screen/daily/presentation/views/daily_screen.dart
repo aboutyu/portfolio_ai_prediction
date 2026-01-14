@@ -141,7 +141,8 @@ class DailyScreen extends ConsumerWidget {
               await _showHealthInputDialog(context, ref, HealthLogType.BPT);
               break;
             case DailyExpandableFabQuickMenuType.meal:
-              context.push('/record/food');
+              final DateTime? resultDate = await context.push('/record/food');
+              await _refreshList(ref, context, resultDate);
               break;
           }
         },

@@ -19,7 +19,7 @@
   "usernameHintText": "Enter your name",
   "termsAgreeButtonText": " Terms of Service",
   "noticesButtonText": "Notices",
-  "faqsButtonText": "Frequently Asked Questions",
+  "faqsButtonText": "FAQ",
 
 
 
@@ -46,8 +46,13 @@
   "dialogChangeTitle": "Change",
   "dialogDeleteTitle": "Delete",
   "dialogClosedTitle": "Close",
+  "dialogSearchTitle": "Search",
 
   "dailyNoLogsText": "No logs available.",
+  "noticeNoText": "No notices available.",
+  "faqNoText": "No frequently asked questions available.",
+  "searchResultNoText": "No Search Result",
+   "dialogSearchHintText": "Input Search Keyword",
 
   "dailyFloatingFoodText": "Food Record",
   "dailyFloatingWeightText": "Weight Record",
@@ -58,6 +63,15 @@
   "dailyFoodLogTitle": "Food Record",
   "dailyHealthLogTitle": "Health Record",
   "recordDateText": "Record Time",
+
+  "foodLogCaloryText": "Energy",
+  "foodLogCarbohydrateText": "Carbohydrate",
+  "foodLogProteinText": "Protein",
+  "foodLogFatText": "Fat",
+  "foodLogSugarText": "Sugar",
+  "foodLogSodiumText": "Sodium",
+  "foodLogServingSizeText": "Serving Size",
+  "foodLogNoCategoryText": "No Category",
 
   "stepCountTypeText": "Step Count",
   "bloodPressureTypeText": "Blood Pressure",

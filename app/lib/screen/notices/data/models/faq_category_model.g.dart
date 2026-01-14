@@ -22,4 +22,5 @@ const _$NoticeFaqTypeEnumMap = {
   NoticeFaqType.user: 'user',
   NoticeFaqType.service: 'service',
   NoticeFaqType.payment: 'payment',
+  NoticeFaqType.unknown: 'unknown',
 };

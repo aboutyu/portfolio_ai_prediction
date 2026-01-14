@@ -1,5 +1,7 @@
 import 'package:app/helpers/extensions/async_value_extension.dart';
+import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/screen/notices/presentation/view_models/notice_view_model.dart';
+import 'package:app/widgets/appbar_widgets/appbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:app/screen/notices/data/models/notice_model.dart';
@@ -12,11 +14,11 @@ class NoticeScreen extends ConsumerWidget {
     final noticeState = ref.watch(noticeViewModelProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('공지사항')),
+      appBar: appBarWidget(context.tr.noticesButtonText),
       body: noticeState.draws(
         data: (notices) {
           if (notices.isEmpty) {
-            return const Center(child: Text('등록된 공지사항이 없습니다.'));
+            return Center(child: Text(context.tr.noticeNoText));
           }
 
           return RefreshIndicator(

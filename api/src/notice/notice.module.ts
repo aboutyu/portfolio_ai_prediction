@@ -3,9 +3,10 @@ import { NoticeService } from './notice.service';
 import { NoticeController } from './notice.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Notice } from 'src/entities/notice.entity';
+import { jwtModule } from 'src/configures/jwt-module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Notice])],
+  imports: [jwtModule, TypeOrmModule.forFeature([Notice])],
   providers: [NoticeService],
   controllers: [NoticeController],
 })

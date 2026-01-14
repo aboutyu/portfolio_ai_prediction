@@ -97,6 +97,57 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 
+# 서비스 아키텍처
 
+아래는 온프레미스 AI 서버와 모바일 앱의 전체 구조도입니다.
 
+```mermaid
+graph TD
+    %% 스타일 정의
+    classDef client fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+    classDef network fill:#fff3e0,stroke:#ff6f00,stroke-width:2px;
+    classDef app fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
+    classDef infra fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px;
 
+    %% [수정] 따옴표 추가
+    subgraph Client_Layer ["User Device"]
+        FlutterApp["📱 Flutter Mobile App"]:::client
+    end
+
+    %% [수정] 따옴표 추가
+    subgraph Internet ["Public Network"]
+        DDNS["🌐 DDNS (joyjoy98.iptime.org)"]:::network
+    end
+
+    %% [수정] 여기가 에러 원인이었습니다. 따옴표로 감싸 해결!
+    subgraph Home_Server ["🏠 On-Premise AI Server (Docker Host)"]
+        direction TB
+
+        Nginx["🛡️ Nginx Gateway<br/>(Reverse Proxy / SSL / Timeout Mgt)"]:::network
+
+        %% [수정] 따옴표 추가
+        subgraph Docker_Network ["Docker Bridge Network"]
+            direction TB
+            NodeJS["🚀 Node.js Backend<br/>(API / Auth / Logic)"]:::app
+            MySQL[("🗄️ MySQL DB<br/>User Data / Logs")]:::app
+
+            %% [수정] 따옴표 추가
+            subgraph AI_Core ["AI Inference Engine"]
+                Ollama["🤖 Ollama Server<br/>(Llama 3.1 8B Model)"]:::infra
+                GPU["⚡ NVIDIA RTX 3060<br/>(CUDA Acceleration)"]:::infra
+            end
+        end
+    end
+
+    %% 연결 관계
+    FlutterApp -- "HTTPS / REST API\n(Auth Token)" --> DDNS
+    DDNS -- "Port Forwarding" --> Nginx
+
+    Nginx -- "/api (Biz Logic)" --> NodeJS
+    Nginx -- "/ai (Analysis)" --> NodeJS
+
+    NodeJS -- "Query/Save" --> MySQL
+    NodeJS -- "Prompt Request\n(Long Polling / Timeout 300s)" --> Ollama
+
+    Ollama -.-> GPU
+```
