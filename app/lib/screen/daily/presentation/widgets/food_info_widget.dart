@@ -7,10 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FoodInfoWidget extends ConsumerWidget {
-  FoodInfoWidget({super.key, required this.food, required this.selectedDate});
+  const FoodInfoWidget({
+    super.key,
+    required this.food,
+    required this.selectedDate,
+  });
 
   final FoodNutritionModel food;
-  DateTime selectedDate;
+  final DateTime selectedDate;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

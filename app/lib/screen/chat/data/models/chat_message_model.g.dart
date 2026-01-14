@@ -8,18 +8,18 @@ part of 'chat_message_model.dart';
 
 _ChatMessageModel _$ChatMessageModelFromJson(Map<String, dynamic> json) =>
     _ChatMessageModel(
-      sender: $enumDecode(_$ChatMessageRoleEnumMap, json['sender']),
+      sequence: (json['sequence'] as num).toInt(),
+      messageRole: $enumDecode(_$ChatMessageRoleEnumMap, json['messageRole']),
       message: json['message'] as String,
-      timestamp: json['timestamp'] == null
-          ? null
-          : DateTime.parse(json['timestamp'] as String),
+      createTime: DateTime.parse(json['createTime'] as String),
     );
 
 Map<String, dynamic> _$ChatMessageModelToJson(_ChatMessageModel instance) =>
     <String, dynamic>{
-      'sender': _$ChatMessageRoleEnumMap[instance.sender]!,
+      'sequence': instance.sequence,
+      'messageRole': _$ChatMessageRoleEnumMap[instance.messageRole]!,
       'message': instance.message,
-      'timestamp': instance.timestamp?.toIso8601String(),
+      'createTime': instance.createTime.toIso8601String(),
     };
 
 const _$ChatMessageRoleEnumMap = {

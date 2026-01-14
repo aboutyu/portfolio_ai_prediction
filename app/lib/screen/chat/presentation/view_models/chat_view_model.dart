@@ -51,7 +51,7 @@ class ChatViewModel extends AsyncNotifier<List<ChatMessageModel>> {
 
   Future<void> _loadHistory() async {
     final repository = ref.read(chatMessageHistoryRepositoryProvider);
-    final response = await repository.fetchChatHistory(page: 1, pageNum: 20);
+    final response = await repository.fetchChatHistory(page: 0, pageNum: 20);
     state = AsyncValue.data(response.data ?? []);
   }
 
@@ -61,9 +61,12 @@ class ChatViewModel extends AsyncNotifier<List<ChatMessageModel>> {
     // 2. 내 화면에 즉시 표시
     state = AsyncValue.data([
       ...state.value ?? [],
-      ChatMessageModel(sender: ChatMessageRole.user, message: text),
+      ChatMessageModel(
+        messageRole: ChatMessageRole.user,
+        message: text,
+        sequence: 0,
+        createTime: DateTime.now(),
+      ),
     ]);
   }
-
-  // dispose 시 소켓 연결 해제
 }

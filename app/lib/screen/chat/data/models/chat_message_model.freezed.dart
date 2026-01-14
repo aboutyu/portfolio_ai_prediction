@@ -15,8 +15,10 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ChatMessageModel {
 
- ChatMessageRole get sender;// 'user' or 'llama' or 'gemini'
- String get message; DateTime? get timestamp;
+/// 메시지 고유 번호 (PK)
+ int get sequence; ChatMessageRole get messageRole;/// 메시지 내용
+ String get message;/// 생성 시간 (JSON의 ISO 8601 문자열이 DateTime으로 자동 변환됨)
+ DateTime get createTime;
 /// Create a copy of ChatMessageModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +31,16 @@ $ChatMessageModelCopyWith<ChatMessageModel> get copyWith => _$ChatMessageModelCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatMessageModel&&(identical(other.sender, sender) || other.sender == sender)&&(identical(other.message, message) || other.message == message)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatMessageModel&&(identical(other.sequence, sequence) || other.sequence == sequence)&&(identical(other.messageRole, messageRole) || other.messageRole == messageRole)&&(identical(other.message, message) || other.message == message)&&(identical(other.createTime, createTime) || other.createTime == createTime));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,sender,message,timestamp);
+int get hashCode => Object.hash(runtimeType,sequence,messageRole,message,createTime);
 
 @override
 String toString() {
-  return 'ChatMessageModel(sender: $sender, message: $message, timestamp: $timestamp)';
+  return 'ChatMessageModel(sequence: $sequence, messageRole: $messageRole, message: $message, createTime: $createTime)';
 }
 
 
@@ -49,7 +51,7 @@ abstract mixin class $ChatMessageModelCopyWith<$Res>  {
   factory $ChatMessageModelCopyWith(ChatMessageModel value, $Res Function(ChatMessageModel) _then) = _$ChatMessageModelCopyWithImpl;
 @useResult
 $Res call({
- ChatMessageRole sender, String message, DateTime? timestamp
+ int sequence, ChatMessageRole messageRole, String message, DateTime createTime
 });
 
 
@@ -66,12 +68,13 @@ class _$ChatMessageModelCopyWithImpl<$Res>
 
 /// Create a copy of ChatMessageModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? sender = null,Object? message = null,Object? timestamp = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? sequence = null,Object? messageRole = null,Object? message = null,Object? createTime = null,}) {
   return _then(_self.copyWith(
-sender: null == sender ? _self.sender : sender // ignore: cast_nullable_to_non_nullable
+sequence: null == sequence ? _self.sequence : sequence // ignore: cast_nullable_to_non_nullable
+as int,messageRole: null == messageRole ? _self.messageRole : messageRole // ignore: cast_nullable_to_non_nullable
 as ChatMessageRole,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String,timestamp: freezed == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
-as DateTime?,
+as String,createTime: null == createTime ? _self.createTime : createTime // ignore: cast_nullable_to_non_nullable
+as DateTime,
   ));
 }
 
@@ -156,10 +159,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ChatMessageRole sender,  String message,  DateTime? timestamp)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int sequence,  ChatMessageRole messageRole,  String message,  DateTime createTime)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ChatMessageModel() when $default != null:
-return $default(_that.sender,_that.message,_that.timestamp);case _:
+return $default(_that.sequence,_that.messageRole,_that.message,_that.createTime);case _:
   return orElse();
 
 }
@@ -177,10 +180,10 @@ return $default(_that.sender,_that.message,_that.timestamp);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ChatMessageRole sender,  String message,  DateTime? timestamp)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int sequence,  ChatMessageRole messageRole,  String message,  DateTime createTime)  $default,) {final _that = this;
 switch (_that) {
 case _ChatMessageModel():
-return $default(_that.sender,_that.message,_that.timestamp);case _:
+return $default(_that.sequence,_that.messageRole,_that.message,_that.createTime);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -197,10 +200,10 @@ return $default(_that.sender,_that.message,_that.timestamp);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ChatMessageRole sender,  String message,  DateTime? timestamp)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int sequence,  ChatMessageRole messageRole,  String message,  DateTime createTime)?  $default,) {final _that = this;
 switch (_that) {
 case _ChatMessageModel() when $default != null:
-return $default(_that.sender,_that.message,_that.timestamp);case _:
+return $default(_that.sequence,_that.messageRole,_that.message,_that.createTime);case _:
   return null;
 
 }
@@ -212,13 +215,16 @@ return $default(_that.sender,_that.message,_that.timestamp);case _:
 @JsonSerializable()
 
 class _ChatMessageModel implements ChatMessageModel {
-  const _ChatMessageModel({required this.sender, required this.message, this.timestamp});
+  const _ChatMessageModel({required this.sequence, required this.messageRole, required this.message, required this.createTime});
   factory _ChatMessageModel.fromJson(Map<String, dynamic> json) => _$ChatMessageModelFromJson(json);
 
-@override final  ChatMessageRole sender;
-// 'user' or 'llama' or 'gemini'
+/// 메시지 고유 번호 (PK)
+@override final  int sequence;
+@override final  ChatMessageRole messageRole;
+/// 메시지 내용
 @override final  String message;
-@override final  DateTime? timestamp;
+/// 생성 시간 (JSON의 ISO 8601 문자열이 DateTime으로 자동 변환됨)
+@override final  DateTime createTime;
 
 /// Create a copy of ChatMessageModel
 /// with the given fields replaced by the non-null parameter values.
@@ -233,16 +239,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatMessageModel&&(identical(other.sender, sender) || other.sender == sender)&&(identical(other.message, message) || other.message == message)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatMessageModel&&(identical(other.sequence, sequence) || other.sequence == sequence)&&(identical(other.messageRole, messageRole) || other.messageRole == messageRole)&&(identical(other.message, message) || other.message == message)&&(identical(other.createTime, createTime) || other.createTime == createTime));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,sender,message,timestamp);
+int get hashCode => Object.hash(runtimeType,sequence,messageRole,message,createTime);
 
 @override
 String toString() {
-  return 'ChatMessageModel(sender: $sender, message: $message, timestamp: $timestamp)';
+  return 'ChatMessageModel(sequence: $sequence, messageRole: $messageRole, message: $message, createTime: $createTime)';
 }
 
 
@@ -253,7 +259,7 @@ abstract mixin class _$ChatMessageModelCopyWith<$Res> implements $ChatMessageMod
   factory _$ChatMessageModelCopyWith(_ChatMessageModel value, $Res Function(_ChatMessageModel) _then) = __$ChatMessageModelCopyWithImpl;
 @override @useResult
 $Res call({
- ChatMessageRole sender, String message, DateTime? timestamp
+ int sequence, ChatMessageRole messageRole, String message, DateTime createTime
 });
 
 
@@ -270,12 +276,13 @@ class __$ChatMessageModelCopyWithImpl<$Res>
 
 /// Create a copy of ChatMessageModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? sender = null,Object? message = null,Object? timestamp = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? sequence = null,Object? messageRole = null,Object? message = null,Object? createTime = null,}) {
   return _then(_ChatMessageModel(
-sender: null == sender ? _self.sender : sender // ignore: cast_nullable_to_non_nullable
+sequence: null == sequence ? _self.sequence : sequence // ignore: cast_nullable_to_non_nullable
+as int,messageRole: null == messageRole ? _self.messageRole : messageRole // ignore: cast_nullable_to_non_nullable
 as ChatMessageRole,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String,timestamp: freezed == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
-as DateTime?,
+as String,createTime: null == createTime ? _self.createTime : createTime // ignore: cast_nullable_to_non_nullable
+as DateTime,
   ));
 }
 
