@@ -10,6 +10,8 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { NoticeModule } from './notice/notice.module';
+import { ChatService } from './chat/chat.service';
+import { ChatModule } from './chat/chat.module';
 
 // 현재 환경에 따라 파일 경로 결정 함수
 const getEnvFilePath = () => {
@@ -29,7 +31,8 @@ const getEnvFilePath = () => {
     MembershipModule,
     RecordModule,
     AuthModule,
-    NoticeModule
+    NoticeModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [
@@ -37,7 +40,7 @@ const getEnvFilePath = () => {
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
-    }
+    },
   ],
 })
 export class AppModule {

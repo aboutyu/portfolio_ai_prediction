@@ -2,6 +2,7 @@ import 'package:app/helpers/networks/model/core_response.model.dart';
 import 'package:app/screen/auth/data/models/login_response.model.dart';
 import 'package:app/screen/auth/data/models/signup_response.model.dart';
 import 'package:app/screen/auth/data/models/terms_model.dart';
+import 'package:app/screen/chat/data/models/chat_message_model.dart';
 import 'package:app/screen/daily/data/models/food_nutrition_model.dart';
 import 'package:app/screen/daily/data/models/timeline_item.model.dart';
 import 'package:app/screen/notices/data/models/faq_category_model.dart';
@@ -35,6 +36,8 @@ enum ApiEndpoint {
     method: 'GET',
     timeout: 300,
   ), // 음식기록 분석
+
+  chatMessageHistory(path: '/chat/messages', method: 'GET'), // 채팅 기록 조회
 
   noticeList(path: '/notice/list', method: 'GET'), // 공지사항 목록 조회
   faqList(path: '/notice/faq/list', method: 'GET'), // FAQ 목록 조회
@@ -191,6 +194,19 @@ enum ApiEndpoint {
             (dataJson) => (dataJson as List<dynamic>)
                 .map(
                   (e) => FoodNutritionModel.fromJson(e as Map<String, dynamic>),
+                )
+                .toList(),
+          );
+          return wrapper as CoreResponse<T>;
+        };
+
+      case ApiEndpoint.chatMessageHistory:
+        return <T>(json) {
+          final wrapper = CoreResponse<List<ChatMessageModel>>.fromJson(
+            json as Map<String, dynamic>,
+            (dataJson) => (dataJson as List<dynamic>)
+                .map(
+                  (e) => ChatMessageModel.fromJson(e as Map<String, dynamic>),
                 )
                 .toList(),
           );

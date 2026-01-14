@@ -153,7 +153,7 @@ export class RecordService {
   async analyzeFoodForGemini(foodName: string): Promise<ApiResponse<any>> {
     try {
       const model = this.genAI.getGenerativeModel({
-        model: 'gemini-flash-latest',
+        model: 'gemini-2.5-flash',
         generationConfig: {
           responseMimeType: 'application/json',
           temperature: 0.3, // 창의성 낮춤(정확도 UP)
@@ -167,7 +167,7 @@ export class RecordService {
 
       const foodCode = `GEMINI_${new Date().getTime()}`;
       const foods = FoodNutritionInfo.fromAIResponse(text, foodCode);
-      console.log('Gemini AI Response:', foods);
+      console.log(`${model.model} Gemini AI Response:`, foods);
 
       await this.saveFoodsIfNotExist(foods);
 
