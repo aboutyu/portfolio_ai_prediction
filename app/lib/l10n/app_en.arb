@@ -92,6 +92,11 @@
   "bloodPressureLogInputHintSystolicText": "Enter your systolic blood pressure",
   "bloodPressureLogInputHintBloodPressureText": "Enter your blood pressure",
 
+  "chatInputHintText": "Enter your message",
+  "chatNoticeText": "This chat may be slow because the selected AI model is answering.\nPlease note that this is not a conversation with a real counselor and is for reference only.",
+  "chatNoMessages": "No messages.",
+
+
   "inputDateText": "Date",
   "inputHintMemoText": "Enter a memo (optional)"
 }

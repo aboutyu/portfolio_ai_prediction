@@ -19,7 +19,7 @@ extension ChatMessageRoleExtension on ChatMessageRole {
   Widget get iconAsset {
     switch (this) {
       case ChatMessageRole.user:
-        return Image.asset('assets/icons/user_icon.png');
+        return Image.asset('assets/icons/user_icon.png', width: 24, height: 24);
       case ChatMessageRole.llama:
         return SvgPicture.asset(
           'assets/icons/ollama_icon.svg',

@@ -2,8 +2,10 @@ import 'package:app/helpers/extensions/async_value_extension.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/screen/chat/data/models/chat_message_model.dart';
 import 'package:app/screen/chat/presentation/view_models/chat_view_model.dart';
+import 'package:app/screen/chat/presentation/widgets/chat_message_bubble_widget.dart';
 import 'package:app/widgets/appbar_widgets/appbar_chat_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ChatScreen extends ConsumerStatefulWidget {
@@ -17,21 +19,28 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   final TextEditingController _textController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   ChatMessageRole _role = ChatMessageRole.llama;
+  bool _isNoticeVisible = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_scrollListener);
+  }
 
   @override
   void dispose() {
     _textController.dispose();
     _scrollController.dispose();
+    _scrollController.removeListener(_scrollListener);
     super.dispose();
   }
 
-  // 메시지 전송 후 스크롤을 맨 아래로 내리는 함수
+  // 메시지 전송/수신 시 화면 맨 아래(최신)로 이동
   void _scrollToBottom() {
     if (_scrollController.hasClients) {
-      // 약간의 지연을 주어 UI가 렌더링 된 후 스크롤되도록 함
       Future.delayed(const Duration(milliseconds: 100), () {
         _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent,
+          0.0, // [수정] reverse: true일 때는 0이 맨 아래(최신)입니다!
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeOut,
         );
@@ -39,14 +48,53 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     }
   }
 
+  // 스크롤 리스너 (공지 숨김/표시 + 무한 스크롤 통합)
+  void _scrollListener() {
+    // 1. 공지사항 표시 로직 (reverse: true 이므로 방향 반대 주의)
+    // forward: 리스트 끝(과거)으로 이동 (화면 위로)
+    // reverse: 리스트 처음(최신)으로 이동 (화면 아래로)
+    if (_scrollController.position.userScrollDirection ==
+        ScrollDirection.forward) {
+      // 위로 스크롤 중 -> 공지 보이기 (원하는 UX에 맞춰 조정)
+      if (!_isNoticeVisible) setState(() => _isNoticeVisible = true);
+    } else if (_scrollController.position.userScrollDirection ==
+        ScrollDirection.reverse) {
+      // 아래로 스크롤 중 -> 공지 숨기기
+      if (_isNoticeVisible) setState(() => _isNoticeVisible = false);
+    }
+
+    // 2. [핵심] 무한 스크롤 (Paging) 로직
+    // 현재 스크롤 위치가 최대 범위(리스트의 맨 위 = 과거 데이터 끝)에 거의 도달했는지 확인
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      // 뷰모델에 "더 가져와!" 요청
+      ref.read(chatViewModelProvider.notifier).loadMoreHistory();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final chatState = ref.watch(chatViewModelProvider);
 
-    // 메시지 개수가 늘어나면(새 메시지 도착 시) 스크롤 내리기
     ref.listen(chatViewModelProvider, (previous, next) {
-      if (next.hasValue &&
-          (previous?.value?.length ?? 0) < next.value!.length) {
+      // 1. 데이터가 로드되지 않았거나 비어있으면 무시
+      if (!next.hasValue || next.value!.isEmpty) return;
+
+      // 2. 이전 데이터가 없으면(최초 로딩 시) -> 맨 아래로 스크롤
+      if (previous?.value == null || previous!.value!.isEmpty) {
+        // 최초 로딩시에는 약간의 딜레이 후 이동
+        _scrollToBottom();
+        return;
+      }
+
+      // 3. "새 메시지"가 왔는지 판단
+      // 리스트 길이는 늘어났더라도, 가장 최신 메시지(0번)의 ID(sequence)가 같다면
+      // 그건 "과거 데이터"를 불러온 것이므로 스크롤을 내리면 안 됨.
+      final prevLatestMsg = previous.value!.first;
+      final nextLatestMsg = next.value!.first;
+
+      // 최신 메시지가 달라졌을 때만 스크롤을 내림 (새 메시지 수신/전송 시)
+      if (prevLatestMsg.sequence != nextLatestMsg.sequence) {
         _scrollToBottom();
       }
     });
@@ -63,23 +111,37 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
       ),
       body: Column(
         children: [
-          _noticeArea(),
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeInOut,
+            height: _isNoticeVisible ? 60.0 : 0.0,
+            child: ClipRect(
+              child: SingleChildScrollView(
+                physics: const NeverScrollableScrollPhysics(),
+                child: SizedBox(height: 60.0, child: _noticeArea(context)),
+              ),
+            ),
+          ),
 
           // 1. 채팅 리스트 영역
           Expanded(
             child: chatState.draws(
               data: (messages) {
                 if (messages.isEmpty) {
-                  return const Center(child: Text('대화를 시작해보세요!'));
+                  return Center(child: Text(context.tr.chatNoMessages));
                 }
 
                 return ListView.builder(
                   controller: _scrollController,
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
+                  reverse: true,
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
                     final msg = messages[index];
-                    return _buildMessageBubble(msg);
+                    return ChatMessageBubbleWidget(msg: msg);
                   },
                 );
               },
@@ -87,51 +149,19 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
           ),
 
           // 2. 입력창 영역
-          _buildInputArea(),
+          _buildInputArea(context),
         ],
       ),
     );
   }
 
-  // 메시지 말풍선 위젯
-  Widget _buildMessageBubble(ChatMessageModel msg) {
-    final isMe = msg.messageRole == ChatMessageRole.user;
-
-    return Align(
-      alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 4),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        constraints: BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width * 0.7, // 화면의 70%까지만 차지
-        ),
-        decoration: BoxDecoration(
-          color: isMe ? Colors.blueAccent : Colors.grey[300],
-          borderRadius: BorderRadius.only(
-            topLeft: const Radius.circular(12),
-            topRight: const Radius.circular(12),
-            bottomLeft: isMe ? const Radius.circular(12) : Radius.circular(0),
-            bottomRight: isMe ? Radius.circular(0) : const Radius.circular(12),
-          ),
-        ),
-        child: Text(
-          msg.message,
-          style: TextStyle(
-            color: isMe ? Colors.white : Colors.black87,
-            fontSize: 16,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _noticeArea() {
+  Widget _noticeArea(BuildContext context) {
     return Container(
       width: double.infinity,
       color: Colors.yellow[100],
       padding: const EdgeInsets.all(8.0),
-      child: const Text(
-        '이 채팅은 선택한 AI 모델이 답변하기 때문에 느릴 수 있습니다.\n그리고 실제 상담사와의 대화가 아님을 유의하시고 참고만 하세요.',
+      child: Text(
+        context.tr.chatNoticeText,
         style: TextStyle(color: Colors.black87),
         textAlign: TextAlign.center,
       ),
@@ -139,7 +169,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   }
 
   // 하단 입력창 위젯
-  Widget _buildInputArea() {
+  Widget _buildInputArea(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8.0),
       color: Colors.white,
@@ -150,15 +180,14 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
             Expanded(
               child: TextField(
                 controller: _textController,
-                decoration: const InputDecoration(
-                  hintText: '메시지를 입력하세요...',
-                  border: OutlineInputBorder(),
-                  contentPadding: EdgeInsets.symmetric(
+                decoration: InputDecoration(
+                  hintText: context.tr.chatInputHintText,
+                  border: const OutlineInputBorder(),
+                  contentPadding: const EdgeInsets.symmetric(
                     horizontal: 12,
                     vertical: 8,
                   ),
                 ),
-                // 엔터 키 누르면 전송
                 onSubmitted: (_) => _handleSend(),
               ),
             ),

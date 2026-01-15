@@ -25,7 +25,12 @@ export class ChatGateway {
   @SubscribeMessage('connect_chat_messages')
   async handleMessage(
     @MessageBody()
-    data: { userId: number; message: string; messageRole: ChatMessageRole },
+    data: {
+      userId: number;
+      message: string;
+      messageRole: ChatMessageRole;
+      language: string;
+    },
     @ConnectedSocket() client: Socket,
   ) {
     console.log('Received message from client:', data);
@@ -45,6 +50,7 @@ export class ChatGateway {
       data.message,
       data.messageRole,
       client.id,
+      data.language,
     );
   }
 
@@ -54,15 +60,16 @@ export class ChatGateway {
     message: string,
     messageRole: ChatMessageRole,
     socketId: string,
+    language: string,
   ) {
     try {
       let llmResponse: string = 'N/A';
 
       // 1. 역할(Role)에 따라 적절한 LLM 함수 호출
       if (messageRole === ChatMessageRole.LLAMA) {
-        llmResponse = await this.fetchLlamaResponse(message);
+        llmResponse = await this.fetchLlamaResponse(message, language);
       } else if (messageRole === ChatMessageRole.GEMINI) {
-        llmResponse = await this.fetchGeminiResponse(message);
+        llmResponse = await this.fetchGeminiResponse(message, language);
       }
       console.log('LLM Response:', llmResponse);
 
@@ -82,11 +89,22 @@ export class ChatGateway {
     }
   }
 
-  async fetchLlamaResponse(message: string): Promise<string> {
-    return await this.llmService.generate(ChatMessageRole.LLAMA, message);
+  async fetchLlamaResponse(message: string, language: string): Promise<string> {
+    return await this.llmService.generate(
+      ChatMessageRole.LLAMA,
+      message,
+      language,
+    );
   }
 
-  async fetchGeminiResponse(message: string): Promise<string> {
-    return await this.llmService.generate(ChatMessageRole.GEMINI, message);
+  async fetchGeminiResponse(
+    message: string,
+    language: string,
+  ): Promise<string> {
+    return await this.llmService.generate(
+      ChatMessageRole.GEMINI,
+      message,
+      language,
+    );
   }
 }

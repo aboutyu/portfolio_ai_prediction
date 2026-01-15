@@ -209,6 +209,16 @@ class AppLocalizationsKo extends AppLocalizations {
   String get bloodPressureLogInputHintBloodPressureText => '혈압을 입력하세요';
 
   @override
+  String get chatInputHintText => '메시지를 입력하세요';
+
+  @override
+  String get chatNoticeText =>
+      '이 채팅은 선택한 AI 모델이 답변하기 때문에 느릴 수 있습니다.\n그리고 실제 상담사와의 대화가 아님을 유의하시고 참고만 하세요';
+
+  @override
+  String get chatNoMessages => '메시지가 없습니다.';
+
+  @override
   String get inputDateText => '날짜';
 
   @override

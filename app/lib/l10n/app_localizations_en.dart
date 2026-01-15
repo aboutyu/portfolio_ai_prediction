@@ -215,6 +215,16 @@ class AppLocalizationsEn extends AppLocalizations {
       'Enter your blood pressure';
 
   @override
+  String get chatInputHintText => 'Enter your message';
+
+  @override
+  String get chatNoticeText =>
+      'This chat may be slow because the selected AI model is answering.\nPlease note that this is not a conversation with a real counselor and is for reference only.';
+
+  @override
+  String get chatNoMessages => 'No messages.';
+
+  @override
   String get inputDateText => 'Date';
 
   @override
