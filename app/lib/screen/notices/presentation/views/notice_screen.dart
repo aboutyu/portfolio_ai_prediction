@@ -14,7 +14,7 @@ class NoticeScreen extends ConsumerWidget {
     final noticeState = ref.watch(noticeViewModelProvider);
 
     return Scaffold(
-      appBar: appBarWidget(context.tr.noticesButtonText),
+      appBar: AppbarWidget(title: context.tr.noticesButtonText),
       body: noticeState.draws(
         data: (notices) {
           if (notices.isEmpty) {

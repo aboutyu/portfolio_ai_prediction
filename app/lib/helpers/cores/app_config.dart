@@ -18,6 +18,10 @@ class AppConfig {
   // =================================
   // 나머지 env 값들도 여기에 추가
   static String get host => dotenv.env['HOST'] ?? 'http://localhost:3000';
+  static String get webSocketUrl =>
+      dotenv.env['WEB_SOCKET_URL'] ?? 'http://localhost:3000';
+  static String get webSocketPath =>
+      dotenv.env['WEB_SOCKET_PATH'] ?? '/socket.io';
   // =================================
 
   static bool get isProduction => _env == AppEnvironment.prod;

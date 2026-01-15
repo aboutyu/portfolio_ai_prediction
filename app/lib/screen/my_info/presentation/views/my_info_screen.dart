@@ -17,7 +17,7 @@ class MyInfoScreen extends ConsumerWidget {
     final packageInfo = ref.watch(packageInfoProvider);
 
     return Scaffold(
-      appBar: appBarWidget(context.tr.myinfoAppbarText),
+      appBar: AppbarWidget(title: context.tr.myinfoAppbarText),
       body: Center(
         child: userInfoAsync.draws(
           data: (userInfo) {

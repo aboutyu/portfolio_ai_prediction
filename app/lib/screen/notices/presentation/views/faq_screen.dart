@@ -15,7 +15,7 @@ class FaqScreen extends ConsumerWidget {
     final faqsState = ref.watch(faqViewModelProvider);
 
     return Scaffold(
-      appBar: appBarWidget(context.tr.faqsButtonText),
+      appBar: AppbarWidget(title: context.tr.faqsButtonText),
       // 2. 상태에 따른 UI 분기 처리
       body: faqsState.draws(
         data: (notices) {

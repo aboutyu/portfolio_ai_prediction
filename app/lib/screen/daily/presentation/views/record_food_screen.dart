@@ -32,7 +32,7 @@ class _RecordFoodScreenState extends ConsumerState<RecordFoodScreen> {
     final foodResult = ref.watch(recordFoodViewModelProvider);
 
     return Scaffold(
-      appBar: appBarWidget(context.tr.dailyFloatingFoodText),
+      appBar: AppbarWidget(title: context.tr.dailyFloatingFoodText),
       body: Column(
         children: [
           // 1. 상단 검색창 영역

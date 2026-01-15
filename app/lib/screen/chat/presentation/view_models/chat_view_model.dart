@@ -33,12 +33,20 @@ class ChatViewModel extends AsyncNotifier<List<ChatMessageModel>> {
   }
 
   void _initSocket() {
-    _socket = IO.io(AppConfig.host, <String, dynamic>{
-      'transports': ['websocket'],
-      'autoConnect': false,
-    });
+    _socket = IO.io(
+      AppConfig.webSocketUrl,
+      IO.OptionBuilder()
+          .setTransports(['websocket', 'polling'])
+          .setPath(AppConfig.webSocketPath)
+          .disableAutoConnect()
+          .build(),
+    );
 
+    // 연결 및 성공/실패 로그
     _socket.connect();
+    _socket.onConnect((_) => debugMessage('✅ Socket Connected to Server!'));
+    _socket.onConnectError((e) => debugMessage('❌ Connect Error: $e'));
+    _socket.onError((e) => debugMessage('❌ Error: $e'));
 
     _socket.on('receive_message', (data) {
       // 실시간으로 답변이 오면 리스트에 추가
@@ -54,19 +62,20 @@ class ChatViewModel extends AsyncNotifier<List<ChatMessageModel>> {
     return response.data ?? [];
   }
 
-  void sendMessage(String text) {
+  void sendMessage(String text, ChatMessageRole role) {
     debugMessage('Sending message: $text');
     try {
       // 1. 소켓으로 전송
       _socket.emit('connect_chat_messages', {
         'userId': userId,
         'message': text,
+        'messageRole': role.name,
       });
       // 2. 내 화면에 즉시 표시
       state = AsyncValue.data([
         ...state.value ?? [],
         ChatMessageModel(
-          messageRole: ChatMessageRole.user,
+          messageRole: role,
           message: text,
           sequence: 0,
           createTime: DateTime.now(),

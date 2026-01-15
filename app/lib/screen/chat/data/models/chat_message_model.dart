@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'chat_message_model.freezed.dart';
@@ -11,6 +13,27 @@ enum ChatMessageRole {
   llama,
   @JsonValue('gemini')
   gemini,
+}
+
+extension ChatMessageRoleExtension on ChatMessageRole {
+  Widget get iconAsset {
+    switch (this) {
+      case ChatMessageRole.user:
+        return Image.asset('assets/icons/user_icon.png');
+      case ChatMessageRole.llama:
+        return SvgPicture.asset(
+          'assets/icons/ollama_icon.svg',
+          width: 24,
+          height: 24,
+        );
+      case ChatMessageRole.gemini:
+        return SvgPicture.asset(
+          'assets/icons/gemini_icon.svg',
+          width: 24,
+          height: 24,
+        );
+    }
+  }
 }
 
 @freezed
