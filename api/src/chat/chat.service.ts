@@ -14,11 +14,19 @@ export class ChatService {
     private chatRepository: Repository<ChatMessages>,
   ) {}
 
+  private readonly chatMessageSelection = {
+    sequence: true,
+    messageRole: true,
+    message: true,
+    createTime: true,
+  } as const;
+
   // 채팅 메시지 목록
   async getMessages(userSequence: number, page: number, pageNum: number) {
     const skip = page * pageNum;
     const [messages, totalCount] = await this.chatRepository.findAndCount({
       where: { userSequence },
+      select: this.chatMessageSelection,
       order: { createTime: 'DESC' },
       skip: skip,
       take: pageNum,

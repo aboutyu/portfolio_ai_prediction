@@ -22,16 +22,14 @@ class ChatViewModel extends AsyncNotifier<List<ChatMessageModel>> {
     userId = int.parse(
       await _storage.read(key: AuthStorageKey.sequence.string) ?? '0',
     );
-    _initSocket();
-    await _loadHistory();
 
+    _initSocket();
     ref.onDispose(() {
       debugMessage('Socket Disconnected');
       _socket.disconnect(); // 연결 끊기
       _socket.dispose(); // 소켓 객체 메모리 해제
     });
-
-    return [];
+    return await _loadHistory();
   }
 
   void _initSocket() {
@@ -49,21 +47,33 @@ class ChatViewModel extends AsyncNotifier<List<ChatMessageModel>> {
     });
   }
 
-  Future<void> _loadHistory() async {
+  Future<List<ChatMessageModel>> _loadHistory() async {
     final repository = ref.read(chatMessageHistoryRepositoryProvider);
-    final response = await repository.fetchChatHistory(page: 1, pageNum: 20);
+    final response = await repository.fetchChatHistory(page: 0, pageNum: 20);
     state = AsyncValue.data(response.data ?? []);
+    return response.data ?? [];
   }
 
   void sendMessage(String text) {
-    // 1. 소켓으로 전송
-    _socket.emit('connect_chat_messages', {'userId': userId, 'message': text});
-    // 2. 내 화면에 즉시 표시
-    state = AsyncValue.data([
-      ...state.value ?? [],
-      ChatMessageModel(sender: ChatMessageRole.user, message: text),
-    ]);
+    debugMessage('Sending message: $text');
+    try {
+      // 1. 소켓으로 전송
+      _socket.emit('connect_chat_messages', {
+        'userId': userId,
+        'message': text,
+      });
+      // 2. 내 화면에 즉시 표시
+      state = AsyncValue.data([
+        ...state.value ?? [],
+        ChatMessageModel(
+          messageRole: ChatMessageRole.user,
+          message: text,
+          sequence: 0,
+          createTime: DateTime.now(),
+        ),
+      ]);
+    } catch (e) {
+      debugMessage('Error sending message: $e');
+    }
   }
-
-  // dispose 시 소켓 연결 해제
 }

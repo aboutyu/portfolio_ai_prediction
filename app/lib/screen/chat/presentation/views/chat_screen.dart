@@ -1,3 +1,4 @@
+import 'package:app/helpers/extensions/async_value_extension.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/screen/chat/data/models/chat_message_model.dart';
 import 'package:app/screen/chat/presentation/view_models/chat_view_model.dart';
@@ -55,12 +56,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
         children: [
           // 1. 채팅 리스트 영역
           Expanded(
-            child: chatState.when(
-              // 데이터 로딩 중
-              loading: () => const Center(child: CircularProgressIndicator()),
-              // 에러 발생
-              error: (err, stack) => Center(child: Text('에러 발생: $err')),
-              // 데이터 성공 로드
+            child: chatState.draws(
               data: (messages) {
                 if (messages.isEmpty) {
                   return const Center(child: Text('대화를 시작해보세요!'));
@@ -88,9 +84,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
 
   // 메시지 말풍선 위젯
   Widget _buildMessageBubble(ChatMessageModel msg) {
-    // role이나 sender를 확인하여 나(User)인지 AI(Bot)인지 구분
-    // 모델의 구조에 따라 msg.sender == ChatMessageRole.user 등으로 수정하세요.
-    final isMe = msg.sender == ChatMessageRole.user;
+    final isMe = msg.messageRole == ChatMessageRole.user;
 
     return Align(
       alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
