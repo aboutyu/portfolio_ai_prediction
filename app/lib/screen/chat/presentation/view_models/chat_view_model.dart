@@ -75,7 +75,7 @@ class ChatViewModel extends AsyncNotifier<List<ChatMessageModel>> {
       state = AsyncValue.data([
         ...state.value ?? [],
         ChatMessageModel(
-          messageRole: role,
+          messageRole: ChatMessageRole.user,
           message: text,
           sequence: 0,
           createTime: DateTime.now(),

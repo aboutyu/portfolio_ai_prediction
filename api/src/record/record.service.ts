@@ -48,6 +48,9 @@ export class RecordService {
     this.genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
   }
 
+  private readonly ollamaClient: Ollama;
+  private genAI: GoogleGenerativeAI;
+
   private readonly foodSelection = {
     sequence: true,
     groupUuid: true,
@@ -66,9 +69,6 @@ export class RecordService {
     recordDate: true,
     memo: true,
   } as const;
-
-  private readonly ollamaClient: Ollama;
-  private genAI: GoogleGenerativeAI;
 
   // 타임라인 목록
   async getTimeline(

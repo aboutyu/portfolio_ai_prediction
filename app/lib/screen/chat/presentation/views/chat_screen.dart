@@ -3,7 +3,6 @@ import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/screen/chat/data/models/chat_message_model.dart';
 import 'package:app/screen/chat/presentation/view_models/chat_view_model.dart';
 import 'package:app/widgets/appbar_widgets/appbar_chat_widget.dart';
-import 'package:app/widgets/appbar_widgets/appbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
