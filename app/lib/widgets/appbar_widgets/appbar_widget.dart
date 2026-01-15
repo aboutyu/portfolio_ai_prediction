@@ -1,58 +1,27 @@
-import 'package:app/helpers/commons/common_funcs.dart';
 import 'package:app/helpers/commons/pretendard.dart';
 import 'package:flutter/material.dart';
 
-AppBar appBarWidget(String title, {List<Widget>? actions}) {
-  return AppBar(
-    title: appBarText(title),
-    centerTitle: true,
-    backgroundColor: Colors.white,
-    elevation: 1,
-    actions: actions,
-  );
-}
-
-AppBar appBarWidgetCalendar(
-  BuildContext context,
-  String title,
-  DateTime date,
-  void Function(DateTime) onDateSelected,
-) {
-  return appBarWidget(
-    title,
-    actions: [
-      IconButton(
-        icon: const Icon(Icons.calendar_month),
-        color: Colors.grey,
-        onPressed: () async {
-          final selectedDate = await showDatePicker(
-            context: context,
-            initialDate: date,
-            firstDate: firstCalendarDate,
-            lastDate: lastCalendarDate,
-            builder: (context, child) {
-              return Theme(
-                data: Theme.of(context).copyWith(
-                  colorScheme: const ColorScheme.light(
-                    primary: Colors.black,
-                    onPrimary: Colors.white,
-                    onSurface: Colors.black,
-                  ),
-                ),
-                child: child!,
-              );
-            },
-          );
-
-          if (selectedDate != null) {
-            onDateSelected(selectedDate);
-          }
-        },
-      ),
-    ],
-  );
-}
-
 Text appBarText(String text) {
   return Text(text, style: Pretendard.semiBold(size: 18, color: Colors.black));
+}
+
+class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
+  const AppbarWidget({super.key, required this.title, this.actions});
+
+  final String title;
+  final List<Widget>? actions;
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: appBarText(title),
+      centerTitle: true,
+      backgroundColor: Colors.white,
+      elevation: 1,
+      actions: actions,
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

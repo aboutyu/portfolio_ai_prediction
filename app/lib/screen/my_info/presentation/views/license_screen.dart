@@ -13,7 +13,7 @@ class LicenseScreen extends ConsumerWidget {
     final licenseListAsync = ref.watch(ossLicenseProvider);
 
     return Scaffold(
-      appBar: appBarWidget(context.tr.licenseInfoButtonText),
+      appBar: AppbarWidget(title: context.tr.licenseInfoButtonText),
       body: licenseListAsync.when(
         data: (licenses) {
           if (licenses.isEmpty) {
@@ -62,7 +62,7 @@ class _LicenseDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(license.name),
+      appBar: AppbarWidget(title: license.name),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(

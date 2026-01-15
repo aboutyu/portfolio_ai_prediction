@@ -2,7 +2,7 @@ import 'package:app/helpers/extensions/async_value_extension.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/screen/chat/data/models/chat_message_model.dart';
 import 'package:app/screen/chat/presentation/view_models/chat_view_model.dart';
-import 'package:app/widgets/appbar_widgets/appbar_widget.dart';
+import 'package:app/widgets/appbar_widgets/appbar_chat_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -16,6 +16,7 @@ class ChatScreen extends ConsumerStatefulWidget {
 class _ChatScreenState extends ConsumerState<ChatScreen> {
   final TextEditingController _textController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+  ChatMessageRole _role = ChatMessageRole.llama;
 
   @override
   void dispose() {
@@ -51,9 +52,19 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     });
 
     return Scaffold(
-      appBar: appBarWidget(context.tr.chatAppbarText),
+      appBar: AppbarChatWidget(
+        title: context.tr.chatAppbarText,
+        initRole: _role,
+        onModelSelected: (role) {
+          setState(() {
+            _role = role;
+          });
+        },
+      ),
       body: Column(
         children: [
+          _noticeArea(),
+
           // 1. 채팅 리스트 영역
           Expanded(
             child: chatState.draws(
@@ -114,6 +125,19 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     );
   }
 
+  Widget _noticeArea() {
+    return Container(
+      width: double.infinity,
+      color: Colors.yellow[100],
+      padding: const EdgeInsets.all(8.0),
+      child: const Text(
+        '이 채팅은 선택한 AI 모델이 답변하기 때문에 느릴 수 있습니다.\n그리고 실제 상담사와의 대화가 아님을 유의하시고 참고만 하세요.',
+        style: TextStyle(color: Colors.black87),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
   // 하단 입력창 위젯
   Widget _buildInputArea() {
     return Container(
@@ -155,7 +179,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     if (text.isEmpty) return;
 
     // ViewModel의 sendMessage 호출
-    ref.read(chatViewModelProvider.notifier).sendMessage(text);
+    ref.read(chatViewModelProvider.notifier).sendMessage(text, _role);
 
     // 입력창 비우기
     _textController.clear();

@@ -30,7 +30,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
     final termsList = ref.watch(termsViewModelProvider);
 
     return Scaffold(
-      appBar: appBarWidget('Sign Up'),
+      appBar: AppbarWidget(title: 'Sign Up'),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

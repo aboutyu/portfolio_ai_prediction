@@ -16,7 +16,7 @@ import 'package:app/screen/daily/presentation/views/record_weight_screen.dart';
 import 'package:app/screen/daily/presentation/widgets/daily_expandable_fab_widget.dart';
 import 'package:app/screen/daily/presentation/widgets/daily_food_log_widget.dart';
 import 'package:app/screen/daily/presentation/widgets/daily_health_log_widget.dart';
-import 'package:app/widgets/appbar_widgets/appbar_widget.dart';
+import 'package:app/widgets/appbar_widgets/appbar_calendar_widget.dart';
 import 'package:app/widgets/list_widgets/no_item_widget.dart';
 import 'package:app/widgets/show_dialogs/base_dialog.dart';
 import 'package:app/widgets/show_dialogs/single_dialog_widget.dart';
@@ -33,11 +33,10 @@ class DailyScreen extends ConsumerWidget {
     final logsResponse = ref.watch(dailyViewModelProvider);
 
     return Scaffold(
-      appBar: appBarWidgetCalendar(
-        context,
-        '${context.tr.dailyAppbarText}(${selectedDate.forMonthDay})',
-        selectedDate,
-        (DateTime selectedDate) async =>
+      appBar: AppbarCalendarWidget(
+        title: '${context.tr.dailyAppbarText}(${selectedDate.forMonthDay})',
+        date: selectedDate,
+        onDateSelected: (DateTime selectedDate) async =>
             _fetchDailyTimeline(context, ref, selectedDate),
       ),
       body: logsResponse.draws(
