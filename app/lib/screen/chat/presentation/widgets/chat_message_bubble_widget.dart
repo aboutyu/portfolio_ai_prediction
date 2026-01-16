@@ -58,11 +58,8 @@ class ChatMessageBubbleWidget extends StatelessWidget {
                 fontSize: 16,
                 height: 1.5, // 줄간격 살짝 넉넉하게
               ),
-              // **굵게** 스타일
               strong: TextStyle(color: textColor, fontWeight: FontWeight.bold),
-              // * 목록 스타일
               listBullet: TextStyle(color: textColor, fontSize: 16),
-              // 코드 블럭 스타일 (옵션)
               code: TextStyle(
                 color: _isMe ? Colors.white : Colors.black,
                 backgroundColor: _isMe ? Colors.blue[700] : Colors.grey[400],
