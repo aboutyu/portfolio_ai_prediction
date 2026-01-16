@@ -46,7 +46,7 @@ abstract class ChatMessageModel with _$ChatMessageModel {
     /// 메시지 내용
     required String message,
 
-    /// 생성 시간 (JSON의 ISO 8601 문자열이 DateTime으로 자동 변환됨)
+    /// 생성 시간 (JSON의 ISO 8601 문자열이 DateTime으로 변환)
     required DateTime createTime,
   }) = _ChatMessageModel;
 
