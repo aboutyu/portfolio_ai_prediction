@@ -39,7 +39,7 @@ extension ChatMessageRoleExtension on ChatMessageRole {
 @freezed
 abstract class ChatMessageModel with _$ChatMessageModel {
   const factory ChatMessageModel({
-    /// 메시지 고유 번호 (PK)
+    /// 메시지 시퀀스
     required int sequence,
     required ChatMessageRole messageRole,
 
