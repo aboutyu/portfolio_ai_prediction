@@ -28,7 +28,6 @@ jobs:
         working-directory: ./app
         run: flutter pub get
 
-      # 5. 환경 설정 파일 생성
       - name: Create Secret Files
         working-directory: ./app
         env:
@@ -52,15 +51,6 @@ jobs:
           # B. google-services.json 생성 (Python 스크립트 사용)
           cd android/app
           python3 -c "import os; f = open('google-services.json', 'w'); f.write(os.environ['JSON_DATA']); f.close()"
-
-      # [최종 확인] 파일 내용 출력
-      - name: Debug google-services.json
-        working-directory: ./app/android/app
-        run: |
-          echo "=== JSON FILE CONTENT START ==="
-          cat google-services.json
-          echo ""
-          echo "=== JSON FILE CONTENT END ==="
 
       - name: Build APK
         working-directory: ./app
