@@ -45,8 +45,8 @@ jobs:
           fi
 
           # A. .development.env 파일 생성
-          mkdir -p assets/.env
-          echo "$ENV_DATA" > assets/.env/.development.env
+          mkdir -p assets/env
+          echo "$ENV_DATA" > assets/env/development.env
 
           # B. google-services.json 생성 (Python 스크립트 사용)
           cd android/app
