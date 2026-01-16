@@ -1,4 +1,4 @@
-name: App Deploy (Android)
+name: Dev App Deploy (Android)
 
 on:
   push:
