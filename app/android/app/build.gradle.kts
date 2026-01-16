@@ -34,11 +34,26 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        release {
+            // key.properties 파일이 있으면 그 정보를 쓰고, 없으면(로컬 디버그 등) debug 키를 씀
+            if (keystorePropertiesFile.exists()) {
+                keyAlias = keystoreProperties['keyAlias']
+                keyPassword = keystoreProperties['keyPassword']
+                storeFile = file(keystoreProperties['storeFile'])
+                storePassword = keystoreProperties['storePassword']
+            } else {
+                // 로컬에서 에러 안 나게 하려면 임시로 debug 설정 유지 (권장하진 않음)
+                initWith signingConfigs.debug
+            }
+        }
+    }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig signingConfigs.release
         }
     }
 }
