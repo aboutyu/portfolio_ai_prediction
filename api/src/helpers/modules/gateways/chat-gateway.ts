@@ -73,7 +73,7 @@ export class ChatGateway {
       }
       console.log('LLM Response:', llmResponse);
 
-      // 4. LLM 응답 DB 저장
+      // 2. LLM 응답 DB 저장
       const savedLLMMsg = await this.chatService.saveMessage(
         userId,
         llmResponse,
@@ -81,7 +81,7 @@ export class ChatGateway {
       );
       console.log('Saved LLM Message:', savedLLMMsg);
 
-      // 5. 실시간 전송 (해당 유저가 여전히 접속 중인지 확인 후 전송)
+      // 3. 실시간 전송 (해당 유저가 여전히 접속 중인지 확인 후 전송)
       // socketId로 특정하거나, userId로 룸을 만들어 전송
       this.server.to(socketId).emit('receive_message', savedLLMMsg);
     } catch (e) {
