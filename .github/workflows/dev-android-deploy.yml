@@ -48,8 +48,9 @@ jobs:
           mkdir -p assets/env
           echo "$ENV_DATA" > assets/env/development.env
 
-          # V. production.env 파일 생성
+          # V. 나머지 빈 .env 파일 생성
           touch assets/env/production.env
+          touch assets/env/local.env
 
           # C. google-services.json 생성 (Python 스크립트 사용)
           cd android/app
