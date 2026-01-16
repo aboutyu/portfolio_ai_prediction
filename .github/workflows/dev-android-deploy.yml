@@ -37,6 +37,13 @@ jobs:
         run: |
           # [디버깅] Secret이 들어왔는지 길이만 확인 (내용은 보안상 ***로 나옴)
           echo "Checking Secret Exists..."
+          if [ -z "$ENV_DATA" ]; then
+            echo "❌ Error: ENV_DEVELOPMENT_CONTENT is empty!"
+            exit 1
+          else
+            echo "✅ ENV_DEVELOPMENT_CONTENT found (Length: ${#JSON_DATA})"
+          fi
+
           if [ -z "$JSON_DATA" ]; then
             echo "❌ Error: GOOGLE_SERVICES_JSON is empty!"
             exit 1
