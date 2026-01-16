@@ -7,7 +7,7 @@ final String deviceType = Platform.isAndroid ? 'aos' : 'ios';
 final String localeName = Platform.localeName;
 
 final Locale _deviceLocale = PlatformDispatcher.instance.locale;
-final String localeLanguage = _deviceLocale.languageCode; // "ko" (분리되어 있음)
+final String localeLanguage = _deviceLocale.languageCode; // "ko"
 final String? localeCountry = _deviceLocale.countryCode; // "KR" (분리되어 있음)
 
 final int defaultPageNum = 20;
