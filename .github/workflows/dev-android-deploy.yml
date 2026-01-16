@@ -27,25 +27,28 @@ jobs:
         working-directory: ./app
         run: flutter pub get
 
+      # 5. 환경 설정 파일 생성 (Python 사용하여 안전하게 생성)
       - name: Create Secret Files
         working-directory: ./app
+        env:
+          ENV_DATA: ${{ secrets.ENV_DEVELOPMENT_CONTENT }}
+          JSON_DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: |
           # A. .development.env 파일 생성
           mkdir -p assets/.env
-          echo "${{ secrets.ENV_DEVELOPMENT_CONTENT }}" > assets/.env/.development.env
+          echo "$ENV_DATA" > assets/.env/.development.env
 
-          # B. google-services.json 생성 (Plain Text 방식)
+          # B. google-services.json 생성 (Python 스크립트 사용)
           cd android/app
-          # [핵심] 작은따옴표('')를 사용하여 JSON 내부의 큰따옴표("")와 충돌하지 않게 함
-          echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > google-services.json
+          python3 -c "import os; f = open('google-services.json', 'w'); f.write(os.environ['JSON_DATA']); f.close()"
 
-      # [추가] 파일 내용 확인용 디버깅 (빌드 성공 후엔 삭제 가능)
+      # [디버깅] 생성된 파일 내용 확인
       - name: Debug google-services.json
         working-directory: ./app/android/app
         run: |
-          echo "=== Checking google-services.json content ==="
+          echo "=== JSON START ==="
           cat google-services.json
-          echo "============================================="
+          echo "=== JSON END ==="
 
       - name: Build APK
         working-directory: ./app
