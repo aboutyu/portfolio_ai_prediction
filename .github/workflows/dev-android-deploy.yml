@@ -1,0 +1,62 @@
+name: App Deploy (Android)
+
+on:
+  push:
+    branches: ["dev"]
+    # [핵심] app 폴더 내부가 바뀔 때만 실행
+    paths:
+      - "app/**"
+
+jobs:
+  android-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        working-directory: ./app
+        run: flutter pub get
+
+      - name: Create Secret Files
+        working-directory: ./app
+        run: |
+          # A. .development.env 파일 생성
+          mkdir -p assets/.env
+          echo "${{ secrets.ENV_DEVELOPMENT_CONTENT }}" > assets/.env/.development.env
+
+          # B. google-services.json 생성 (Plain Text 방식)
+          cd android/app
+          # [핵심] 작은따옴표('')를 사용하여 JSON 내부의 큰따옴표("")와 충돌하지 않게 함
+          echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > google-services.json
+
+      # [추가] 파일 내용 확인용 디버깅 (빌드 성공 후엔 삭제 가능)
+      - name: Debug google-services.json
+        working-directory: ./app/android/app
+        run: |
+          echo "=== Checking google-services.json content ==="
+          cat google-services.json
+          echo "============================================="
+
+      - name: Build APK
+        working-directory: ./app
+        run: flutter build apk --release --dart-define=ENV=dev
+
+      - name: Upload to Firebase
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
+          groups: testers
+          file: app/build/app/outputs/flutter-apk/app-release.apk
+          releaseNotes: "Branch: dev / Env: dev"
