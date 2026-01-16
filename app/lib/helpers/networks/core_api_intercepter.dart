@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:app/helpers/commons/common_funcs.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/helpers/routers/router.dart';
@@ -30,7 +29,7 @@ class CoreApiIntercepter extends Interceptor {
 
     // [기기 정보 헤더] 언어, 타임존, OS 등
     try {
-      options.headers['Accept-Language'] = Platform.localeName;
+      options.headers['Accept-Language'] = localeName;
       options.headers['x-timezone'] = DateTime.now().timeZoneName;
       options.headers['x-platform'] = deviceType;
     } catch (e) {

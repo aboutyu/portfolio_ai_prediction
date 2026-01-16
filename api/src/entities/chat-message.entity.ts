@@ -35,7 +35,7 @@ export class ChatMessages {
   // 3. message (tinytext)
   @Column({
     name: 'message',
-    type: 'tinytext',
+    type: 'text',
   })
   message: string;
 

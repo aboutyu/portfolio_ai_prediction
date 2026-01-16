@@ -13,23 +13,29 @@ export class LlmService {
   constructor(private readonly configService: ConfigService) {
     // 1. Ollama 초기화
     this.ollamaClient = new Ollama({
-      host: process.env.AI_API_URL || 'http://localhost:11434',
+      host:
+        this.configService.get<string>('AI_API_URL') ||
+        'http://localhost:11434',
     });
 
     // 2. Gemini 초기화
     this.geminiClient = new GoogleGenerativeAI(
-      process.env.GEMINI_API_KEY || '',
+      this.configService.get<string>('GEMINI_API_KEY') || '',
     );
   }
 
   // ✅ 통합된 생성 메서드
-  async generate(role: ChatMessageRole, prompt: string): Promise<string> {
+  async generate(
+    role: ChatMessageRole,
+    prompt: string,
+    language: string,
+  ): Promise<string> {
     try {
       switch (role) {
         case ChatMessageRole.LLAMA:
-          return await this.generateLlama(prompt);
+          return await this.generateLlama(prompt, language);
         case ChatMessageRole.GEMINI:
-          return await this.generateGemini(prompt);
+          return await this.generateGemini(prompt, language);
         default:
           this.logger.error(`Failed to generate text using ${role}`);
           return `Unsupported LLM role: ${role}`;
@@ -40,14 +46,20 @@ export class LlmService {
     }
   }
 
-  private async generateLlama(prompt: string): Promise<string> {
+  private async generateLlama(
+    prompt: string,
+    language: string,
+  ): Promise<string> {
     try {
       const response = await this.ollamaClient.chat({
-        model: process.env.AI_MODEL || 'llama3.2:1b',
+        model: this.configService.get<string>('AI_MODEL') || 'llama3.2:1b',
         // format: 'json',
         stream: false,
         messages: [
-          { role: 'user', content: this.buildPromptWithLanguage(prompt, 'ko') },
+          {
+            role: 'user',
+            content: this.buildPromptWithLanguage(prompt, language),
+          },
         ],
       });
       return response.message.content;
@@ -57,7 +69,10 @@ export class LlmService {
     }
   }
 
-  private async generateGemini(prompt: string): Promise<string> {
+  private async generateGemini(
+    prompt: string,
+    language: string,
+  ): Promise<string> {
     const model = {
       model: 'gemini-2.5-flash',
       generationConfig: {
@@ -67,7 +82,7 @@ export class LlmService {
     };
     const genAi = this.geminiClient.getGenerativeModel(model);
     const result = await genAi.generateContent(
-      this.buildPromptWithLanguage(prompt, 'ko'),
+      this.buildPromptWithLanguage(prompt, language),
     );
     const response = result.response;
     return response.text();
@@ -86,7 +101,6 @@ export class LlmService {
       instruction =
         '\n\n(Please answer in the same language as the user asked.)';
     }
-
     return prompt + instruction;
   }
 }

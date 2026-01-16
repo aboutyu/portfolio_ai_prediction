@@ -494,6 +494,24 @@ abstract class AppLocalizations {
   /// **'혈압을 입력하세요'**
   String get bloodPressureLogInputHintBloodPressureText;
 
+  /// No description provided for @chatInputHintText.
+  ///
+  /// In ko, this message translates to:
+  /// **'메시지를 입력하세요'**
+  String get chatInputHintText;
+
+  /// No description provided for @chatNoticeText.
+  ///
+  /// In ko, this message translates to:
+  /// **'이 채팅은 선택한 AI 모델이 답변하기 때문에 느릴 수 있습니다.\n그리고 실제 상담사와의 대화가 아님을 유의하시고 참고만 하세요'**
+  String get chatNoticeText;
+
+  /// No description provided for @chatNoMessages.
+  ///
+  /// In ko, this message translates to:
+  /// **'메시지가 없습니다.'**
+  String get chatNoMessages;
+
   /// No description provided for @inputDateText.
   ///
   /// In ko, this message translates to:
