@@ -3,7 +3,6 @@ name: App Deploy (Android)
 on:
   push:
     branches: ["dev"]
-    # [핵심] app 폴더 내부가 바뀔 때만 실행
     paths:
       - "app/**"
 
