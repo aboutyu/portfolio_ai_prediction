@@ -59,6 +59,10 @@ jobs:
           touch assets/env/production.env
           touch assets/env/local.env
 
+          echo "=== 📂 Checking Created Files ==="
+          ls -R assets
+          echo "================================="
+
           # C. google-services.json 생성 (Python 스크립트 사용)
           cd android/app
           python3 -c "import os; f = open('google-services.json', 'w'); f.write(os.environ['JSON_DATA']); f.close()"
