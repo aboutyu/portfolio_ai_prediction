@@ -8,6 +8,15 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+import java.util.Properties
+import java.io.FileInputStream
+
+val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+}
+
 android {
     namespace = "portfolio.ai.prediction"
     compileSdk = flutter.compileSdkVersion
@@ -35,25 +44,24 @@ android {
     }
 
     signingConfigs {
-        release {
-            // key.properties 파일이 있으면 그 정보를 쓰고, 없으면(로컬 디버그 등) debug 키를 씀
+        create("release") {
+            // key.properties 파일이 있을 때만 로드
             if (keystorePropertiesFile.exists()) {
-                keyAlias = keystoreProperties['keyAlias']
-                keyPassword = keystoreProperties['keyPassword']
-                storeFile = file(keystoreProperties['storeFile'])
-                storePassword = keystoreProperties['storePassword']
-            } else {
-                // 로컬에서 에러 안 나게 하려면 임시로 debug 설정 유지 (권장하진 않음)
-                initWith signingConfigs.debug
+                keyAlias = keystoreProperties["keyAlias"] as String
+                keyPassword = keystoreProperties["keyPassword"] as String
+                storeFile = file(keystoreProperties["storeFile"] as String)
+                storePassword = keystoreProperties["storePassword"] as String
             }
         }
     }
 
     buildTypes {
-        release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.release
+        getByName("release") {
+            // 위에서 만든 release 서명 적용
+            signingConfig = signingConfigs.getByName("release")
+            // 만약 난독화가 필요하면 아래 옵션 사용 (기본값 false)
+            isMinifyEnabled = false
+            isShrinkResources = false
         }
     }
 }
