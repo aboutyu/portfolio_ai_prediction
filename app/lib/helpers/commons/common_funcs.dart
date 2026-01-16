@@ -8,7 +8,7 @@ final String localeName = Platform.localeName;
 
 final Locale _deviceLocale = PlatformDispatcher.instance.locale;
 final String localeLanguage = _deviceLocale.languageCode; // "ko"
-final String? localeCountry = _deviceLocale.countryCode; // "KR" (분리되어 있음)
+final String? localeCountry = _deviceLocale.countryCode; // "KR"
 
 final int defaultPageNum = 20;
 
