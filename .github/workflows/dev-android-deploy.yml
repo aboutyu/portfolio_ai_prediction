@@ -53,7 +53,7 @@ jobs:
 
           # A. development.env 파일 생성
           mkdir -p assets/env
-          echo "$ENV_DATA" > assets/env/development.env
+          python3 -c "import os; f = open('assets/env/development.env', 'w'); f.write(os.environ['ENV_DATA']); f.close()"
 
           # V. 나머지 빈 .env 파일 생성
           touch assets/env/production.env
