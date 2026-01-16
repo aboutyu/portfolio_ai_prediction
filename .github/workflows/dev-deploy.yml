@@ -56,14 +56,11 @@ jobs:
       - name: Create Secret Files
         working-directory: ./app
         run: |
-          # A. .env 파일 생성 (루트)
-          echo "${{ secrets.ENV_FILE_CONTENT }}" > .env
-          
-          # B. .development.env 파일 생성 (assets 폴더)
+          # .development.env 파일 생성 (assets 폴더)
           mkdir -p assets/.env
           echo "${{ secrets.ENV_DEVELOPMENT_CONTENT }}" > assets/.env/.development.env
 
-          # C. google-services.json 생성 (Android 폴더, Base64 디코딩)
+          # google-services.json 생성 (Android 폴더, Base64 디코딩)
           # 주의: Base64로 인코딩된 Secret을 다시 파일로 복원합니다.
           cd android/app
           echo "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" | base64 -d > google-services.json
