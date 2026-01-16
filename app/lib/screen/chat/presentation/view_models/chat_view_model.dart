@@ -61,7 +61,7 @@ class ChatViewModel extends AsyncNotifier<List<ChatMessageModel>> {
       // 새 메시지를 맨 앞에 추가합니다.
       state = AsyncValue.data([
         newMessage, // 새 메시지 (Index 0 -> 화면 맨 아래)
-        ...state.value ?? [], // 기존 메시지
+        ...state.value ?? [],
       ]);
     });
   }
