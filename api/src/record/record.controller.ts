@@ -23,7 +23,29 @@ import { AccessTokenPayload } from 'src/auth/cert-token.service';
 @ApiTags('기록 관련 API')
 @Controller('record')
 export class RecordController {
-  constructor(private readonly recordService: RecordService) {}
+  constructor(private readonly recordService: RecordService) { }
+  
+  // 타임라인 날짜별 기록 조회
+  @Get('timeline/list/date')
+  @ApiOperation({
+    summary: '타임라인 날짜별 기록 조회 API',
+    description: '사용자의 타임라인을 날짜 기준으로 목록을 조회합니다.',
+  })
+  async getTimelineByGroupingDate(
+    @Query('page', ParseIntPipe) page: number = 0,
+    @Query('pageNum', ParseIntPipe) pageNum: number = 10,
+    @Req() request: express.Request,
+  ) {
+    const user = request.user as AccessTokenPayload;
+    if (!user) {
+      throw new Error('Unauthorized');
+    }
+    return this.recordService.getTimelineByGroupingDate(
+      user.userSequence,
+      page,
+      pageNum,
+    );
+  }
 
   // 타임라인 목록
   @Get('timeline')
