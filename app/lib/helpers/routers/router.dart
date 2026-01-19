@@ -11,7 +11,9 @@ import 'package:app/screen/my_info/presentation/views/my_info_screen.dart';
 import 'package:app/screen/notices/presentation/views/faq_screen.dart';
 import 'package:app/screen/notices/presentation/views/notice_screen.dart';
 import 'package:app/screen/tabbar/presentation/views/tabbar_screen.dart';
+import 'package:app/widgets/splash/splash_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:app/screen/auth/presentation/views/login_screen.dart';
@@ -90,11 +92,23 @@ GoRouter router(Ref ref) {
 
     // 3. 라우트 정의
     routes: [
-      GoRoute(path: '/splash', builder: (context, state) => LoginScreen()),
-      GoRoute(path: '/login', builder: (context, state) => LoginScreen()),
+      GoRoute(path: '/splash', builder: (context, state) => SplashWidget()),
+      GoRoute(
+        path: '/login',
+        builder: (context, state) {
+          FlutterNativeSplash.remove();
+          return LoginScreen();
+        },
+      ),
       GoRoute(path: '/signup', builder: (context, state) => SignupScreen()),
 
-      GoRoute(path: '/', redirect: (context, state) => '/home'),
+      GoRoute(
+        path: '/',
+        redirect: (context, state) {
+          FlutterNativeSplash.remove();
+          return '/home';
+        },
+      ),
 
       GoRoute(
         path: '/terms',

@@ -4,12 +4,13 @@ import 'package:app/helpers/enums/app_environment.enum.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 class AppInitializer {
   const AppInitializer._();
 
-  static Future<void> initialize() async {
+  static Future<void> initialize(WidgetsBinding widgetsBinding) async {
     WidgetsFlutterBinding.ensureInitialized();
 
     await _loadEnvFile();
@@ -24,6 +25,9 @@ class AppInitializer {
 
     // firebase 초기화
     await Firebase.initializeApp(options: AppConfig.firebaseOptions);
+
+    // Splash 화면 유지
+    FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   }
 
   static Future<void> _loadEnvFile() async {
