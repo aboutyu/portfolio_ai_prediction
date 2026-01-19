@@ -15,9 +15,9 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ChatMessageModel {
 
-/// 메시지 고유 번호 (PK)
+/// 메시지 시퀀스
  int get sequence; ChatMessageRole get messageRole;/// 메시지 내용
- String get message;/// 생성 시간 (JSON의 ISO 8601 문자열이 DateTime으로 자동 변환됨)
+ String get message;/// 생성 시간 (JSON의 ISO 8601 문자열이 DateTime으로 변환)
  DateTime get createTime;
 /// Create a copy of ChatMessageModel
 /// with the given fields replaced by the non-null parameter values.
@@ -218,12 +218,12 @@ class _ChatMessageModel implements ChatMessageModel {
   const _ChatMessageModel({required this.sequence, required this.messageRole, required this.message, required this.createTime});
   factory _ChatMessageModel.fromJson(Map<String, dynamic> json) => _$ChatMessageModelFromJson(json);
 
-/// 메시지 고유 번호 (PK)
+/// 메시지 시퀀스
 @override final  int sequence;
 @override final  ChatMessageRole messageRole;
 /// 메시지 내용
 @override final  String message;
-/// 생성 시간 (JSON의 ISO 8601 문자열이 DateTime으로 자동 변환됨)
+/// 생성 시간 (JSON의 ISO 8601 문자열이 DateTime으로 변환)
 @override final  DateTime createTime;
 
 /// Create a copy of ChatMessageModel
