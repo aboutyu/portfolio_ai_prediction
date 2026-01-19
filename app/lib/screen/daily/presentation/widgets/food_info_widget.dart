@@ -1,4 +1,5 @@
 import 'package:app/helpers/commons/common_funcs.dart';
+import 'package:app/helpers/extensions/buildcontext_extension.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/screen/daily/data/models/food_nutrition_model.dart';
 import 'package:app/screen/daily/presentation/view_models/record_food_view_model.dart';
@@ -202,7 +203,7 @@ class FoodInfoWidget extends ConsumerWidget {
 
   Future<void> _onSave(BuildContext context, WidgetRef ref) async {
     try {
-      ref
+      await ref
           .read(recordFoodViewModelProvider.notifier)
           .saveFoodRecord(
             food.foodName,
@@ -210,8 +211,7 @@ class FoodInfoWidget extends ConsumerWidget {
             selectedDate,
             null,
           );
-
-      Navigator.pop(context);
+      context.safePop(selectedDate);
     } catch (e) {
       debugMessage('Error saving food record: $e');
     }

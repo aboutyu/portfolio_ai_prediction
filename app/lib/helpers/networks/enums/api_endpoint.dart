@@ -5,6 +5,7 @@ import 'package:app/screen/auth/data/models/terms_model.dart';
 import 'package:app/screen/chat/data/models/chat_message_model.dart';
 import 'package:app/screen/daily/data/models/food_nutrition_model.dart';
 import 'package:app/screen/daily/data/models/timeline_item.model.dart';
+import 'package:app/screen/home/data/models/timeline_date_model.dart';
 import 'package:app/screen/notices/data/models/faq_category_model.dart';
 import 'package:app/screen/notices/data/models/notice_model.dart';
 
@@ -16,6 +17,10 @@ enum ApiEndpoint {
   leave(path: '/membership/leave', method: 'DELETE'), // 회원탈퇴
   termsList(path: '/membership/terms/list', method: 'GET'), // 약관목록 조회
 
+  timelineListDate(
+    path: '/record/timeline/list/date',
+    method: 'GET',
+  ), // 타임라인 날짜 목록 조회
   timeline(path: '/record/timeline', method: 'GET'), // 타임라인 조회
   timelineDate(path: '/record/timeline/date', method: 'GET'), // 특정 날짜 타임라인 조회
 
@@ -95,6 +100,17 @@ enum ApiEndpoint {
             json as Map<String, dynamic>,
             (dataJson) => (dataJson as List<dynamic>)
                 .map((e) => TermsModel.fromJson(e as Map<String, dynamic>))
+                .toList(),
+          );
+          return wrapper as CoreResponse<T>;
+        };
+
+      case ApiEndpoint.timelineListDate:
+        return <T>(json) {
+          final wrapper = CoreResponse<List<TimelineDate>>.fromJson(
+            json as Map<String, dynamic>,
+            (dataJson) => (dataJson as List<dynamic>)
+                .map((e) => TimelineDate.fromJson(e as Map<String, dynamic>))
                 .toList(),
           );
           return wrapper as CoreResponse<T>;

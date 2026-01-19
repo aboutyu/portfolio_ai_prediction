@@ -70,6 +70,32 @@ export class RecordService {
     memo: true,
   } as const;
 
+  // 타임라인 날짜별 기록 조회
+  async getTimelineByGroupingDate(userSequence: number, page: number, pageNum: number) {
+    const skip = page * pageNum;
+
+    // 1. DB 조회 (기존과 동일)
+    const [timelineList, totalCount] = await this.timelineGroupRepository.createQueryBuilder('group')
+      .leftJoinAndSelect('group.foodLogs', 'food')
+      .leftJoinAndSelect('group.healthLogs', 'health')
+      .where('group.userSequence = :userSequence', { userSequence })
+      .orderBy('group.recordTime', 'DESC')
+      .take(pageNum)
+      .skip(skip)
+      .getManyAndCount();
+
+    // 2. 날짜별 그룹핑 (Data Transformation)
+    const groupedData = this.groupByDate(timelineList);
+
+    return successResponse(
+      groupedData,
+      page,
+      totalCount,
+      timelineList.length,
+      pageNum,
+      );
+  }
+
   // 타임라인 목록
   async getTimeline(
     userSequence: number,
@@ -644,5 +670,36 @@ export class RecordService {
       }
       return successResponse(healthLog);
     });
+  }
+
+  // 🛠️ 헬퍼 함수: 날짜별로 묶기
+  private groupByDate(list: TimelineGroup[]) {
+    const map = new Map<string, { recordDate: string; memo: string; foodLogs: any[]; healthLogs: any[] }>();
+
+    list.forEach((group) => {
+      // 날짜 포맷 추출 (YYYY-MM-DD)
+      // group.recordTime이 Date 객체라면 toISOString() 사용, 문자열이면 substring 사용
+      const dateKey = new Date(group.recordTime).toISOString().split('T')[0];
+
+      if (!map.has(dateKey)) {
+        map.set(dateKey, {
+          recordDate: dateKey,
+          memo: group.memo,
+          foodLogs: [],
+          healthLogs: [],
+        });
+      }
+
+      const entry = map.get(dateKey);
+      
+      // 기존 배열에 현재 그룹의 로그들을 합침 (Spread Operator)
+      if (entry) {
+        if (group.foodLogs) entry.foodLogs.push(...group.foodLogs);
+        if (group.healthLogs) entry.healthLogs.push(...group.healthLogs);
+      }
+    });
+
+    // Map을 배열로 변환 (Map은 순서를 보장하지만, 확실히 하기 위해 날짜 내림차순 정렬 권장)
+    return Array.from(map.values()); 
   }
 }
