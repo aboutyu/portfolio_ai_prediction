@@ -3,11 +3,13 @@ import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/widgets/show_dialogs/base_dialog.dart';
 import 'package:app/widgets/show_dialogs/single_dialog_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 extension NavigationExtension on BuildContext {
   void safePop<T>([T? result]) {
+    debugMessage('$mounted Attempting to pop navigation with result: $result');
     if (!mounted) return;
-    Navigator.of(this).pop(result);
+    pop(result);
   }
 }
 

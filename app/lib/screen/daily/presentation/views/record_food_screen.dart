@@ -1,4 +1,6 @@
+import 'package:app/helpers/commons/common_funcs.dart';
 import 'package:app/helpers/extensions/async_value_extension.dart';
+import 'package:app/helpers/extensions/buildcontext_extension.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/screen/daily/data/dto/record_food_dto.dart';
 import 'package:app/screen/daily/data/models/food_nutrition_model.dart';
@@ -140,7 +142,6 @@ class _RecordFoodScreenState extends ConsumerState<RecordFoodScreen> {
               onPressed: () async {
                 Navigator.pop(context); // 다이얼로그 닫기
                 await _searchAI(
-                  context,
                   food.foodName,
                   RecordFoodModelType.gemini,
                 ); // Gemini로 검색 호출
@@ -162,7 +163,6 @@ class _RecordFoodScreenState extends ConsumerState<RecordFoodScreen> {
               onPressed: () async {
                 Navigator.pop(context); // 다이얼로그 닫기
                 await _searchAI(
-                  context,
                   food.foodName,
                   RecordFoodModelType.local,
                 ); // Llama로 검색 호출
@@ -184,11 +184,7 @@ class _RecordFoodScreenState extends ConsumerState<RecordFoodScreen> {
     );
   }
 
-  Future<void> _searchAI(
-    BuildContext context,
-    String foodName,
-    RecordFoodModelType modelType,
-  ) async {
+  Future<void> _searchAI(String foodName, RecordFoodModelType modelType) async {
     final viewModel = ref.read(recordFoodViewModelProvider.notifier);
     final result = await viewModel.fetchFoodNutritionAI(
       foodName: foodName,
@@ -206,7 +202,7 @@ class _RecordFoodScreenState extends ConsumerState<RecordFoodScreen> {
   }
 
   Future<void> _openFoodDetail(FoodNutritionModel food) async {
-    await showModalBottomSheet(
+    final resultDate = await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
@@ -217,5 +213,10 @@ class _RecordFoodScreenState extends ConsumerState<RecordFoodScreen> {
         return FoodInfoWidget(food: food, selectedDate: DateTime.now());
       },
     );
+
+    debugMessage('Food detail closed with date: $resultDate');
+    if (resultDate != null) {
+      context.safePop(resultDate);
+    }
   }
 }
