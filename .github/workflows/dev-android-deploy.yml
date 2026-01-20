@@ -82,7 +82,7 @@ jobs:
 
       - name: Build APK
         working-directory: ./app
-        run: flutter build apk --release --dart-define=ENV=dev
+        run: flutter build apk --release --dart-define=ENV=dev --flavor dev
 
       - name: Upload to Firebase
         uses: wzieba/Firebase-Distribution-Github-Action@v1
