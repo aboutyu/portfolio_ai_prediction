@@ -90,5 +90,5 @@ jobs:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: testers
-          file: app/build/app/outputs/flutter-apk/app-release.apk
+          file: app/build/app/outputs/flutter-apk/app-dev-release.apk
           releaseNotes: "Branch: dev / Env: dev"
