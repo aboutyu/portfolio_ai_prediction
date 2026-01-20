@@ -11,6 +11,7 @@ import 'package:app/screen/my_info/presentation/views/my_info_screen.dart';
 import 'package:app/screen/notices/presentation/views/faq_screen.dart';
 import 'package:app/screen/notices/presentation/views/notice_screen.dart';
 import 'package:app/screen/tabbar/presentation/views/tabbar_screen.dart';
+import 'package:app/widgets/splash/splash_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -30,9 +31,24 @@ GoRouter router(Ref ref) {
     navigatorKey: rootNavigatorKey,
     initialLocation: '/splash',
     redirect: (context, state) {
+      // -------------------------------------------------------
+      // 화면 성격 정의 (이 부분만 수정하면 관리가 편해집니다)
+      // -------------------------------------------------------
       final currentPath = state.uri.path;
 
-      // 1. 상태 로그 찍기
+      // ① 로그인했으면 절대 못 들어가는 화면 (게스트 전용)
+      //   예: 로그인 화면, 회원가입 화면, 스플래시
+      final isGuestOnlyPath =
+          currentPath == '/login' ||
+          currentPath == '/signup' ||
+          currentPath == '/splash' ||
+          currentPath == '/terms';
+
+      // ② 로그인 여부와 상관없이 누구나 볼 수 있는 화면 (공용)
+      //   예: 이용약관, 공지사항 등
+      final isUniversalPath = currentPath == '/terms';
+
+      // ③ 상태 로그 찍기
       final isLoading = authState.isLoading;
       final hasError = authState.hasError;
       final user = authState.value;
@@ -42,36 +58,24 @@ GoRouter router(Ref ref) {
         "- Loading: $isLoading",
         "- User: ${user?.username}",
         "- Current Path: $currentPath",
+        "- Has Error: $hasError",
+        "- isGuestOnlyPath: $isGuestOnlyPath",
+        "- isUniversalPath: $isUniversalPath",
       ]);
-
-      // -------------------------------------------------------
-      // 화면 성격 정의 (이 부분만 수정하면 관리가 편해집니다)
-      // -------------------------------------------------------
-
-      // ① 로그인했으면 절대 못 들어가는 화면 (게스트 전용)
-      //    예: 로그인 화면, 회원가입 화면, 스플래시
-      final isGuestOnlyPath =
-          currentPath == '/login' ||
-          currentPath == '/signup' ||
-          currentPath == '/splash';
-
-      // ② 로그인 여부와 상관없이 누구나 볼 수 있는 화면 (공용)
-      //    예: 이용약관, 공지사항 등
-      final isUniversalPath = currentPath == '/terms';
       // -------------------------------------------------------
 
       // (1) 로딩 중
       if (isLoading || hasError) {
-        debugPrint(" -> 결과: 스플래시 유지 (/splash)");
-        return '/splash';
+        return currentPath == '/splash' ? null : '/splash';
+      }
+
+      if (currentPath == '/splash') {
+        return user != null ? '/' : '/login';
       }
 
       if (user == null) {
         // (1) 게스트 전용 화면(로그인, 회원가입)이나 공용 화면(약관)으로 가는 중인가?
-        if (isGuestOnlyPath || isUniversalPath) {
-          // 통과 (로그인 안 해도 갈 수 있는 곳들이므로)
-          return null;
-        }
+        if (isGuestOnlyPath || isUniversalPath) return null;
 
         // (2) 그 외(홈, 마이페이지 등) 로그인이 필요한 곳을 가려고 한다면?
         // 로그인 화면으로 강제 이동
@@ -90,10 +94,9 @@ GoRouter router(Ref ref) {
 
     // 3. 라우트 정의
     routes: [
-      GoRoute(path: '/splash', builder: (context, state) => LoginScreen()),
+      GoRoute(path: '/splash', builder: (context, state) => SplashWidget()),
       GoRoute(path: '/login', builder: (context, state) => LoginScreen()),
       GoRoute(path: '/signup', builder: (context, state) => SignupScreen()),
-
       GoRoute(path: '/', redirect: (context, state) => '/home'),
 
       GoRoute(

@@ -14,7 +14,7 @@ class HomeViewModel extends _$HomeViewModel {
 
   Future<List<TimelineDate>> fetchTimeline({
     int page = 0,
-    int pageNum = 10,
+    int pageNum = 50,
   }) async {
     try {
       final repository = ref.read(timelineDateRepositoryProvider);

@@ -9,7 +9,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 void main() async {
-  await AppInitializer.initialize();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  await AppInitializer.initialize(widgetsBinding);
+
   runApp(const ProviderScope(child: MyApp()));
 }
 

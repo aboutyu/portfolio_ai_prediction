@@ -6,6 +6,7 @@ class WebViewWidget extends StatefulWidget {
   final VoidCallback initialUrlLoader;
 
   const WebViewWidget({
+    super.key,
     required this.controller,
     required this.initialUrlLoader,
   });
