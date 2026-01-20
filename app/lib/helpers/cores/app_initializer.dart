@@ -1,10 +1,10 @@
-import 'package:app/helpers/commons/common_funcs.dart';
 import 'package:app/helpers/cores/app_config.dart';
 import 'package:app/helpers/enums/app_environment.enum.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 class AppInitializer {
@@ -15,19 +15,16 @@ class AppInitializer {
 
     await _loadEnvFile();
 
-    debugMessage([
-      "🚀 앱 초기화 시작 (환경: ${AppConfig.env.name})",
-      "🌐 호스트 주소: ${AppConfig.host}",
-      "🛠️ WebSocket 주소: ${AppConfig.webSocketUrl}",
-      "⛓️‍💥 WebSocket 경로: ${AppConfig.webSocketPath}",
-      "🔥 Firebase: ${AppConfig.firebaseOptions}",
-    ]);
+    AppConfig.debugMessage();
 
     // intl 패키지의 날짜 포맷 초기화
     await initializeDateFormatting();
 
     // firebase 초기화
     await Firebase.initializeApp(options: AppConfig.firebaseOptions);
+
+    // AdMob 초기화
+    await MobileAds.instance.initialize();
 
     // Splash 화면 유지
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
