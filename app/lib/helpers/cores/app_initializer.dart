@@ -18,6 +18,9 @@ class AppInitializer {
     debugMessage([
       "🚀 앱 초기화 시작 (환경: ${AppConfig.env.name})",
       "🌐 호스트 주소: ${AppConfig.host}",
+      "🛠️ WebSocket 주소: ${AppConfig.webSocketUrl}",
+      "⛓️‍💥 WebSocket 경로: ${AppConfig.webSocketPath}",
+      "🔥 Firebase: ${AppConfig.firebaseOptions}",
     ]);
 
     // intl 패키지의 날짜 포맷 초기화

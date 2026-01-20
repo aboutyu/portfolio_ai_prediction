@@ -66,25 +66,22 @@ android {
 
     // ✅ [2] Product Flavors 설정 (Local, Dev, Prod)
     productFlavors {
-        // 1. Local 환경
+        // 1. Local 환경(URL 정보만 다름)
         create("local") {
             dimension = "env"
-            applicationIdSuffix = ".local"   // 패키지명: ...prediction.local
-            resValue("string", "app_name", "헬스케어(local)")
+            applicationIdSuffix = ".dev"   // 패키지명: ...prediction.dev
         }
 
         // 2. Dev 환경
         create("dev") {
             dimension = "env"
             applicationIdSuffix = ".dev"     // 패키지명: ...prediction.dev
-            resValue("string", "app_name", "헬스케어(dev)")
         }
 
         // 3. Prod 환경 (운영)
         create("prod") {
             dimension = "env"
             applicationIdSuffix = ""         // 패키지명: ...prediction (변경 없음)
-            resValue("string", "app_name", "헬스케어")
         }
     }
 }

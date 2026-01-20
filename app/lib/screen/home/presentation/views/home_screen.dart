@@ -15,15 +15,35 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppbarWidget(title: context.tr.homeNavigationText),
-      body: Timeline.tileBuilder(
-        builder: TimelineTileBuilder.fromStyle(
-          contentsAlign: ContentsAlign.alternating,
-
-          contentsBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-            child: _timelineCardWidget(timelines.value![index]),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Timeline.tileBuilder(
+          theme: TimelineThemeData(
+            nodePosition: 0,
+            connectorTheme: const ConnectorThemeData(
+              color: Colors.grey,
+              thickness: 2.0,
+            ),
+            indicatorTheme: const IndicatorThemeData(
+              size: 20.0,
+              color: Colors.blue,
+            ),
           ),
-          itemCount: timelines.value?.length ?? 0,
+          builder: TimelineTileBuilder.fromStyle(
+            contentsAlign: ContentsAlign.basic,
+            connectorStyle: ConnectorStyle.solidLine,
+            indicatorStyle: IndicatorStyle.dot,
+            contentsBuilder: (context, index) => Padding(
+              padding: const EdgeInsets.only(
+                left: 12.0,
+                right: 12.0,
+                top: 6.0,
+                bottom: 6.0,
+              ),
+              child: _timelineCardWidget(timelines.value![index]),
+            ),
+            itemCount: timelines.value?.length ?? 0,
+          ),
         ),
       ),
     );
@@ -31,8 +51,10 @@ class HomeScreen extends ConsumerWidget {
 
   Widget _timelineCardWidget(TimelineDate timelineItem) {
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+      margin: EdgeInsets.zero,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
