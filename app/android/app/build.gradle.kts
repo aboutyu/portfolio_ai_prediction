@@ -55,9 +55,9 @@ android {
         getByName("release") {
             signingConfig = signingConfigs.getByName("release")
 
-            // 만약 난독화가 필요하면 아래 옵션 사용 (기본값 false)
-            isMinifyEnabled = false
-            isShrinkResources = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
     }
 
