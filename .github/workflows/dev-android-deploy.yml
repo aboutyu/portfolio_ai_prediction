@@ -65,7 +65,8 @@ jobs:
 
           # C. google-services.json 생성 (Python 스크립트 사용)
           cd android/app
-          python3 -c "import os; f = open('google-services.json', 'w'); f.write(os.environ['JSON_DATA']); f.close()"
+          mkdir -p src/dev
+          python3 -c "import os; f = open('src/dev/google-services.json', 'w'); f.write(os.environ['JSON_DATA']); f.close()"
 
       - name: Configure Keystore
         working-directory: ./app/android
