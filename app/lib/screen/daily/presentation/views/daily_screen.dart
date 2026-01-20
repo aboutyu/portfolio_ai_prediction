@@ -1,4 +1,5 @@
 import 'package:app/helpers/commons/common_funcs.dart';
+import 'package:app/helpers/cores/app_config.dart';
 import 'package:app/helpers/extensions/async_value_extension.dart';
 import 'package:app/helpers/extensions/buildcontext_extension.dart';
 import 'package:app/helpers/extensions/datetime_extension.dart';
@@ -23,12 +24,42 @@ import 'package:app/widgets/show_dialogs/single_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-class DailyScreen extends ConsumerWidget {
+class DailyScreen extends ConsumerStatefulWidget {
   const DailyScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<DailyScreen> createState() => _DailyScreenState();
+}
+
+class _DailyScreenState extends ConsumerState<DailyScreen> {
+  BannerAd? _bannerAd;
+  bool _isLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _bannerAd = BannerAd(
+      adUnitId: AppConfig.admob.adaptiveBanner,
+      size: AdSize.banner, // 사이즈 지정 필수
+      request: const AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _isLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+    )..load();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final selectedDate = ref.watch(dailyDateProvider);
     final logsResponse = ref.watch(dailyViewModelProvider);
 
@@ -39,90 +70,105 @@ class DailyScreen extends ConsumerWidget {
         onDateSelected: (DateTime selectedDate) async =>
             _fetchDailyTimeline(context, ref, selectedDate),
       ),
-      body: logsResponse.draws(
-        data: (logs) {
-          if (logs.isEmpty) return noItemWidget(context);
+      body: Column(
+        children: [
+          if (_isLoaded && _bannerAd != null)
+            SizedBox(
+              width: _bannerAd!.size.width.toDouble(),
+              height: _bannerAd!.size.height.toDouble(),
+              child: AdWidget(ad: _bannerAd!),
+            ),
 
-          return ListView.builder(
-            itemCount: logs.length,
-            padding: const EdgeInsets.all(16.0),
-            itemBuilder: (context, index) {
-              final log = logs[index];
+          Expanded(
+            child: logsResponse.draws(
+              data: (logs) {
+                if (logs.isEmpty) return noItemWidget(context);
 
-              switch (log.type) {
-                case TimelineLogType.health:
-                  if (log.healthType == null) {
-                    return const SizedBox.shrink();
-                  }
+                return ListView.builder(
+                  itemCount: logs.length,
+                  padding: const EdgeInsets.all(16.0),
+                  itemBuilder: (context, index) {
+                    final log = logs[index];
 
-                  // 1. 다이얼로그와 위젯 양쪽에서 쓰기 위해 객체를 미리 생성
-                  final healthLogData = HealthLog(
-                    sequence: log.sequence,
-                    groupUuid: log.groupUuid,
-                    healthType: log.healthType!,
-                    healthValue: log.healthValue ?? 0.0,
-                    healthExtraValue: log.healthExtraValue,
-                    recordDate: log.recordDate,
-                  );
+                    switch (log.type) {
+                      case TimelineLogType.health:
+                        if (log.healthType == null) {
+                          return const SizedBox.shrink();
+                        }
 
-                  // 2. 터치 이벤트를 위해 GestureDetector(또는 InkWell)로 감싸기
-                  return GestureDetector(
-                    onTap: () async {
-                      // 3. 요청하신 다이얼로그 코드 삽입
-                      final resultDate = await showDialog(
-                        context: context,
-                        barrierDismissible: true,
-                        builder: (BuildContext context) {
-                          return Dialog(
-                            insetPadding: const EdgeInsets.symmetric(
-                              horizontal: 25.0,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16.0),
-                            ),
-                            clipBehavior: Clip.hardEdge,
-                            // 4. healthType에 따라 다른 화면 보여주기 (현재는 모두 같은 화면으로 설정됨)
-                            child: switch (healthLogData.healthType) {
-                              HealthLogType.WGT => RecordWeightDetailScreen(
-                                healthLog: healthLogData,
-                              ),
-                              HealthLogType.SCT => RecordStepcountDetailScreen(
-                                healthLog: healthLogData,
-                              ),
-                              HealthLogType.BGT =>
-                                RecordBloodGlucoseDetailScreen(
-                                  healthLog: healthLogData,
-                                ),
-                              HealthLogType.BPT =>
-                                RecordBloodpressureDetailScreen(
-                                  healthLog: healthLogData,
-                                ),
-                            },
-                          );
-                        },
-                      );
+                        // 1. 다이얼로그와 위젯 양쪽에서 쓰기 위해 객체를 미리 생성
+                        final healthLogData = HealthLog(
+                          sequence: log.sequence,
+                          groupUuid: log.groupUuid,
+                          healthType: log.healthType!,
+                          healthValue: log.healthValue ?? 0.0,
+                          healthExtraValue: log.healthExtraValue,
+                          recordDate: log.recordDate,
+                        );
 
-                      // 화면 갱신
-                      await _refreshList(ref, context, resultDate);
-                    },
-                    // 기존 위젯 표시
-                    child: DailyHealthLogWidget(healthLog: healthLogData),
-                  );
+                        // 2. 터치 이벤트를 위해 GestureDetector(또는 InkWell)로 감싸기
+                        return GestureDetector(
+                          onTap: () async {
+                            // 3. 요청하신 다이얼로그 코드 삽입
+                            final resultDate = await showDialog(
+                              context: context,
+                              barrierDismissible: true,
+                              builder: (BuildContext context) {
+                                return Dialog(
+                                  insetPadding: const EdgeInsets.symmetric(
+                                    horizontal: 25.0,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16.0),
+                                  ),
+                                  clipBehavior: Clip.hardEdge,
+                                  // 4. healthType에 따라 다른 화면 보여주기 (현재는 모두 같은 화면으로 설정됨)
+                                  child: switch (healthLogData.healthType) {
+                                    HealthLogType.WGT =>
+                                      RecordWeightDetailScreen(
+                                        healthLog: healthLogData,
+                                      ),
+                                    HealthLogType.SCT =>
+                                      RecordStepcountDetailScreen(
+                                        healthLog: healthLogData,
+                                      ),
+                                    HealthLogType.BGT =>
+                                      RecordBloodGlucoseDetailScreen(
+                                        healthLog: healthLogData,
+                                      ),
+                                    HealthLogType.BPT =>
+                                      RecordBloodpressureDetailScreen(
+                                        healthLog: healthLogData,
+                                      ),
+                                  },
+                                );
+                              },
+                            );
 
-                case TimelineLogType.food:
-                  return DailyFoodLogWidget(
-                    foodLog: FoodLog(
-                      sequence: log.sequence,
-                      foodName: log.foodName ?? '',
-                      calories: log.calories ?? 0.0,
-                      recordDate: log.recordDate,
-                      groupUuid: log.groupUuid,
-                    ),
-                  );
-              }
-            },
-          );
-        },
+                            // 화면 갱신
+                            await _refreshList(ref, context, resultDate);
+                          },
+                          // 기존 위젯 표시
+                          child: DailyHealthLogWidget(healthLog: healthLogData),
+                        );
+
+                      case TimelineLogType.food:
+                        return DailyFoodLogWidget(
+                          foodLog: FoodLog(
+                            sequence: log.sequence,
+                            foodName: log.foodName ?? '',
+                            calories: log.calories ?? 0.0,
+                            recordDate: log.recordDate,
+                            groupUuid: log.groupUuid,
+                          ),
+                        );
+                    }
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
       floatingActionButton: DailyExpandableFabWidget(
         onSelected: (DailyExpandableFabQuickMenuType type) async {

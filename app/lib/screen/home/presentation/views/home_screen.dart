@@ -1,16 +1,54 @@
+import 'package:app/helpers/commons/common_funcs.dart';
+import 'package:app/helpers/cores/app_config.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/screen/home/data/models/timeline_date_model.dart';
 import 'package:app/screen/home/presentation/view_models/home_view_model.dart';
 import 'package:app/widgets/appbar_widgets/appbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:timelines_plus/timelines_plus.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _createInitialAd();
+  }
+
+  void _createInitialAd() {
+    InterstitialAd.load(
+      adUnitId: AppConfig.admob.interstitial,
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          debugMessage([
+            'InterstitialAd loaded successfully.',
+            AppConfig.admob.interstitial,
+            ad.toString(),
+          ]);
+          ad.show();
+        },
+        onAdFailedToLoad: (e) {
+          debugMessage([
+            'InterstitialAd failed to load.',
+            AppConfig.admob.interstitial,
+            e.toString(),
+          ]);
+        },
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final timelines = ref.watch(homeViewModelProvider);
 
     return Scaffold(
