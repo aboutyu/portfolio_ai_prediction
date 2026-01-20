@@ -16,9 +16,16 @@ class SplashWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 16),
-            Text('Splash WidgetLoading...'),
+            Text(
+              'Welcome to Health Care App',
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            const SizedBox(height: 16),
+            Image.asset(
+              'assets/images/logo/app_icon.png',
+              width: 150,
+              height: 150,
+            ),
           ],
         ),
       ),
