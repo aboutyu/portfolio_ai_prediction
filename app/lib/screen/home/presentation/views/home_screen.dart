@@ -21,6 +21,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     super.initState();
     _createInitialAd();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(homeViewModelProvider.notifier).checkAndRefresh();
+    });
   }
 
   void _createInitialAd() {
