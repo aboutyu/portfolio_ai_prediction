@@ -21,13 +21,13 @@ class _TermsScreenState extends ConsumerState<TermsScreen> {
   late final WebViewController _webViewController;
   late int _selectedIndex = widget.index;
 
-  void _loadUrl(TermsType type) {
+  Future<void> _loadUrl(TermsType type) async {
     final typeStr = type.name;
     final urlString = '${AppConfig.host}membership/terms/html?type=$typeStr';
     debugMessage('[TermsScreen] Loading URL: $urlString');
 
     final url = Uri.parse(urlString);
-    _webViewController.loadRequest(url);
+    await _webViewController.loadRequest(url);
   }
 
   @override
@@ -37,10 +37,10 @@ class _TermsScreenState extends ConsumerState<TermsScreen> {
     _webViewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000));
-    // Load the initial URL for the first terms type
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       final initialType = TermsType.values[_selectedIndex];
-      _loadUrl(initialType);
+      await _loadUrl(initialType);
     });
   }
 
@@ -80,13 +80,13 @@ class _TermsScreenState extends ConsumerState<TermsScreen> {
                       ),
                       selected: isSelected,
                       selectedColor: Theme.of(context).primaryColor,
-                      onSelected: (selected) {
+                      onSelected: (selected) async {
                         if (selected) {
                           setState(() {
                             _selectedIndex = index;
                           });
                           // 탭 누르면 해당 URL 로드
-                          _loadUrl(term.type);
+                          await _loadUrl(term.type);
                         }
                       },
                     );

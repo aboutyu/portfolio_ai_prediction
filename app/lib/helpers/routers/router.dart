@@ -41,8 +41,7 @@ GoRouter router(Ref ref) {
       final isGuestOnlyPath =
           currentPath == '/login' ||
           currentPath == '/signup' ||
-          currentPath == '/splash' ||
-          currentPath == '/terms';
+          currentPath == '/splash';
 
       // ② 로그인 여부와 상관없이 누구나 볼 수 있는 화면 (공용)
       //   예: 이용약관, 공지사항 등
