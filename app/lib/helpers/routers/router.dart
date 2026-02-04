@@ -8,6 +8,7 @@ import 'package:app/screen/daily/presentation/views/record_food_screen.dart';
 import 'package:app/screen/home/presentation/views/home_screen.dart';
 import 'package:app/screen/my_info/presentation/views/license_screen.dart';
 import 'package:app/screen/my_info/presentation/views/my_info_screen.dart';
+import 'package:app/screen/my_info/presentation/views/user_guide_screen.dart';
 import 'package:app/screen/notices/presentation/views/faq_screen.dart';
 import 'package:app/screen/notices/presentation/views/notice_screen.dart';
 import 'package:app/screen/tabbar/presentation/views/tabbar_screen.dart';
@@ -123,6 +124,10 @@ GoRouter router(Ref ref) {
         builder: (context, state) => const NoticeScreen(),
       ),
       GoRoute(path: '/faq', builder: (context, state) => const FaqScreen()),
+      GoRoute(
+        path: '/userguide',
+        builder: (context, state) => const UserGuideScreen(),
+      ),
 
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {

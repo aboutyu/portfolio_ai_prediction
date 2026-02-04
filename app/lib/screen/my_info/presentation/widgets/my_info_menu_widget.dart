@@ -26,7 +26,7 @@ class MyInfoMenuWidget extends ConsumerWidget {
         ),
         _lineWidget(),
         MyInfoButtonWidget(
-          onPressed: () async => context.push('/guide'), // 가이드 페이지로 이동 만들기
+          onPressed: () async => context.push('/userguide'),
           icon: Icons.book_outlined,
           text: context.tr.guideButtonText,
         ),
