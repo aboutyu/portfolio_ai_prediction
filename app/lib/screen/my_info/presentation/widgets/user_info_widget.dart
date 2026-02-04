@@ -33,7 +33,7 @@ class UserInfoWidget extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const SizedBox(height: 16),
-              _userNameWidget(context, user.username),
+              _userNameWidget(context, user.username, user.thumbnail),
               const SizedBox(height: 16),
               _activeInfoWidget(context, lastDate, totalCount),
               const SizedBox(height: 16),
@@ -44,7 +44,11 @@ class UserInfoWidget extends ConsumerWidget {
     );
   }
 
-  Widget _userNameWidget(BuildContext context, String username) {
+  Widget _userNameWidget(
+    BuildContext context,
+    String username,
+    String? thumbnail,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(left: 30.0, right: 30.0),
       child: Row(
@@ -66,9 +70,8 @@ class UserInfoWidget extends ConsumerWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                // 나머지: Normal, 18 (L10n 적용)
                 TextSpan(
-                  text: context.tr.welcomeSuffix, // "님\n환영합니다!"
+                  text: context.tr.welcomeSuffix,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
@@ -78,16 +81,23 @@ class UserInfoWidget extends ConsumerWidget {
             ),
           ),
 
-          // 4. 오른쪽 이미지 영역
-          // 실제 이미지 경로로 변경 필요 (예: Image.asset(...))
           Container(
             width: 60,
             height: 60,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.grey, // 이미지 없을 때 배경색
+              color: Colors.grey[200],
             ),
-            child: const Icon(Icons.person, color: Colors.white, size: 40),
+            child: thumbnail != null
+                ? ClipOval(
+                    child: Image.network(
+                      thumbnail,
+                      fit: BoxFit.cover,
+                      width: 60,
+                      height: 60,
+                    ),
+                  )
+                : Icon(Icons.person, size: 40, color: Colors.white),
           ),
         ],
       ),

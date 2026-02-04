@@ -225,7 +225,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chatNoticeText =>
-      'This chat may be slow because the selected AI model is answering.\nPlease note that this is not a conversation with a real counselor and is for reference only.';
+      '[AI is Not a Doctor]\nResponses are for reference only. Always consult a professional for medical decisions. Please note that answers may be delayed or inaccurate.';
 
   @override
   String get chatNoMessages => 'No messages.';

@@ -219,7 +219,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get chatNoticeText =>
-      '이 채팅은 선택한 AI 모델이 답변하기 때문에 느릴 수 있습니다.\n그리고 실제 상담사와의 대화가 아님을 유의하시고 참고만 하세요';
+      '[AI는 의사가 아닙니다]\n답변은 참고용일 뿐, 의학적 결정은 반드시 전문가와 상의하세요. 모델 특성상 답변이 늦거나 부정확할 수 있습니다.';
 
   @override
   String get chatNoMessages => '메시지가 없습니다.';

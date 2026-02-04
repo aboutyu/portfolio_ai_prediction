@@ -9,6 +9,7 @@ abstract class LoginResponse with _$LoginResponse {
     required int sequence,
     required String userId,
     required String username,
+    String? thumbnail,
     required String accessToken,
     required String refreshToken,
     DateTime? lastLogin,
