@@ -35,7 +35,7 @@ class ChatMessageBubbleWidget extends StatelessWidget {
             maxWidth: MediaQuery.of(context).size.width * 0.8,
           ),
           decoration: BoxDecoration(
-            color: _isMe ? Colors.blueAccent : Colors.grey[300],
+            color: _isMe ? Colors.blue[300] : Colors.grey[200],
             borderRadius: BorderRadius.only(
               topLeft: const Radius.circular(16),
               topRight: const Radius.circular(16),
@@ -52,17 +52,12 @@ class ChatMessageBubbleWidget extends StatelessWidget {
             data: msg.message,
             selectable: true, // 텍스트 복사 가능하게 설정
             styleSheet: MarkdownStyleSheet(
-              // 일반 텍스트 스타일
-              p: TextStyle(
-                color: textColor,
-                fontSize: 16,
-                height: 1.5, // 줄간격 살짝 넉넉하게
-              ),
+              p: TextStyle(color: textColor, fontSize: 16, height: 1.5),
               strong: TextStyle(color: textColor, fontWeight: FontWeight.bold),
               listBullet: TextStyle(color: textColor, fontSize: 16),
               code: TextStyle(
-                color: _isMe ? Colors.white : Colors.black,
-                backgroundColor: _isMe ? Colors.blue[700] : Colors.grey[400],
+                color: textColor,
+                backgroundColor: _isMe ? Colors.yellow[200] : Colors.grey[200],
                 fontSize: 14,
               ),
             ),

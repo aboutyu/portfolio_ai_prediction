@@ -95,7 +95,7 @@
   "bloodPressureLogInputHintBloodPressureText": "Enter your blood pressure",
 
   "chatInputHintText": "Enter your message",
-  "chatNoticeText": "This chat may be slow because the selected AI model is answering.\nPlease note that this is not a conversation with a real counselor and is for reference only.",
+  "chatNoticeText": "[AI is Not a Doctor]\nResponses are for reference only. Always consult a professional for medical decisions. Please note that answers may be delayed or inaccurate.",
   "chatNoMessages": "No messages.",
 
 
