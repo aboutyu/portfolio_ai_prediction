@@ -124,4 +124,29 @@ export class MembershipController {
       throw new NotFoundException('약관 템플릿 파일을 찾을 수 없습니다.');
     }
   }
+
+  @Public()
+  @Get('userguide/html')
+  @ApiOperation({
+    summary: '사용자 가이드 보여주는 HTML',
+    description: '사용자 가이드 내용을 HTML로 반환',
+  })
+  async userGuideHtml(@Res() res: Response) {
+    try {
+      const templatePath = path.join(
+        process.cwd(),
+        'dist',
+        'resources',
+        'userguide',
+        'userguide.html',
+      );
+
+      let htmlTemplate = fs.readFileSync(templatePath, 'utf8');
+      res.setHeader('Content-Type', 'text/html');
+      res.send(htmlTemplate);
+    } catch (error) {
+      console.error('HTML 파일 로드 실패:', error);
+      throw new NotFoundException('약관 템플릿 파일을 찾을 수 없습니다.');
+    }
+  }
 }
