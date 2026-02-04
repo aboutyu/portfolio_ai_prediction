@@ -78,6 +78,13 @@ export class User {
   isActivate: boolean;
 
   @ApiProperty({
+    description: '사용자 썸네일 이미지 URL',
+    example: 'https://example.com/thumbnail.jpg',
+  })
+  @Column({ type: 'varchar', length: 255 })
+  thumbnail: string;
+
+  @ApiProperty({
     description: 'access 토큰 api 인증에서 사용',
     example:
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyU2VxdWVuY2UiOjEsInVzZXJJZCI6ImFAYS5jb20iLCJ1c2VybmFtZSI6Iu2FjOyKpO2KuOycoOyggCIsInJvbGUiOiJVU0VSX1JPTEUiLCJpYXQiOjE3NjU3OTA5NTYsImV4cCI6MTc2NTc5NDU1Nn0.fwvxveBoqZ6hYxEF6W6At65fF5sXmZWKffOBh98tT1c',
