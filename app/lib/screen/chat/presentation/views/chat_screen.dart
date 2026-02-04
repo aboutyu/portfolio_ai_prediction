@@ -1,5 +1,6 @@
 import 'package:app/helpers/extensions/async_value_extension.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
+import 'package:app/helpers/storages/user_info.dart';
 import 'package:app/screen/chat/data/models/chat_message_model.dart';
 import 'package:app/screen/chat/presentation/view_models/chat_view_model.dart';
 import 'package:app/screen/chat/presentation/widgets/chat_message_bubble_widget.dart';
@@ -75,6 +76,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     final chatState = ref.watch(chatViewModelProvider);
+    final userInfo = ref.read(userInfoProvider);
 
     ref.listen(chatViewModelProvider, (previous, next) {
       // 1. 데이터가 로드되지 않았거나 비어있으면 무시
@@ -131,7 +133,10 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
                     final msg = messages[index];
-                    return ChatMessageBubbleWidget(msg: msg);
+                    return ChatMessageBubbleWidget(
+                      msg: msg,
+                      thumbnailUrl: userInfo.value?.thumbnail,
+                    );
                   },
                 );
               },

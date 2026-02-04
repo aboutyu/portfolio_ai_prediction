@@ -14,6 +14,7 @@ class UserInfo extends _$UserInfo {
     final refreshToken = await storage.read(AuthStorageKey.refreshToken) ?? '';
     final userId = await storage.read(AuthStorageKey.userId) ?? '';
     final username = await storage.read(AuthStorageKey.username) ?? '';
+    final thumbnail = await storage.read(AuthStorageKey.thumbnail) ?? '';
     final sequenceStr = await storage.read(AuthStorageKey.sequence) ?? '';
     final sequence = int.tryParse(sequenceStr);
 
@@ -31,6 +32,7 @@ class UserInfo extends _$UserInfo {
       refreshToken: refreshToken,
       userId: userId,
       username: username,
+      thumbnail: thumbnail.isEmpty ? null : thumbnail,
       sequence: sequence,
     );
   }

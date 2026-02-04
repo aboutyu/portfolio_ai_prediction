@@ -4,14 +4,32 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:intl/intl.dart';
 
 class ChatMessageBubbleWidget extends StatelessWidget {
-  const ChatMessageBubbleWidget({super.key, required this.msg});
+  const ChatMessageBubbleWidget({
+    super.key,
+    required this.msg,
+    this.thumbnailUrl,
+  });
 
   final ChatMessageModel msg;
+  final String? thumbnailUrl;
   bool get _isMe => msg.messageRole == ChatMessageRole.user;
 
   @override
   Widget build(BuildContext context) {
     final textColor = _isMe ? Colors.white : Colors.black87;
+    final iconImage = !_isMe
+        ? msg.messageRole.iconAsset
+        : thumbnailUrl == null
+        ? msg.messageRole.iconAsset
+        : ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Image.network(
+              thumbnailUrl!,
+              width: 32,
+              height: 32,
+              fit: BoxFit.cover,
+            ),
+          );
 
     return Column(
       crossAxisAlignment: _isMe
@@ -23,8 +41,8 @@ class ChatMessageBubbleWidget extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 6.0),
           child: CircleAvatar(
             radius: 18,
-            backgroundColor: const Color.fromARGB(255, 237, 242, 229),
-            child: msg.messageRole.iconAsset,
+            backgroundColor: Colors.grey[200],
+            child: iconImage,
           ),
         ),
 
