@@ -39,7 +39,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get termsAgreeButtonText => ' Terms of Service';
 
   @override
+  String get guideButtonText => 'User Guide';
+
+  @override
   String get noticesButtonText => 'Notices';
+
+  @override
+  String get eventButtonText => 'Events';
 
   @override
   String get faqsButtonText => 'FAQ';
@@ -229,4 +235,50 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get inputHintMemoText => 'Enter a memo (optional)';
+
+  @override
+  String get welcomeSuffix => ',\nWelcome!';
+
+  @override
+  String get lastRecordedAt => 'Last Recorded';
+
+  @override
+  String get totalRecordCount => 'Total Records';
+
+  @override
+  String get companyAddressText => 'Address';
+
+  @override
+  String get companyContactText => 'Contact Number';
+
+  @override
+  String get companyCeoText => 'CEO';
+
+  @override
+  String get companyYouthProtectionManagerText => 'Youth Protection Manager';
+
+  @override
+  String get companyRegistrationText => 'Registration Number';
+
+  @override
+  String get companyName => 'YUTAEHUN Studio';
+
+  @override
+  String get companyServiceName => 'HealthcareSAI';
+
+  @override
+  String get companyAddress =>
+      'Guseong-ro, Giheung-gu, Yongin-si, Gyeonggi-do (Eonnam-dong, Dongbu Centreville)';
+
+  @override
+  String get companyContact => '02-6952-0980';
+
+  @override
+  String get companyCeo => 'Yutaehun';
+
+  @override
+  String get companyYouthProtectionManager => 'Yutaehun';
+
+  @override
+  String get companyRegistration => 'Yongin No. 2024-1234';
 }

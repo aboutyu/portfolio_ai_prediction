@@ -38,7 +38,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get termsAgreeButtonText => '이용약관';
 
   @override
+  String get guideButtonText => '이용안내';
+
+  @override
   String get noticesButtonText => '공지사항';
+
+  @override
+  String get eventButtonText => '이벤트';
 
   @override
   String get faqsButtonText => '자주 묻는 질문';
@@ -223,4 +229,49 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get inputHintMemoText => '메모를 입력하세요 (선택사항)';
+
+  @override
+  String get welcomeSuffix => '님\n환영합니다!';
+
+  @override
+  String get lastRecordedAt => '마지막 작성일';
+
+  @override
+  String get totalRecordCount => '전체 작성 개수';
+
+  @override
+  String get companyAddressText => '주소';
+
+  @override
+  String get companyContactText => '대표번호';
+
+  @override
+  String get companyCeoText => '대표이사';
+
+  @override
+  String get companyYouthProtectionManagerText => '청소년보호책임자';
+
+  @override
+  String get companyRegistrationText => '등록번호';
+
+  @override
+  String get companyName => '유태훈 스튜디오';
+
+  @override
+  String get companyServiceName => '헬스케어에스AI';
+
+  @override
+  String get companyAddress => '경기도 용인시 기흥구 구성로 (언남동, 동부센트레빌)';
+
+  @override
+  String get companyContact => '010-1234-5678';
+
+  @override
+  String get companyCeo => '유태훈';
+
+  @override
+  String get companyYouthProtectionManager => '유태훈';
+
+  @override
+  String get companyRegistration => '용인 제2024-1234호';
 }
