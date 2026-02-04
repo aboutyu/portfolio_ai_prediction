@@ -3,6 +3,8 @@ import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/screen/chat/data/models/chat_message_model.dart';
 import 'package:app/screen/chat/presentation/view_models/chat_view_model.dart';
 import 'package:app/screen/chat/presentation/widgets/chat_message_bubble_widget.dart';
+import 'package:app/screen/chat/presentation/widgets/chat_message_input_widget.dart';
+import 'package:app/screen/chat/presentation/widgets/chat_notice_widget.dart';
 import 'package:app/widgets/appbar_widgets/appbar_chat_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -16,7 +18,6 @@ class ChatScreen extends ConsumerStatefulWidget {
 }
 
 class _ChatScreenState extends ConsumerState<ChatScreen> {
-  final TextEditingController _textController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   ChatMessageRole _role = ChatMessageRole.llama;
   bool _isNoticeVisible = true;
@@ -29,7 +30,6 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
 
   @override
   void dispose() {
-    _textController.dispose();
     _scrollController.dispose();
     _scrollController.removeListener(_scrollListener);
     super.dispose();
@@ -40,7 +40,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     if (_scrollController.hasClients) {
       Future.delayed(const Duration(milliseconds: 100), () {
         _scrollController.animateTo(
-          0.0, // [수정] reverse: true일 때는 0이 맨 아래(최신)입니다!
+          0.0,
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeOut,
         );
@@ -111,17 +111,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
       ),
       body: Column(
         children: [
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            curve: Curves.easeInOut,
-            height: _isNoticeVisible ? 60.0 : 0.0,
-            child: ClipRect(
-              child: SingleChildScrollView(
-                physics: const NeverScrollableScrollPhysics(),
-                child: SizedBox(height: 60.0, child: _noticeArea(context)),
-              ),
-            ),
-          ),
+          ChatNoticeWidget(isNoticeVisible: _isNoticeVisible),
 
           // 1. 채팅 리스트 영역
           Expanded(
@@ -148,69 +138,9 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
             ),
           ),
 
-          // 2. 입력창 영역
-          _buildInputArea(context),
+          ChatMessageInputWidget(role: _role),
         ],
       ),
     );
-  }
-
-  Widget _noticeArea(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      color: Colors.yellow[100],
-      padding: const EdgeInsets.all(8.0),
-      child: Text(
-        context.tr.chatNoticeText,
-        style: TextStyle(color: Colors.black87),
-        textAlign: TextAlign.center,
-      ),
-    );
-  }
-
-  // 하단 입력창 위젯
-  Widget _buildInputArea(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8.0),
-      color: Colors.white,
-      child: SafeArea(
-        // 아이폰 하단 홈 바 영역 침범 방지
-        child: Row(
-          children: [
-            Expanded(
-              child: TextField(
-                controller: _textController,
-                decoration: InputDecoration(
-                  hintText: context.tr.chatInputHintText,
-                  border: const OutlineInputBorder(),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
-                  ),
-                ),
-                onSubmitted: (_) => _handleSend(),
-              ),
-            ),
-            const SizedBox(width: 8),
-            IconButton(
-              icon: const Icon(Icons.send, color: Colors.blue),
-              onPressed: _handleSend,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // 전송 버튼 동작
-  void _handleSend() {
-    final text = _textController.text.trim();
-    if (text.isEmpty) return;
-
-    // ViewModel의 sendMessage 호출
-    ref.read(chatViewModelProvider.notifier).sendMessage(text, _role);
-
-    // 입력창 비우기
-    _textController.clear();
   }
 }

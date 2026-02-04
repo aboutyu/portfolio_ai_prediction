@@ -1,7 +1,9 @@
+import 'package:app/helpers/cores/admob_config.dart';
 import 'package:app/helpers/enums/app_environment.enum.dart';
 import 'package:app/helpers/enums/platform.enum.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' as foundation;
+import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AppConfig {
@@ -14,6 +16,9 @@ class AppConfig {
 
   // Getter: 이제 앱 어디서든 AppConfig.env로 접근 가능
   static AppEnvironment get env => _env;
+
+  // AdMob 설정 인스턴스
+  static const AdmobConfig admob = AdmobConfig();
 
   // =================================
   // 나머지 env 값들도 여기에 추가
@@ -56,5 +61,36 @@ class AppConfig {
     );
   }
 
-  // =================================
+  static void debugMessage() {
+    final fb = firebaseOptions;
+    debugPrint('\n==================================================');
+    debugPrint('🛠️ [AppConfig Debug Info]');
+    debugPrint('--------------------------------------------------');
+    debugPrint('📌 Environment   : ${_env.toString()}');
+    debugPrint('📱 Platform      : ${isIOS ? "iOS" : "Android"}');
+    debugPrint('🌐 Host          : $host');
+    debugPrint('🔌 WebSocket     : $webSocketUrl ($webSocketPath)');
+    debugPrint('--------------------------------------------------');
+    debugPrint('🔥 [Firebase Configuration]');
+    debugPrint('   - Project ID  : ${fb.projectId}');
+    debugPrint('   - App ID      : ${fb.appId}');
+    debugPrint('   - API Key     : ${fb.apiKey}');
+    debugPrint('   - Sender ID   : ${fb.messagingSenderId}');
+    debugPrint('   - Bucket      : ${fb.storageBucket}');
+    if (isIOS) {
+      debugPrint('   - Bundle ID   : ${fb.iosBundleId}');
+    }
+    debugPrint('📢 [AdMob Configuration Check]');
+    debugPrint('   (Target Platform: ${AppConfig.isIOS ? "iOS" : "Android"})');
+    debugPrint('--------------------------------------------------');
+    debugPrint('🆔 App ID                : ${admob.appId}');
+    debugPrint('--------------------------------------------------');
+    debugPrint('🖼️ 앱 오프닝 광고     : ${admob.launchBanner}');
+    debugPrint('📏 적응형 배너       : ${admob.adaptiveBanner}');
+    debugPrint('📌 고정 배너         : ${admob.fixedBanner}');
+    debugPrint('📺 전면 광고         : ${admob.interstitial}');
+    debugPrint('🎁 보상형 광고        : ${admob.rewarded}');
+    debugPrint('🎁📺 보상형 전면 광고  : ${admob.rewardedInterstitial}');
+    debugPrint('==================================================');
+  }
 }

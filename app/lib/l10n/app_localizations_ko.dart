@@ -38,7 +38,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get termsAgreeButtonText => '이용약관';
 
   @override
+  String get guideButtonText => '이용안내';
+
+  @override
   String get noticesButtonText => '공지사항';
+
+  @override
+  String get eventButtonText => '이벤트';
 
   @override
   String get faqsButtonText => '자주 묻는 질문';
@@ -213,7 +219,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get chatNoticeText =>
-      '이 채팅은 선택한 AI 모델이 답변하기 때문에 느릴 수 있습니다.\n그리고 실제 상담사와의 대화가 아님을 유의하시고 참고만 하세요';
+      '[AI는 의사가 아닙니다]\n답변은 참고용일 뿐, 의학적 결정은 반드시 전문가와 상의하세요. 모델 특성상 답변이 늦거나 부정확할 수 있습니다.';
 
   @override
   String get chatNoMessages => '메시지가 없습니다.';
@@ -223,4 +229,49 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get inputHintMemoText => '메모를 입력하세요 (선택사항)';
+
+  @override
+  String get welcomeSuffix => '님\n환영합니다!';
+
+  @override
+  String get lastRecordedAt => '마지막 작성일';
+
+  @override
+  String get totalRecordCount => '전체 작성 개수';
+
+  @override
+  String get companyAddressText => '주소';
+
+  @override
+  String get companyContactText => '대표번호';
+
+  @override
+  String get companyCeoText => '대표이사';
+
+  @override
+  String get companyYouthProtectionManagerText => '청소년보호책임자';
+
+  @override
+  String get companyRegistrationText => '등록번호';
+
+  @override
+  String get companyName => '유태훈 스튜디오';
+
+  @override
+  String get companyServiceName => '헬스케어에스AI';
+
+  @override
+  String get companyAddress => '경기도 용인시 기흥구 구성로 (언남동, 동부센트레빌)';
+
+  @override
+  String get companyContact => '010-1234-5678';
+
+  @override
+  String get companyCeo => '유태훈';
+
+  @override
+  String get companyYouthProtectionManager => '유태훈';
+
+  @override
+  String get companyRegistration => '용인 제2024-1234호';
 }

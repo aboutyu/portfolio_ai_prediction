@@ -1,3 +1,4 @@
+import 'package:app/helpers/commons/colors.dart';
 import 'package:app/helpers/routers/router.dart';
 import 'package:app/l10n/app_localizations.dart';
 import 'package:app/widgets/loading_indicator/loading_indicator_widget.dart';
@@ -9,7 +10,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 void main() async {
-  await AppInitializer.initialize();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  await AppInitializer.initialize(widgetsBinding);
+
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -22,7 +25,18 @@ class MyApp extends ConsumerWidget {
     final router = ref.watch(routerProvider);
 
     return MaterialApp.router(
-      theme: ThemeData(fontFamily: 'Pretendard'),
+      theme: ThemeData(
+        useMaterial3: true,
+        scaffoldBackgroundColor: Colors.white,
+        fontFamily: 'Pretendard',
+        appBarTheme: AppBarTheme(
+          backgroundColor: appbarBackgroundColor,
+          surfaceTintColor: Colors.transparent,
+          scrolledUnderElevation: 0,
+          centerTitle: true,
+          elevation: 1,
+        ),
+      ),
 
       // 다국어 지원 설정
       localizationsDelegates: const [

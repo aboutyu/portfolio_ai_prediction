@@ -13,13 +13,7 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      title: appBarText(title),
-      centerTitle: true,
-      backgroundColor: Colors.white,
-      elevation: 1,
-      actions: actions,
-    );
+    return AppBar(title: appBarText(title), actions: actions);
   }
 
   @override

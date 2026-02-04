@@ -18,7 +18,9 @@
   "passwordConfirmHintText": "Re-enter your password",
   "usernameHintText": "Enter your name",
   "termsAgreeButtonText": " Terms of Service",
+  "guideButtonText": "User Guide",
   "noticesButtonText": "Notices",
+  "eventButtonText": "Events",
   "faqsButtonText": "FAQ",
 
 
@@ -93,10 +95,28 @@
   "bloodPressureLogInputHintBloodPressureText": "Enter your blood pressure",
 
   "chatInputHintText": "Enter your message",
-  "chatNoticeText": "This chat may be slow because the selected AI model is answering.\nPlease note that this is not a conversation with a real counselor and is for reference only.",
+  "chatNoticeText": "[AI is Not a Doctor]\nResponses are for reference only. Always consult a professional for medical decisions. Please note that answers may be delayed or inaccurate.",
   "chatNoMessages": "No messages.",
 
 
   "inputDateText": "Date",
-  "inputHintMemoText": "Enter a memo (optional)"
+  "inputHintMemoText": "Enter a memo (optional)",
+
+  "welcomeSuffix": ",\nWelcome!",
+  "lastRecordedAt": "Last Recorded",
+  "totalRecordCount": "Total Records",
+
+  "companyAddressText" : "Address",
+  "companyContactText" : "Contact Number",
+  "companyCeoText" : "CEO",
+  "companyYouthProtectionManagerText" : "Youth Protection Manager",
+  "companyRegistrationText" : "Registration Number",
+  
+  "companyName" : "YUTAEHUN Studio",
+  "companyServiceName" : "HealthcareSAI",
+  "companyAddress" : "Guseong-ro, Giheung-gu, Yongin-si, Gyeonggi-do (Eonnam-dong, Dongbu Centreville)",
+  "companyContact" : "02-6952-0980",
+  "companyCeo" : "Yutaehun",
+  "companyYouthProtectionManager" : "Yutaehun",
+  "companyRegistration" : "Yongin No. 2024-1234"
 }
