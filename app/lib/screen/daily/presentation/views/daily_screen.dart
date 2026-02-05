@@ -1,23 +1,20 @@
 import 'package:app/helpers/commons/common_funcs.dart';
 import 'package:app/helpers/cores/app_config.dart';
+import 'package:app/helpers/enums/daily_quick_menu_type.dart';
 import 'package:app/helpers/extensions/async_value_extension.dart';
 import 'package:app/helpers/extensions/buildcontext_extension.dart';
 import 'package:app/helpers/extensions/datetime_extension.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/screen/daily/data/models/timeline_item.model.dart';
 import 'package:app/screen/daily/presentation/view_models/daily_view_model.dart';
-import 'package:app/screen/daily/presentation/views/record_bloodglucos_detail_screen.dart';
 import 'package:app/screen/daily/presentation/views/record_bloodglucose_screen.dart';
-import 'package:app/screen/daily/presentation/views/record_bloodpressure_detail_screen.dart';
 import 'package:app/screen/daily/presentation/views/record_bloodpressure_screen.dart';
-import 'package:app/screen/daily/presentation/views/record_stepcount_detail_screen.dart';
 import 'package:app/screen/daily/presentation/views/record_stepcount_screen.dart';
-import 'package:app/screen/daily/presentation/views/record_weight_detail_screen.dart';
 import 'package:app/screen/daily/presentation/views/record_weight_screen.dart';
 import 'package:app/screen/daily/presentation/widgets/daily_expandable_fab_widget.dart';
-import 'package:app/screen/daily/presentation/widgets/daily_food_log_widget.dart';
-import 'package:app/screen/daily/presentation/widgets/daily_health_log_widget.dart';
 import 'package:app/widgets/appbar_widgets/appbar_calendar_widget.dart';
+import 'package:app/widgets/daily_logs/base_logs_list_icon_widget.dart';
+import 'package:app/widgets/daily_logs/base_logs_widget.dart';
 import 'package:app/widgets/list_widgets/no_item_widget.dart';
 import 'package:app/widgets/show_dialogs/base_dialog.dart';
 import 'package:app/widgets/show_dialogs/single_dialog_widget.dart';
@@ -88,81 +85,7 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
                   itemCount: logs.length,
                   padding: const EdgeInsets.all(16.0),
                   itemBuilder: (context, index) {
-                    final log = logs[index];
-
-                    switch (log.type) {
-                      case TimelineLogType.health:
-                        if (log.healthType == null) {
-                          return const SizedBox.shrink();
-                        }
-
-                        // 1. 다이얼로그와 위젯 양쪽에서 쓰기 위해 객체를 미리 생성
-                        final healthLogData = HealthLog(
-                          sequence: log.sequence,
-                          groupUuid: log.groupUuid,
-                          healthType: log.healthType!,
-                          healthValue: log.healthValue ?? 0.0,
-                          healthExtraValue: log.healthExtraValue,
-                          recordDate: log.recordDate,
-                        );
-
-                        // 2. 터치 이벤트를 위해 GestureDetector(또는 InkWell)로 감싸기
-                        return GestureDetector(
-                          onTap: () async {
-                            // 3. 요청하신 다이얼로그 코드 삽입
-                            final resultDate = await showDialog(
-                              context: context,
-                              barrierDismissible: true,
-                              builder: (BuildContext context) {
-                                return Dialog(
-                                  insetPadding: const EdgeInsets.symmetric(
-                                    horizontal: 25.0,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
-                                  ),
-                                  clipBehavior: Clip.hardEdge,
-                                  // 4. healthType에 따라 다른 화면 보여주기 (현재는 모두 같은 화면으로 설정됨)
-                                  child: switch (healthLogData.healthType) {
-                                    HealthLogType.WGT =>
-                                      RecordWeightDetailScreen(
-                                        healthLog: healthLogData,
-                                      ),
-                                    HealthLogType.SCT =>
-                                      RecordStepcountDetailScreen(
-                                        healthLog: healthLogData,
-                                      ),
-                                    HealthLogType.BGT =>
-                                      RecordBloodGlucoseDetailScreen(
-                                        healthLog: healthLogData,
-                                      ),
-                                    HealthLogType.BPT =>
-                                      RecordBloodpressureDetailScreen(
-                                        healthLog: healthLogData,
-                                      ),
-                                  },
-                                );
-                              },
-                            );
-
-                            // 화면 갱신
-                            await _refreshList(ref, context, resultDate);
-                          },
-                          // 기존 위젯 표시
-                          child: DailyHealthLogWidget(healthLog: healthLogData),
-                        );
-
-                      case TimelineLogType.food:
-                        return DailyFoodLogWidget(
-                          foodLog: FoodLog(
-                            sequence: log.sequence,
-                            foodName: log.foodName ?? '',
-                            calories: log.calories ?? 0.0,
-                            recordDate: log.recordDate,
-                            groupUuid: log.groupUuid,
-                          ),
-                        );
-                    }
+                    return BaseLogsWidget(data: logs[index]);
                   },
                 );
               },
@@ -171,21 +94,21 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
         ],
       ),
       floatingActionButton: DailyExpandableFabWidget(
-        onSelected: (DailyExpandableFabQuickMenuType type) async {
+        onSelected: (DailyQuickMenuType type) async {
           switch (type) {
-            case DailyExpandableFabQuickMenuType.weight:
+            case DailyQuickMenuType.weight:
               await _showHealthInputDialog(context, ref, HealthLogType.WGT);
               break;
-            case DailyExpandableFabQuickMenuType.stepCount:
+            case DailyQuickMenuType.stepCount:
               await _showHealthInputDialog(context, ref, HealthLogType.SCT);
               break;
-            case DailyExpandableFabQuickMenuType.glucose:
+            case DailyQuickMenuType.glucose:
               await _showHealthInputDialog(context, ref, HealthLogType.BGT);
               break;
-            case DailyExpandableFabQuickMenuType.bp:
+            case DailyQuickMenuType.bp:
               await _showHealthInputDialog(context, ref, HealthLogType.BPT);
               break;
-            case DailyExpandableFabQuickMenuType.meal:
+            case DailyQuickMenuType.meal:
               final DateTime? resultDate = await context.push('/record/food');
               await _refreshList(ref, context, resultDate);
               break;

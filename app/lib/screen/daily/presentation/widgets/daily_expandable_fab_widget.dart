@@ -1,18 +1,12 @@
+import 'package:app/helpers/enums/daily_quick_menu_type.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
+import 'package:app/widgets/daily_logs/base_logs_list_icon_widget.dart';
 import 'package:flutter/material.dart';
-
-enum DailyExpandableFabQuickMenuType {
-  meal, // 식사
-  weight, // 체중
-  stepCount, // 걸음수
-  glucose, // 혈당
-  bp, // 혈압
-}
 
 class DailyExpandableFabWidget extends StatefulWidget {
   const DailyExpandableFabWidget({super.key, required this.onSelected});
 
-  final Function(DailyExpandableFabQuickMenuType type) onSelected;
+  final Function(DailyQuickMenuType type) onSelected;
 
   @override
   State<DailyExpandableFabWidget> createState() =>
@@ -62,7 +56,7 @@ class _DailyExpandableFabWidgetState extends State<DailyExpandableFabWidget>
   }
 
   // 메뉴 선택 시 호출되는 함수
-  void _onItemTapped(DailyExpandableFabQuickMenuType type) {
+  void _onItemTapped(DailyQuickMenuType type) {
     _toggle(); // 1. 메뉴 닫기
     widget.onSelected(type); // 2. 상위 위젯에 알리기
   }
@@ -74,36 +68,11 @@ class _DailyExpandableFabWidgetState extends State<DailyExpandableFabWidget>
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         // --- 메뉴 버튼들 (위로 펼쳐짐) ---
-        _buildChildButton(
-          type: DailyExpandableFabQuickMenuType.meal,
-          icon: Icons.restaurant,
-          label: context.tr.dailyFloatingFoodText,
-          color: Colors.green,
-        ),
-        _buildChildButton(
-          type: DailyExpandableFabQuickMenuType.weight,
-          icon: Icons.monitor_weight,
-          label: context.tr.dailyFloatingWeightText,
-          color: Colors.blue,
-        ),
-        _buildChildButton(
-          type: DailyExpandableFabQuickMenuType.stepCount,
-          icon: Icons.directions_walk,
-          label: context.tr.dailyFloatingStepcountText,
-          color: Colors.teal,
-        ),
-        _buildChildButton(
-          type: DailyExpandableFabQuickMenuType.glucose,
-          icon: Icons.water_drop,
-          label: context.tr.dailyFloatingBloodGlucoseText,
-          color: Colors.red,
-        ),
-        _buildChildButton(
-          type: DailyExpandableFabQuickMenuType.bp,
-          icon: Icons.favorite,
-          label: context.tr.dailyFloatingBloodPressureText,
-          color: Colors.pink,
-        ),
+        _buildChildButton(context: context, type: DailyQuickMenuType.meal),
+        _buildChildButton(context: context, type: DailyQuickMenuType.weight),
+        _buildChildButton(context: context, type: DailyQuickMenuType.stepCount),
+        _buildChildButton(context: context, type: DailyQuickMenuType.glucose),
+        _buildChildButton(context: context, type: DailyQuickMenuType.bp),
 
         const SizedBox(height: 12),
 
@@ -123,10 +92,8 @@ class _DailyExpandableFabWidgetState extends State<DailyExpandableFabWidget>
   }
 
   Widget _buildChildButton({
-    required DailyExpandableFabQuickMenuType type,
-    required IconData icon,
-    required String label,
-    required Color color,
+    required BuildContext context,
+    required DailyQuickMenuType type,
   }) {
     return SizeTransition(
       sizeFactor: _expandAnimation,
@@ -142,7 +109,7 @@ class _DailyExpandableFabWidgetState extends State<DailyExpandableFabWidget>
               child: Padding(
                 padding: const EdgeInsets.only(right: 10),
                 child: Text(
-                  label,
+                  type.displayName(context),
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.black54,
@@ -160,7 +127,7 @@ class _DailyExpandableFabWidgetState extends State<DailyExpandableFabWidget>
                   color: Colors.white,
                   shape: BoxShape.circle,
                 ),
-                child: Icon(icon, color: color, size: 24),
+                child: type.icon(),
               ),
             ),
           ],

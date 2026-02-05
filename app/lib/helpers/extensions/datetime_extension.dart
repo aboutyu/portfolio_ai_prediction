@@ -8,4 +8,8 @@ extension DatetimeExtension on DateTime {
   String get forYearMonthDay {
     return DateFormat.yMMMMd().format(this);
   }
+
+  String get forHourMinute {
+    return DateFormat('a h:mm').format(this);
+  }
 }
