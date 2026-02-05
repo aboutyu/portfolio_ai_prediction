@@ -1,6 +1,4 @@
 import 'package:app/helpers/enums/daily_quick_menu_type.dart';
-import 'package:app/helpers/extensions/l10n_extension.dart';
-import 'package:app/widgets/daily_logs/base_logs_list_icon_widget.dart';
 import 'package:flutter/material.dart';
 
 class DailyExpandableFabWidget extends StatefulWidget {
@@ -102,33 +100,39 @@ class _DailyExpandableFabWidgetState extends State<DailyExpandableFabWidget>
         margin: const EdgeInsets.only(bottom: 10, right: 4),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
+
           children: [
-            // 라벨 (검은 배경 살짝 추가하여 가독성 높임)
-            Material(
-              color: Colors.transparent,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: Text(
-                  type.displayName(context),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black54,
+            // 1. 라벨 (흰색 배경)
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12.0,
+                vertical: 8.0,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
                   ),
+                ],
+              ),
+              child: Text(
+                type.displayName(context),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
                 ),
               ),
             ),
-            // 작은 원형 버튼
+
+            const SizedBox(width: 12), // 간격
+            // 2. 아이콘 버튼
             GestureDetector(
-              onTap: () => _onItemTapped(type), // ✅ 선택 시 콜백 실행
-              child: Container(
-                width: 45,
-                height: 45,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                ),
-                child: type.icon(),
-              ),
+              onTap: () => _onItemTapped(type),
+              child: type.iconWidget(40),
             ),
           ],
         ),

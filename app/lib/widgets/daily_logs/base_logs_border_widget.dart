@@ -13,7 +13,7 @@ class BaseLogsBorderWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(10.0),
-        border: Border.all(color: Colors.grey, width: 1.0),
+        border: Border.all(color: Colors.grey[300] ?? Colors.grey, width: 1.0),
       ),
       child: child,
     );

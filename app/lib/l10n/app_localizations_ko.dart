@@ -197,6 +197,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get stepcountLogInputHintStepcountText => '걸음수를 입력하세요';
 
   @override
+  String get stepcountLogUnitText => '걸음';
+
+  @override
   String get bloodGlucoseLogRecordTitle => '혈당수정';
 
   @override

@@ -470,6 +470,12 @@ abstract class AppLocalizations {
   /// **'걸음수를 입력하세요'**
   String get stepcountLogInputHintStepcountText;
 
+  /// No description provided for @stepcountLogUnitText.
+  ///
+  /// In ko, this message translates to:
+  /// **'걸음'**
+  String get stepcountLogUnitText;
+
   /// No description provided for @bloodGlucoseLogRecordTitle.
   ///
   /// In ko, this message translates to:

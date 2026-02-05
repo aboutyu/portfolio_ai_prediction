@@ -1,7 +1,6 @@
 import 'package:app/helpers/commons/pretendard.dart';
 import 'package:app/helpers/enums/daily_quick_menu_type.dart';
 import 'package:app/helpers/extensions/datetime_extension.dart';
-import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:flutter/material.dart';
 
 class BaseLogsListIconWidget extends StatelessWidget {
@@ -18,16 +17,8 @@ class BaseLogsListIconWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(
-          width: 45,
-          height: 45,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.circle,
-          ),
-          child: type.icon(),
-        ),
-        const SizedBox(width: 4),
+        type.iconWidget(40),
+        const SizedBox(width: 12),
         Expanded(
           child: Text(
             type.displayName(context),

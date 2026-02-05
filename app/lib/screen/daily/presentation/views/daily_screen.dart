@@ -13,7 +13,6 @@ import 'package:app/screen/daily/presentation/views/record_stepcount_screen.dart
 import 'package:app/screen/daily/presentation/views/record_weight_screen.dart';
 import 'package:app/screen/daily/presentation/widgets/daily_expandable_fab_widget.dart';
 import 'package:app/widgets/appbar_widgets/appbar_calendar_widget.dart';
-import 'package:app/widgets/daily_logs/base_logs_list_icon_widget.dart';
 import 'package:app/widgets/daily_logs/base_logs_widget.dart';
 import 'package:app/widgets/list_widgets/no_item_widget.dart';
 import 'package:app/widgets/show_dialogs/base_dialog.dart';
@@ -40,7 +39,7 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
 
     _bannerAd = BannerAd(
       adUnitId: AppConfig.admob.adaptiveBanner,
-      size: AdSize.banner, // 사이즈 지정 필수
+      size: AdSize.banner,
       request: const AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (ad) {
@@ -55,10 +54,26 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
     )..load();
   }
 
+  // 광고 위젯을 생성하는 헬퍼 메서드
+  Widget _buildAdWidget() {
+    if (!_isLoaded || _bannerAd == null) return const SizedBox.shrink();
+
+    return Container(
+      width: _bannerAd!.size.width.toDouble(),
+      height: _bannerAd!.size.height.toDouble(),
+      alignment: Alignment.center,
+      margin: const EdgeInsets.only(bottom: 16.0), // 리스트 아이템과 간격
+      child: AdWidget(ad: _bannerAd!),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final selectedDate = ref.watch(dailyDateProvider);
     final logsResponse = ref.watch(dailyViewModelProvider);
+
+    // 광고 표시 여부 확인
+    final showAd = _isLoaded && _bannerAd != null;
 
     return Scaffold(
       appBar: AppbarCalendarWidget(
@@ -67,55 +82,68 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
         onDateSelected: (DateTime selectedDate) async =>
             _fetchDailyTimeline(context, ref, selectedDate),
       ),
-      body: Column(
-        children: [
-          if (_isLoaded && _bannerAd != null)
-            SizedBox(
-              width: _bannerAd!.size.width.toDouble(),
-              height: _bannerAd!.size.height.toDouble(),
-              child: AdWidget(ad: _bannerAd!),
-            ),
-
-          Expanded(
-            child: logsResponse.draws(
-              data: (logs) {
-                if (logs.isEmpty) return noItemWidget(context);
-
-                return ListView.builder(
-                  itemCount: logs.length,
-                  padding: const EdgeInsets.all(16.0),
-                  itemBuilder: (context, index) {
-                    return BaseLogsWidget(data: logs[index]);
-                  },
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: DailyExpandableFabWidget(
-        onSelected: (DailyQuickMenuType type) async {
-          switch (type) {
-            case DailyQuickMenuType.weight:
-              await _showHealthInputDialog(context, ref, HealthLogType.WGT);
-              break;
-            case DailyQuickMenuType.stepCount:
-              await _showHealthInputDialog(context, ref, HealthLogType.SCT);
-              break;
-            case DailyQuickMenuType.glucose:
-              await _showHealthInputDialog(context, ref, HealthLogType.BGT);
-              break;
-            case DailyQuickMenuType.bp:
-              await _showHealthInputDialog(context, ref, HealthLogType.BPT);
-              break;
-            case DailyQuickMenuType.meal:
-              final DateTime? resultDate = await context.push('/record/food');
-              await _refreshList(ref, context, resultDate);
-              break;
+      body: logsResponse.draws(
+        data: (logs) {
+          if (logs.isEmpty) {
+            return _noItemWidget(showAd);
           }
+
+          // 데이터가 있을 때 (ListView.builder 사용)
+          return ListView.builder(
+            // 광고가 있으면 아이템 개수 + 1
+            itemCount: logs.length + (showAd ? 1 : 0),
+            padding: const EdgeInsets.all(16.0),
+            itemBuilder: (context, index) {
+              if (showAd) {
+                // 첫 번째 인덱스(0)는 광고 표시
+                if (index == 0) {
+                  return _buildAdWidget();
+                }
+                return BaseLogsWidget(data: logs[index - 1]);
+              }
+              return BaseLogsWidget(data: logs[index]);
+            },
+          );
         },
       ),
+      floatingActionButton: _fabWidget(),
     );
+  }
+
+  Widget _fabWidget() {
+    return DailyExpandableFabWidget(
+      onSelected: (DailyQuickMenuType type) async {
+        switch (type) {
+          case DailyQuickMenuType.weight:
+            await _showHealthInputDialog(context, ref, HealthLogType.WGT);
+            break;
+          case DailyQuickMenuType.stepCount:
+            await _showHealthInputDialog(context, ref, HealthLogType.SCT);
+            break;
+          case DailyQuickMenuType.glucose:
+            await _showHealthInputDialog(context, ref, HealthLogType.BGT);
+            break;
+          case DailyQuickMenuType.bp:
+            await _showHealthInputDialog(context, ref, HealthLogType.BPT);
+            break;
+          case DailyQuickMenuType.meal:
+            final DateTime? resultDate = await context.push('/record/food');
+            await _refreshList(ref, resultDate);
+            break;
+        }
+      },
+    );
+  }
+
+  Widget _noItemWidget(bool showAd) {
+    final itemWidget = NoItemWidget();
+    if (showAd) {
+      return ListView(
+        padding: const EdgeInsets.all(16.0),
+        children: [_buildAdWidget(), const SizedBox(height: 50), itemWidget],
+      );
+    }
+    return itemWidget;
   }
 
   void _fetchDailyTimeline(
@@ -151,7 +179,6 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
             borderRadius: BorderRadius.circular(16.0),
           ),
           clipBehavior: Clip.hardEdge,
-
           child: switch (healthType) {
             HealthLogType.WGT => const RecordWeightScreen(),
             HealthLogType.SCT => const RecordStepcountScreen(),
@@ -161,14 +188,10 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
         );
       },
     );
-    await _refreshList(ref, context, resultDate);
+    await _refreshList(ref, resultDate);
   }
 
-  Future<void> _refreshList(
-    WidgetRef ref,
-    BuildContext context,
-    DateTime? resultDate,
-  ) async {
+  Future<void> _refreshList(WidgetRef ref, DateTime? resultDate) async {
     if (resultDate == null) return;
     try {
       await ref.read(dailyDateProvider.notifier).update(resultDate);

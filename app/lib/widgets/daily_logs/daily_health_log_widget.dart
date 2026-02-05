@@ -1,7 +1,10 @@
-import 'package:app/helpers/commons/pretendard.dart';
-import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/screen/daily/data/models/timeline_item.model.dart';
 import 'package:app/widgets/daily_logs/base_logs_border_widget.dart';
+import 'package:app/widgets/daily_logs/base_logs_list_icon_widget.dart';
+import 'package:app/widgets/daily_logs/health_log_sub_widgets/health_log_bp_widget.dart';
+import 'package:app/widgets/daily_logs/health_log_sub_widgets/health_log_bs_widget.dart';
+import 'package:app/widgets/daily_logs/health_log_sub_widgets/health_log_step_widget.dart';
+import 'package:app/widgets/daily_logs/health_log_sub_widgets/health_log_weight_widget.dart';
 import 'package:flutter/material.dart';
 
 class DailyHealthLogWidget extends StatelessWidget {
@@ -15,51 +18,37 @@ class DailyHealthLogWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            '${context.tr.dailyHealthLogTitle} - ${healthLog.healthType.displayName(context)}',
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          BaseLogsListIconWidget(
+            type: healthLog.healthType.toDailyQuickMenuType,
+            dateTime: healthLog.recordDate,
           ),
           const SizedBox(height: 4),
-          Text(
-            'Value: ${healthLog.healthValue.toStringAsFixed(1)}',
-            style: const TextStyle(fontSize: 14),
-          ),
-          if (healthLog.healthExtraValue != null)
-            Text(
-              'Extra Value: ${healthLog.healthExtraValue?.toStringAsFixed(1)}',
-              style: const TextStyle(fontSize: 14),
-            ),
-          Text(
-            '${context.tr.recordDateText} on ${healthLog.recordDate.toLocal().toString().split(' ')[0]}',
-            style: Pretendard.regular(color: Colors.indigo),
-          ),
+          _healthLogWidget(healthLog),
         ],
       ),
     );
+  }
 
-    // return Column(
-    //   crossAxisAlignment: CrossAxisAlignment.start,
-    //   children: [
-    //     Text(
-    //       '${context.tr.dailyHealthLogTitle} - ${healthLog.healthType.displayName(context)}',
-    //       style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-    //     ),
-    //     const SizedBox(height: 4), // 가독성을 위해 간격 살짝 추가
-    //     Text(
-    //       'Value: ${healthLog.healthValue.toStringAsFixed(1)}',
-    //       style: const TextStyle(fontSize: 14),
-    //     ),
-    //     if (healthLog.healthExtraValue != null)
-    //       Text(
-    //         'Extra Value: ${healthLog.healthExtraValue?.toStringAsFixed(1)}',
-    //         style: const TextStyle(fontSize: 14),
-    //       ),
-    //     Text(
-    //       '${context.tr.recordDateText} on ${healthLog.recordDate.toLocal().toString().split(' ')[0]}',
-    //       style: Pretendard.regular(color: Colors.indigo),
-    //     ),
-    //   ],
-    // );
+  Widget _healthLogWidget(HealthLog data) {
+    final healthType = data.healthType;
+    final value = data.healthValue;
+    final extra = data.healthExtraValue;
+
+    if (healthType == HealthLogType.WGT) {
+      // 체중
+      return HealthLogWeightWidget(weight: value);
+    } else if (healthType == HealthLogType.BPT && extra != null) {
+      // 혈압
+      return HealthLogBpWidget(systolic: value, diastolic: extra);
+    } else if (healthType == HealthLogType.SCT) {
+      // 걸음수
+      return HealthLogStepWidget(steps: value);
+    } else if (healthType == HealthLogType.BGT) {
+      // 혈당
+      return HealthLogBsWidget(bs: value);
+    } else {
+      return const SizedBox.shrink();
+    }
   }
 
   // 수정 기능 추가해야 함

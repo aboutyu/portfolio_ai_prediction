@@ -83,6 +83,7 @@
 
   "stepcountLogRecordTitle": "걸음수수정",
   "stepcountLogInputHintStepcountText": "걸음수를 입력하세요",
+  "stepcountLogUnitText": "걸음",
 
   "bloodGlucoseLogRecordTitle": "혈당수정",
   "bloodGlucoseLogInputHintBloodGlucoseText": "혈당을 입력하세요",

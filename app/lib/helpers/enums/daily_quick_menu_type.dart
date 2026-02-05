@@ -10,7 +10,19 @@ enum DailyQuickMenuType {
 }
 
 extension DailyQuickMenuTypeExtension on DailyQuickMenuType {
-  Icon icon() {
+  Widget iconWidget(double size) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: Colors.grey[100],
+        shape: BoxShape.circle,
+      ),
+      child: icon,
+    );
+  }
+
+  Icon get icon {
     switch (this) {
       case DailyQuickMenuType.meal:
         return Icon(Icons.restaurant, color: Colors.green);
