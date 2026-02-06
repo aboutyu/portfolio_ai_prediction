@@ -85,6 +85,7 @@
 
   "stepcountLogRecordTitle": "Step Count Edit",
   "stepcountLogInputHintStepcountText": "Enter your step count",
+  "stepcountLogUnitText": "steps",
 
   "bloodGlucoseLogRecordTitle": "Blood Glucose Edit",
   "bloodGlucoseLogInputHintBloodGlucoseText": "Enter your blood glucose",
