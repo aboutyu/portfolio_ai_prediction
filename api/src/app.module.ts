@@ -16,9 +16,9 @@ import { ChatModule } from './chat/chat.module';
 // 현재 환경에 따라 파일 경로 결정 함수
 const getEnvFilePath = () => {
   if (process.env.NODE_ENV === 'production') {
-    return '.env/.production.env';
+    return '.env/production.env';
   }
-  return '.env/.development.env';
+  return '.env/development.env';
 };
 
 @Module({
@@ -44,5 +44,5 @@ const getEnvFilePath = () => {
   ],
 })
 export class AppModule {
-  constructor(private dataSource: DataSource) {}
+  constructor(private dataSource: DataSource) { }
 }
