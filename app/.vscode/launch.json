@@ -1,49 +1,37 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Local (Debug)",
-            "request": "launch",
-            "type": "dart",
-            "program": "lib/main.dart",
-            "flutterMode": "debug",
-            "args": [
-                "--dart-define",
-                "ENV=local"
-            ]
-        },
-        {
-            "name": "Dev (Debug)",
-            "request": "launch",
-            "type": "dart",
-            "program": "lib/main.dart",
-            "flutterMode": "debug",
-            "args": [
-                "--dart-define",
-                "ENV=dev"
-            ]
-        },
-        {
-            "name": "Dev (Release)",
-            "request": "launch",
-            "type": "dart",
-            "program": "lib/main.dart",
-            "flutterMode": "release",
-            "args": [
-                "--dart-define",
-                "ENV=dev"
-            ]
-        },
-        {
-            "name": "Prod (Release)",
-            "request": "launch",
-            "type": "dart",
-            "program": "lib/main.dart",
-            "flutterMode": "release",
-            "args": [
-                "--dart-define",
-                "ENV=prod"
-            ]
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Local (Debug)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "debug",
+      "args": ["--dart-define", "ENV=local", "--flavor", "local"]
+    },
+    {
+      "name": "Dev (Debug)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "debug",
+      "args": ["--dart-define", "ENV=dev", "--flavor", "dev"]
+    },
+    {
+      "name": "Dev (Release)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "release",
+      "args": ["--dart-define", "ENV=dev", "--flavor", "dev"]
+    },
+    {
+      "name": "Prod (Release)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "release",
+      "args": ["--dart-define", "ENV=prod", "--flavor", "prod"]
+    }
+  ]
 }

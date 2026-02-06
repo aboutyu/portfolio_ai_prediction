@@ -1,19 +1,30 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { GlobalMiddleware } from './common/middlewares/global.middleware';
-import { database } from './configures/database';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Sessions } from './entities/session.entity';
-import { FoodNutritionInfo } from './entities/food-nutrition-info.entity';
+import { database } from './helpers/config/database';
+import { LoginModule } from './login/login.module';
+import { DashboardModule } from './dashboard/dashboard.module';
+import { ConfigModule } from '@nestjs/config';
+
+// 현재 환경에 따라 파일 경로 결정 함수
+const getEnvFilePath = () => {
+  if (process.env.NODE_ENV === 'production') {
+    return '.env/.production.admin.env';
+  }
+  return '.env/.development.admin.env';
+};
 
 @Module({
-  imports: [database, TypeOrmModule.forFeature([Sessions, FoodNutritionInfo])],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: getEnvFilePath(),
+    }),
+    database,
+    LoginModule,
+    DashboardModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(GlobalMiddleware).forRoutes('*'); // 모든 요청에서 실행
-  }
-}
+export class AppModule {}

@@ -1,21 +1,23 @@
 import 'package:app/helpers/extensions/l10n_extension.dart';
+import 'package:app/screen/home/presentation/view_models/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TabbarScreen extends StatelessWidget {
+class TabbarScreen extends ConsumerWidget {
   const TabbarScreen({super.key, required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: navigationShell,
       bottomNavigationBar: _naviationTheme(
         context,
         BottomNavigationBar(
           currentIndex: navigationShell.currentIndex,
-          onTap: (index) async => _onTapped(index, navigationShell),
+          onTap: (index) async => _onTapped(index, navigationShell, ref),
           selectedFontSize: 12,
           unselectedFontSize: 12,
           type: BottomNavigationBarType.fixed,
@@ -62,7 +64,13 @@ class TabbarScreen extends StatelessWidget {
   Future<void> _onTapped(
     int index,
     StatefulNavigationShell navigationShell,
+    WidgetRef ref,
   ) async {
+    // 홈 탭을 눌렀을 때만 데이터 갱신 체크 실행
+    if (index == 0) {
+      ref.read(homeViewModelProvider.notifier).checkAndRefresh();
+    }
+
     navigationShell.goBranch(
       index,
       initialLocation: index == navigationShell.currentIndex,

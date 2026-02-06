@@ -20,7 +20,6 @@ if (keystorePropertiesFile.exists()) {
 android {
     namespace = "portfolio.ai.prediction"
     compileSdk = flutter.compileSdkVersion
-//    ndkVersion = flutter.ndkVersion
     ndkVersion = "27.0.12077973"
 
     compileOptions {
@@ -33,10 +32,7 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "portfolio.ai.prediction.dev"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
+        applicationId = "portfolio.ai.prediction"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
@@ -57,11 +53,35 @@ android {
 
     buildTypes {
         getByName("release") {
-            // 위에서 만든 release 서명 적용
             signingConfig = signingConfigs.getByName("release")
-            // 만약 난독화가 필요하면 아래 옵션 사용 (기본값 false)
-            isMinifyEnabled = false
-            isShrinkResources = false
+
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+        }
+    }
+
+    // ✅ [1] Flavor Dimension 정의 (환경 그룹)
+    flavorDimensions += "env"
+
+    // ✅ [2] Product Flavors 설정 (Local, Dev, Prod)
+    productFlavors {
+        // 1. Local 환경(URL 정보만 다름)
+        create("local") {
+            dimension = "env"
+            applicationIdSuffix = ".dev"   // 패키지명: ...prediction.dev
+        }
+
+        // 2. Dev 환경
+        create("dev") {
+            dimension = "env"
+            applicationIdSuffix = ".dev"     // 패키지명: ...prediction.dev
+        }
+
+        // 3. Prod 환경 (운영)
+        create("prod") {
+            dimension = "env"
+            applicationIdSuffix = ""         // 패키지명: ...prediction (변경 없음)
         }
     }
 }

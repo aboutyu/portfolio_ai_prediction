@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 enum RecordButtonType { close, save, delete }
 
 class RecordButtonWidget extends StatelessWidget {
-  RecordButtonWidget({
+  const RecordButtonWidget({
     super.key,
     this.isDeleted = false,
     required this.onTapped,

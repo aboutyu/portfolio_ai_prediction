@@ -98,7 +98,7 @@ export class MembershipController {
     try {
       const templatePath = path.join(
         process.cwd(),
-        'src',
+        'dist',
         'resources',
         'terms',
         'terms.html',
