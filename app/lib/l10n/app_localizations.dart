@@ -152,11 +152,23 @@ abstract class AppLocalizations {
   /// **'이용약관'**
   String get termsAgreeButtonText;
 
+  /// No description provided for @guideButtonText.
+  ///
+  /// In ko, this message translates to:
+  /// **'이용안내'**
+  String get guideButtonText;
+
   /// No description provided for @noticesButtonText.
   ///
   /// In ko, this message translates to:
   /// **'공지사항'**
   String get noticesButtonText;
+
+  /// No description provided for @eventButtonText.
+  ///
+  /// In ko, this message translates to:
+  /// **'이벤트'**
+  String get eventButtonText;
 
   /// No description provided for @faqsButtonText.
   ///
@@ -458,6 +470,12 @@ abstract class AppLocalizations {
   /// **'걸음수를 입력하세요'**
   String get stepcountLogInputHintStepcountText;
 
+  /// No description provided for @stepcountLogUnitText.
+  ///
+  /// In ko, this message translates to:
+  /// **'걸음'**
+  String get stepcountLogUnitText;
+
   /// No description provided for @bloodGlucoseLogRecordTitle.
   ///
   /// In ko, this message translates to:
@@ -503,7 +521,7 @@ abstract class AppLocalizations {
   /// No description provided for @chatNoticeText.
   ///
   /// In ko, this message translates to:
-  /// **'이 채팅은 선택한 AI 모델이 답변하기 때문에 느릴 수 있습니다.\n그리고 실제 상담사와의 대화가 아님을 유의하시고 참고만 하세요'**
+  /// **'[AI는 의사가 아닙니다]\n답변은 참고용일 뿐, 의학적 결정은 반드시 전문가와 상의하세요. 모델 특성상 답변이 늦거나 부정확할 수 있습니다.'**
   String get chatNoticeText;
 
   /// No description provided for @chatNoMessages.
@@ -523,6 +541,96 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'메모를 입력하세요 (선택사항)'**
   String get inputHintMemoText;
+
+  /// No description provided for @welcomeSuffix.
+  ///
+  /// In ko, this message translates to:
+  /// **'님\n환영합니다!'**
+  String get welcomeSuffix;
+
+  /// No description provided for @lastRecordedAt.
+  ///
+  /// In ko, this message translates to:
+  /// **'마지막 작성일'**
+  String get lastRecordedAt;
+
+  /// No description provided for @totalRecordCount.
+  ///
+  /// In ko, this message translates to:
+  /// **'전체 작성 개수'**
+  String get totalRecordCount;
+
+  /// No description provided for @companyAddressText.
+  ///
+  /// In ko, this message translates to:
+  /// **'주소'**
+  String get companyAddressText;
+
+  /// No description provided for @companyContactText.
+  ///
+  /// In ko, this message translates to:
+  /// **'대표번호'**
+  String get companyContactText;
+
+  /// No description provided for @companyCeoText.
+  ///
+  /// In ko, this message translates to:
+  /// **'대표이사'**
+  String get companyCeoText;
+
+  /// No description provided for @companyYouthProtectionManagerText.
+  ///
+  /// In ko, this message translates to:
+  /// **'청소년보호책임자'**
+  String get companyYouthProtectionManagerText;
+
+  /// No description provided for @companyRegistrationText.
+  ///
+  /// In ko, this message translates to:
+  /// **'등록번호'**
+  String get companyRegistrationText;
+
+  /// No description provided for @companyName.
+  ///
+  /// In ko, this message translates to:
+  /// **'유태훈 스튜디오'**
+  String get companyName;
+
+  /// No description provided for @companyServiceName.
+  ///
+  /// In ko, this message translates to:
+  /// **'헬스케어에스AI'**
+  String get companyServiceName;
+
+  /// No description provided for @companyAddress.
+  ///
+  /// In ko, this message translates to:
+  /// **'경기도 용인시 기흥구 구성로 (언남동, 동부센트레빌)'**
+  String get companyAddress;
+
+  /// No description provided for @companyContact.
+  ///
+  /// In ko, this message translates to:
+  /// **'010-1234-5678'**
+  String get companyContact;
+
+  /// No description provided for @companyCeo.
+  ///
+  /// In ko, this message translates to:
+  /// **'유태훈'**
+  String get companyCeo;
+
+  /// No description provided for @companyYouthProtectionManager.
+  ///
+  /// In ko, this message translates to:
+  /// **'유태훈'**
+  String get companyYouthProtectionManager;
+
+  /// No description provided for @companyRegistration.
+  ///
+  /// In ko, this message translates to:
+  /// **'용인 제2024-1234호'**
+  String get companyRegistration;
 }
 
 class _AppLocalizationsDelegate

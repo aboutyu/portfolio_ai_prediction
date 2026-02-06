@@ -81,7 +81,7 @@ android {
         // 3. Prod 환경 (운영)
         create("prod") {
             dimension = "env"
-            applicationIdSuffix = ""         // 패키지명: ...prediction (변경 없음)
+            applicationIdSuffix = ""         // 패키지명: ...prediction
         }
     }
 }

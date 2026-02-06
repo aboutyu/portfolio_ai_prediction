@@ -5,7 +5,14 @@ import 'package:app/screen/auth/data/models/login_response.model.dart'; // Login
 
 part 'auth_storage.g.dart';
 
-enum AuthStorageKey { accessToken, refreshToken, userId, username, sequence }
+enum AuthStorageKey {
+  accessToken,
+  refreshToken,
+  userId,
+  username,
+  sequence,
+  thumbnail,
+}
 
 extension AuthStorageKeyExtension on AuthStorageKey {
   String get string {
@@ -20,6 +27,8 @@ extension AuthStorageKeyExtension on AuthStorageKey {
         return 'username';
       case AuthStorageKey.sequence:
         return 'sequence';
+      case AuthStorageKey.thumbnail:
+        return 'thumbnail';
     }
   }
 }
@@ -44,6 +53,10 @@ class AuthStorage {
       _storage.write(key: AuthStorageKey.userId.string, value: data.userId),
       _storage.write(key: AuthStorageKey.username.string, value: data.username),
       _storage.write(
+        key: AuthStorageKey.thumbnail.string,
+        value: data.thumbnail,
+      ),
+      _storage.write(
         key: AuthStorageKey.sequence.string,
         value: data.sequence.toString(),
       ), // int -> String 변환
@@ -54,6 +67,7 @@ class AuthStorage {
       'sequence: ${await _storage.read(key: AuthStorageKey.sequence.string)}',
       'userId: ${await _storage.read(key: AuthStorageKey.userId.string)}',
       'username: ${await _storage.read(key: AuthStorageKey.username.string)}',
+      'thumbnail: ${await _storage.read(key: AuthStorageKey.thumbnail.string)}',
       'accessToken: ${await _storage.read(key: AuthStorageKey.accessToken.string)}',
       'refreshToken: ${await _storage.read(key: AuthStorageKey.refreshToken.string)}',
     ]);

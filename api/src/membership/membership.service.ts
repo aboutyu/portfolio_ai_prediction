@@ -44,6 +44,7 @@ export class MembershipService {
     userId: true,
     username: true,
     lastLogin: true,
+    thumbnail: true,
   } as const;
 
   private readonly termsSelection = {

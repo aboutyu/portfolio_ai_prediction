@@ -1,23 +1,19 @@
 import 'package:app/helpers/commons/common_funcs.dart';
 import 'package:app/helpers/cores/app_config.dart';
+import 'package:app/helpers/enums/daily_quick_menu_type.dart';
 import 'package:app/helpers/extensions/async_value_extension.dart';
 import 'package:app/helpers/extensions/buildcontext_extension.dart';
 import 'package:app/helpers/extensions/datetime_extension.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/screen/daily/data/models/timeline_item.model.dart';
 import 'package:app/screen/daily/presentation/view_models/daily_view_model.dart';
-import 'package:app/screen/daily/presentation/views/record_bloodglucos_detail_screen.dart';
 import 'package:app/screen/daily/presentation/views/record_bloodglucose_screen.dart';
-import 'package:app/screen/daily/presentation/views/record_bloodpressure_detail_screen.dart';
 import 'package:app/screen/daily/presentation/views/record_bloodpressure_screen.dart';
-import 'package:app/screen/daily/presentation/views/record_stepcount_detail_screen.dart';
 import 'package:app/screen/daily/presentation/views/record_stepcount_screen.dart';
-import 'package:app/screen/daily/presentation/views/record_weight_detail_screen.dart';
 import 'package:app/screen/daily/presentation/views/record_weight_screen.dart';
 import 'package:app/screen/daily/presentation/widgets/daily_expandable_fab_widget.dart';
-import 'package:app/screen/daily/presentation/widgets/daily_food_log_widget.dart';
-import 'package:app/screen/daily/presentation/widgets/daily_health_log_widget.dart';
 import 'package:app/widgets/appbar_widgets/appbar_calendar_widget.dart';
+import 'package:app/widgets/daily_logs/base_logs_widget.dart';
 import 'package:app/widgets/list_widgets/no_item_widget.dart';
 import 'package:app/widgets/show_dialogs/base_dialog.dart';
 import 'package:app/widgets/show_dialogs/single_dialog_widget.dart';
@@ -43,7 +39,7 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
 
     _bannerAd = BannerAd(
       adUnitId: AppConfig.admob.adaptiveBanner,
-      size: AdSize.banner, // 사이즈 지정 필수
+      size: AdSize.banner,
       request: const AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (ad) {
@@ -58,10 +54,26 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
     )..load();
   }
 
+  // 광고 위젯을 생성하는 헬퍼 메서드
+  Widget _buildAdWidget() {
+    if (!_isLoaded || _bannerAd == null) return const SizedBox.shrink();
+
+    return Container(
+      width: _bannerAd!.size.width.toDouble(),
+      height: _bannerAd!.size.height.toDouble(),
+      alignment: Alignment.center,
+      margin: const EdgeInsets.only(bottom: 16.0), // 리스트 아이템과 간격
+      child: AdWidget(ad: _bannerAd!),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final selectedDate = ref.watch(dailyDateProvider);
     final logsResponse = ref.watch(dailyViewModelProvider);
+
+    // 광고 표시 여부 확인
+    final showAd = _isLoaded && _bannerAd != null;
 
     return Scaffold(
       appBar: AppbarCalendarWidget(
@@ -70,129 +82,68 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
         onDateSelected: (DateTime selectedDate) async =>
             _fetchDailyTimeline(context, ref, selectedDate),
       ),
-      body: Column(
-        children: [
-          if (_isLoaded && _bannerAd != null)
-            SizedBox(
-              width: _bannerAd!.size.width.toDouble(),
-              height: _bannerAd!.size.height.toDouble(),
-              child: AdWidget(ad: _bannerAd!),
-            ),
-
-          Expanded(
-            child: logsResponse.draws(
-              data: (logs) {
-                if (logs.isEmpty) return noItemWidget(context);
-
-                return ListView.builder(
-                  itemCount: logs.length,
-                  padding: const EdgeInsets.all(16.0),
-                  itemBuilder: (context, index) {
-                    final log = logs[index];
-
-                    switch (log.type) {
-                      case TimelineLogType.health:
-                        if (log.healthType == null) {
-                          return const SizedBox.shrink();
-                        }
-
-                        // 1. 다이얼로그와 위젯 양쪽에서 쓰기 위해 객체를 미리 생성
-                        final healthLogData = HealthLog(
-                          sequence: log.sequence,
-                          groupUuid: log.groupUuid,
-                          healthType: log.healthType!,
-                          healthValue: log.healthValue ?? 0.0,
-                          healthExtraValue: log.healthExtraValue,
-                          recordDate: log.recordDate,
-                        );
-
-                        // 2. 터치 이벤트를 위해 GestureDetector(또는 InkWell)로 감싸기
-                        return GestureDetector(
-                          onTap: () async {
-                            // 3. 요청하신 다이얼로그 코드 삽입
-                            final resultDate = await showDialog(
-                              context: context,
-                              barrierDismissible: true,
-                              builder: (BuildContext context) {
-                                return Dialog(
-                                  insetPadding: const EdgeInsets.symmetric(
-                                    horizontal: 25.0,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
-                                  ),
-                                  clipBehavior: Clip.hardEdge,
-                                  // 4. healthType에 따라 다른 화면 보여주기 (현재는 모두 같은 화면으로 설정됨)
-                                  child: switch (healthLogData.healthType) {
-                                    HealthLogType.WGT =>
-                                      RecordWeightDetailScreen(
-                                        healthLog: healthLogData,
-                                      ),
-                                    HealthLogType.SCT =>
-                                      RecordStepcountDetailScreen(
-                                        healthLog: healthLogData,
-                                      ),
-                                    HealthLogType.BGT =>
-                                      RecordBloodGlucoseDetailScreen(
-                                        healthLog: healthLogData,
-                                      ),
-                                    HealthLogType.BPT =>
-                                      RecordBloodpressureDetailScreen(
-                                        healthLog: healthLogData,
-                                      ),
-                                  },
-                                );
-                              },
-                            );
-
-                            // 화면 갱신
-                            await _refreshList(ref, context, resultDate);
-                          },
-                          // 기존 위젯 표시
-                          child: DailyHealthLogWidget(healthLog: healthLogData),
-                        );
-
-                      case TimelineLogType.food:
-                        return DailyFoodLogWidget(
-                          foodLog: FoodLog(
-                            sequence: log.sequence,
-                            foodName: log.foodName ?? '',
-                            calories: log.calories ?? 0.0,
-                            recordDate: log.recordDate,
-                            groupUuid: log.groupUuid,
-                          ),
-                        );
-                    }
-                  },
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: DailyExpandableFabWidget(
-        onSelected: (DailyExpandableFabQuickMenuType type) async {
-          switch (type) {
-            case DailyExpandableFabQuickMenuType.weight:
-              await _showHealthInputDialog(context, ref, HealthLogType.WGT);
-              break;
-            case DailyExpandableFabQuickMenuType.stepCount:
-              await _showHealthInputDialog(context, ref, HealthLogType.SCT);
-              break;
-            case DailyExpandableFabQuickMenuType.glucose:
-              await _showHealthInputDialog(context, ref, HealthLogType.BGT);
-              break;
-            case DailyExpandableFabQuickMenuType.bp:
-              await _showHealthInputDialog(context, ref, HealthLogType.BPT);
-              break;
-            case DailyExpandableFabQuickMenuType.meal:
-              final DateTime? resultDate = await context.push('/record/food');
-              await _refreshList(ref, context, resultDate);
-              break;
+      body: logsResponse.draws(
+        data: (logs) {
+          if (logs.isEmpty) {
+            return _noItemWidget(showAd);
           }
+
+          // 데이터가 있을 때 (ListView.builder 사용)
+          return ListView.builder(
+            // 광고가 있으면 아이템 개수 + 1
+            itemCount: logs.length + (showAd ? 1 : 0),
+            padding: const EdgeInsets.all(16.0),
+            itemBuilder: (context, index) {
+              if (showAd) {
+                // 첫 번째 인덱스(0)는 광고 표시
+                if (index == 0) {
+                  return _buildAdWidget();
+                }
+                return BaseLogsWidget(data: logs[index - 1]);
+              }
+              return BaseLogsWidget(data: logs[index]);
+            },
+          );
         },
       ),
+      floatingActionButton: _fabWidget(),
     );
+  }
+
+  Widget _fabWidget() {
+    return DailyExpandableFabWidget(
+      onSelected: (DailyQuickMenuType type) async {
+        switch (type) {
+          case DailyQuickMenuType.weight:
+            await _showHealthInputDialog(context, ref, HealthLogType.WGT);
+            break;
+          case DailyQuickMenuType.stepCount:
+            await _showHealthInputDialog(context, ref, HealthLogType.SCT);
+            break;
+          case DailyQuickMenuType.glucose:
+            await _showHealthInputDialog(context, ref, HealthLogType.BGT);
+            break;
+          case DailyQuickMenuType.bp:
+            await _showHealthInputDialog(context, ref, HealthLogType.BPT);
+            break;
+          case DailyQuickMenuType.meal:
+            final DateTime? resultDate = await context.push('/record/food');
+            await _refreshList(ref, resultDate);
+            break;
+        }
+      },
+    );
+  }
+
+  Widget _noItemWidget(bool showAd) {
+    final itemWidget = NoItemWidget();
+    if (showAd) {
+      return ListView(
+        padding: const EdgeInsets.all(16.0),
+        children: [_buildAdWidget(), const SizedBox(height: 50), itemWidget],
+      );
+    }
+    return itemWidget;
   }
 
   void _fetchDailyTimeline(
@@ -228,7 +179,6 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
             borderRadius: BorderRadius.circular(16.0),
           ),
           clipBehavior: Clip.hardEdge,
-
           child: switch (healthType) {
             HealthLogType.WGT => const RecordWeightScreen(),
             HealthLogType.SCT => const RecordStepcountScreen(),
@@ -238,14 +188,10 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
         );
       },
     );
-    await _refreshList(ref, context, resultDate);
+    await _refreshList(ref, resultDate);
   }
 
-  Future<void> _refreshList(
-    WidgetRef ref,
-    BuildContext context,
-    DateTime? resultDate,
-  ) async {
+  Future<void> _refreshList(WidgetRef ref, DateTime? resultDate) async {
     if (resultDate == null) return;
     try {
       await ref.read(dailyDateProvider.notifier).update(resultDate);

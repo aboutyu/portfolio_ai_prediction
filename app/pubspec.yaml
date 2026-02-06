@@ -66,6 +66,7 @@ dependencies:
   timelines_plus: ^1.0.8
   flutter_native_splash: ^2.4.7
   google_mobile_ads: ^7.0.0
+  carousel_slider: ^5.1.1
 
 dev_dependencies:
   flutter_test:
