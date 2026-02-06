@@ -9,9 +9,11 @@ import { ConfigModule } from '@nestjs/config';
 // 현재 환경에 따라 파일 경로 결정 함수
 const getEnvFilePath = () => {
   if (process.env.NODE_ENV === 'production') {
-    return '.env/.production.admin.env';
+    return '.env/production.env';
+  } else if (process.env.NODE_ENV === 'local') {
+    return '.env/local.env';
   }
-  return '.env/.development.admin.env';
+  return '.env/development.env';
 };
 
 @Module({
@@ -27,4 +29,4 @@ const getEnvFilePath = () => {
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
