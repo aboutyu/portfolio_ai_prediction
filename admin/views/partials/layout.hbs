@@ -7,7 +7,7 @@
       content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'
       name='viewport'
     />
-    <title>{{service.name}} 어드민</title>
+    <title>{{service.service_name}} 어드민</title>
     <!-- Favicon-->
     <link rel='icon' href='favicon.ico' type='image/x-icon' />
 
@@ -145,8 +145,8 @@
             aria-expanded='false'
           ></a>
           <a href='javascript:void(0);' class='bars'></a>
-          <a class='navbar-brand' href='/dashboard/'>{{service.name}}
-            어드민</a>
+          <a class='navbar-brand' href='/dashboard/'>
+          {{service.service_name}} 어드민</a>
         </div>
         <div class='collapse navbar-collapse' id='navbar-collapse'>
           <ul class='nav navbar-nav navbar-right'>
@@ -176,9 +176,9 @@
               data-toggle='dropdown'
               aria-haspopup='true'
               aria-expanded='false'
-            >{{userName}}
+            >{{profile.adminName}}
             </div>
-            <div class='email'>{{userID}}</div>
+            <div class='email'>{{profile.adminId}}</div>
             <div class='btn-group user-helper-dropdown'>
               <i
                 class='material-icons'
@@ -187,12 +187,11 @@
                 aria-expanded='true'
               >keyboard_arrow_down</i>
               <ul class='dropdown-menu pull-right'>
-                <li><a href='/system/adminuser/{{defaultInfo.adminSeq}}/detail/'><i
+                <li><a href='/system/adminuser/{{profile.adminSequence}}/detail/'><i
                       class='material-icons'
                     >person</i>Profile</a></li>
                 <li role='separator' class='divider'></li>
-                <li><a href='/login/logout'><i class='material-icons'>input</i>Sign
-                    Out</a></li>
+                <li><a href='/logout'><i class='material-icons'>input</i>Sign Out</a></li>
               </ul>
             </div>
           </div>
@@ -207,27 +206,17 @@
               <span>대시보드</span>
             </a>
             <li>
-              <a href='javascript:void(0);' class='menu-toggle'>
+              <a href='/users'>
                 <i class='material-icons'>people</i>
                 <span>회원관리</span>
               </a>
-              <ul class='ml-menu' checked>
-                <li {{first_menu_first_style}}>
-                  <a href='/users'>일반회원</a>
-                </li>
-                <li {{first_menu_second_style}}>
-                  <a href='/ministers'>사역자회원</a>
-                </li>
-              </ul>
-            </li>
-
             <li>
               <a href='javascript:void(0);' class='menu-toggle'>
                 <i class='material-icons'>tap_and_play</i>
                 <span>전시관리</span>
               </a>
               <ul class='ml-menu' {{second_menu_style}}>
-                <li {{second_menu_first_style}}>
+                <li class="active">
                   <a href='/display/dataview/'>프로모션상세 등록</a>
                 </li>
                 <li {{second_menu_second_style}}>
@@ -314,7 +303,7 @@
         <!-- Footer -->
         <div class='legal'>
           <div class='copyright'>
-            &copy; 2025 - 2026
+            &copy; {{service.trade_year}}
             <a href='http://www.idnsoft.co.kr' target='_blank'>{{service.company_name}}</a>
             All right reserved.
           </div>
@@ -330,7 +319,13 @@
     <section class='content'>
       <div class='container-fluid'>
         <div class='block-header'>
-          <ol class='breadcrumb breadcrumb-bg-teal'>{{{nav_title}}}</ol>
+            <ol class="breadcrumb breadcrumb-bg-orange">
+              <li><a href="javascript:void(0);">홈</a></li>
+              {{#if navigator.top_menu}}
+              <li><a href="javascript:void(0);">{{navigator.top_menu}}</a></li>
+              {{/if}}
+              <li class="active">{{navigator.sub_menu}}</li>
+            </ol>
         </div>
 
         <!-- Start on body -->

@@ -1,4 +1,5 @@
 import * as Handlebars from 'handlebars';
+import { pageSize } from '../constants';
 
 // eq helper: 두 값이 동일한지 비교
 export const eqHelper = (a: any, b: any) => a === b;
@@ -45,10 +46,67 @@ export const formatTimestampHelper = (timestamp: string | number | Date) => {
   return `${yyyy}-${mm}-${dd} (${day}) ${hh}:${min}`;
 };
 
+// 3. 게시판에서 no 헬퍼
+export const calculateTableNo = (
+  total: number,
+  currentPage: number,
+  index: number,
+) => {
+  return total - currentPage * pageSize - index;
+};
+
+// 4. 게시판 하단 페이지네이션 헬퍼
+export const paginationHelper = (total, page, pageSize) => {
+  const totalPages = Math.ceil(total / pageSize);
+  const blockLimit = 5; // 한 화면에 보여줄 페이지 번호 개수
+  const currentBlock = Math.floor(page / blockLimit);
+
+  const startPage = currentBlock * blockLimit + 1;
+  let endPage = startPage + blockLimit - 1;
+  if (endPage > totalPages) endPage = totalPages;
+
+  let html = `<ul class="pagination">`;
+
+  // 1. 이전 버튼 (Left Arrow)
+  const hasPrev = startPage > 1;
+  const prevPage = startPage - 2; // 이전 블록의 마지막 페이지 (0-based)
+  html += `
+    <li class="${hasPrev ? 'waves-effect' : 'disabled'}">
+      <a href="${hasPrev ? '?page=' + prevPage : 'javascript:void(0);'}">
+        <i class="material-icons">chevron_left</i>
+      </a>
+    </li>`;
+
+  // 2. 페이지 번호들
+  for (let i = startPage; i <= endPage; i++) {
+    const isCurrent = i - 1 === page;
+    html += `
+      <li class="${isCurrent ? 'active' : 'waves-effect'}">
+        <a href="?page=${i - 1}">${i}</a>
+      </li>`;
+  }
+
+  // 3. 다음 버튼 (Right Arrow)
+  const hasNext = endPage < totalPages;
+  const nextPage = endPage; // 다음 블록의 첫 페이지 (0-based)
+  html += `
+    <li class="${hasNext ? 'waves-effect' : 'disabled'}">
+      <a href="${hasNext ? '?page=' + nextPage : 'javascript:void(0);'}">
+        <i class="material-icons">chevron_right</i>
+      </a>
+    </li>`;
+
+  html += `</ul>`;
+
+  return html;
+};
+
 // helper 등록하는 함수
 export const registerHandlebarsHelpers = (handlebars: typeof Handlebars) => {
   handlebars.registerHelper('eq', eqHelper);
   handlebars.registerHelper('address', addressHelper);
   Handlebars.registerHelper('truncateText', truncateTextHelper);
   Handlebars.registerHelper('formatTimestamp', formatTimestampHelper);
+  Handlebars.registerHelper('calculateTableNo', calculateTableNo);
+  Handlebars.registerHelper('paginationHelper', paginationHelper);
 };
