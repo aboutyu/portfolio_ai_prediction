@@ -7,7 +7,7 @@
       content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'
       name='viewport'
     />
-    <title>{{service.service_name}} 어드민</title>
+    <title>{{service.serviceName}} 어드민</title>
     <!-- Favicon-->
     <link rel='icon' href='favicon.ico' type='image/x-icon' />
 
@@ -145,8 +145,8 @@
             aria-expanded='false'
           ></a>
           <a href='javascript:void(0);' class='bars'></a>
-          <a class='navbar-brand' href='/dashboard/'>
-          {{service.service_name}} 어드민</a>
+          <a class='navbar-brand' href='{{service.serviceUrl}}' target='_blank'>
+          {{service.serviceName}} 어드민</a>
         </div>
         <div class='collapse navbar-collapse' id='navbar-collapse'>
           <ul class='nav navbar-nav navbar-right'>
@@ -280,16 +280,16 @@
               </a>
               <ul class='ml-menu' {{fourth_menu_style}}>
                 <li {{fourth_menu_first_style}}>
-                  <a href='/system/adminuser/'>어드민계정</a>
+                  <a href='/system/adminuser'>어드민계정</a>
                 </li>
                 <li {{fourth_menu_fourth_style}}>
-                  <a href='/eula'>약관등록</a>
+                  <a href='/system/eula'>약관등록</a>
                 </li>
                 <li {{fourth_menu_second_style}}>
-                  <a href='/system/info/'>서비스정보</a>
+                  <a href='/system/serviceInfo'>서비스정보</a>
                 </li>
                 <li {{fourth_menu_third_style}}>
-                  <a href='/system/rawdata/'>기초데이터</a>
+                  <a href='/system/rawdata'>기초데이터</a>
                 </li>
               </ul>
             </li>
@@ -300,12 +300,12 @@
         <!-- Footer -->
         <div class='legal'>
           <div class='copyright'>
-            &copy; {{service.trade_year}}
-            <a href='http://www.idnsoft.co.kr' target='_blank'>{{service.company_name}}</a>
+            &copy; {{service.copyright}}
+            <a href='{{service.companyUrl}}' target='_blank'>{{service.companyName}}</a>
             All right reserved.
           </div>
           <div class='version'>
-            <b>대표이사 :</b> {{service.ceo_name}}
+            <b>대표이사 :</b> {{service.ceoName}}
           </div>
         </div>
         <!-- #Footer -->

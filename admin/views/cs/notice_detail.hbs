@@ -95,13 +95,13 @@
             <tr>
               <th class='text-center'>메모</th>
               <td colspan='3'>
-                <textarea name='memo' id='ckeditor_memo' rows='50' cols='80'>
-                  {{item.memo}}
-                </textarea>
-                <script>
-                  CKEDITOR.replace('ckeditor_memo');
-                </script>
-
+                <textarea 
+                  name='memo' 
+                  id='memo' 
+                  rows='10' 
+                  width='100%' 
+                  class='form-control' 
+                  placeholder='메모를 입력해주세요.'>{{item.memo}}</textarea>
               </td>
             </tr>
           </tbody>
@@ -143,7 +143,7 @@
 
     // 데이터 추출
     const content = CKEDITOR.instances.ckeditor_content.getData();
-    const memo = CKEDITOR.instances.ckeditor_memo.getData();
+    const memo = form.memo.value;
     const title = form.title.value;
     const isActive = form.is_active.value;
     const sequence = form.sequence.value;

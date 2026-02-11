@@ -1,0 +1,311 @@
+<form name='service_info_update' method='post' onSubmit='onSave(); return false;'>
+
+<div class='row clearfix'>
+  <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+
+      <div class='card'>
+
+      <div class='body'>
+
+        <table class='table table-bordered'>
+          <tbody>
+            <tr>
+              <th class='text-center' width="15%">언어</th>
+              <td width="35%">
+                <select 
+                  name="language" 
+                    id="language" 
+                    style="width:100%;" 
+                    class="form-control"
+                    onchange="updateFormByLanguage(this.value)">
+                    {{#each item}}
+                      <option value="{{this.language}}" {{ eq this.language 'ko' 'selected' '' }} >
+                        {{#if (eq this.language "ko")}}한국어{{else if (eq this.language "en")}}English{{else}}{{this.language}}{{getNoticeLabel this.type}}{{/if}}
+                      </option>
+                    {{/each}}
+                </select>
+              </td>
+              <th class='text-center' width="15%">저작권</th>
+              <td width="35%">
+                <input 
+                  type="text" 
+                  name="copyright" 
+                  id="copyright" 
+                  style="width:100%;" 
+                  class="form-control" 
+                  placeholder="저작권을 4자리 숫자로 입력해주세요.">
+              </td>
+            <tr>
+              <th class='text-center' width="15%">서비스명</th>
+              <td width="35%">
+                <input 
+                  type="text" 
+                  name="serviceName" 
+                  id="serviceName" 
+                  style="width:100%;" 
+                  class="form-control" 
+                  placeholder="서비스명을 입력해주세요.">
+                
+              </td>
+              <th class='text-center' width="15%">회사명</th>
+              <td width="35%">
+                <input 
+                  type="text" 
+                  name="companyName" 
+                  id="companyName" 
+                  style="width:100%;" 
+                  class="form-control" 
+                  placeholder="회사명을 입력해주세요.">
+              </td>
+            </tr>
+            <tr>
+              <th class='text-center' width="15%">이메일</th>
+              <td colspan="3">
+                <input 
+                  type="text" 
+                  name="email" 
+                  id="email" 
+                  style="width:100%;" 
+                  class="form-control" 
+                  placeholder="이메일주소를 입력해주세요.">
+              </td>
+            </tr>
+            <tr>
+              <th class='text-center' width="15%">대표이사</th>
+              <td width="35%">
+                <input 
+                  type="text" 
+                  name="ceoName" 
+                  id="ceoName" 
+                  style="width:100%;" 
+                  class="form-control" 
+                  placeholder="대표이사를 입력해주세요.">
+              </td>
+              <th class='text-center' width="15%">개인정보담당자</th>
+              <td width="35%">
+                <input 
+                  type="text" 
+                  name="privateManagerName" 
+                  id="privateManagerName" 
+                  style="width:100%;" 
+                  class="form-control" 
+                  placeholder="개인정보담당자를 입력해주세요.">
+              </td>
+            </tr>
+            <tr>
+              <th class='text-center' width="15%">사업자등록번호</th>
+              <td width="35%">
+                <input 
+                  type="text" 
+                  name="companyNumber" 
+                  id="companyNumber" 
+                  style="width:100%;" 
+                  class="form-control" 
+                  placeholder="사업자등록번호를 입력해주세요.">
+              </td>
+              <th class='text-center' width="15%">통신판매업</th>
+              <td width="35%">
+                <input 
+                  type="text" 
+                  name="telecomSellerNumber" 
+                  id="telecomSellerNumber" 
+                  style="width:100%;" 
+                  class="form-control" 
+                  placeholder="통신판매업 번호를 입력해주세요.">
+              </td>
+            </tr>
+            <tr>
+              <th class='text-center' width="15%">회사주소</th>
+              <td colspan="3">
+                <input 
+                  type="text" 
+                  name="companyAddress" 
+                  id="companyAddress" 
+                  style="width:100%;" 
+                  class="form-control" 
+                  placeholder="회사주소를 입력해주세요.">
+              </td>
+            </tr>
+            <tr>
+              <th class='text-center' width="15%">우편번호</th>
+              <td width="35%">
+                <input 
+                  type="text" 
+                  name="companyZipcode" 
+                  id="companyZipcode" 
+                  style="width:100%;" 
+                  class="form-control" 
+                  placeholder="우편번호를 입력해주세요.">
+              </td>
+              <th class='text-center' width="15%">전화번호</th>
+              <td width="35%">
+                <input 
+                  type="text" 
+                  name="phone" 
+                  id="phone" 
+                  style="width:100%;" 
+                  class="form-control" 
+                  placeholder="전화번호를 입력해주세요.">
+              </td>
+            </tr>
+            <tr>
+              <th class='text-center' width="15%">서비스 도메인</th>
+              <td width="35%">
+                <input 
+                  type="text" 
+                  name="serviceUrl" 
+                  id="serviceUrl" 
+                  style="width:100%;" 
+                  class="form-control" 
+                  placeholder="서비스 도메인을 입력해주세요.">
+              </td>
+              <th class='text-center' width="15%">회사 도메인</th>
+              <td width="35%">
+                <input 
+                  type="text" 
+                  name="companyUrl" 
+                  id="companyUrl" 
+                  style="width:100%;" 
+                  class="form-control" 
+                  placeholder="회사 도메인을 입력해주세요.">
+              </td>
+            </tr>
+            
+            <tr>
+              <th class='text-center'>메모</th>
+              <td colspan='3'>
+                <textarea 
+                  name='memo' 
+                  id='memo' 
+                  rows='10' 
+                  width='100%' 
+                  class='form-control' 
+                  placeholder='메모를 입력해주세요.'></textarea>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div> 
+</div>
+
+<input type="hidden" id="sequence" name="sequence" value="{{item.sequence}}">
+<input type="hidden" id="page" name="page" value="{{page}}">
+<input type="hidden" id="type" name="type" value="{{eq isFaq true "faq" "notice"}}">
+
+<div class='row text-center' style='margin-bottom: 30px;'>
+  <div class='btn-group'>
+    <button type='submit' class='btn btn-danger dropdown-toggle waves-effect'>
+      저장
+    </button>
+
+  </div>
+</form>
+
+<script language='javascript'>
+  const serviceItems = {};
+  
+  // 1. 데이터 매핑 (sequence 필수 포함)
+  {{#each item}}
+    serviceItems["{{this.language}}"] = {
+      serviceName: "{{this.serviceName}}",
+      companyName: "{{this.companyName}}",
+      ceoName: "{{this.ceoName}}",
+      privateManagerName: "{{this.privateManagerName}}",
+      companyNumber: "{{this.companyNumber}}",
+      telecomSellerNumber: "{{this.telecomSellerNumber}}",
+      companyAddress: "{{this.companyAddress}}",
+      companyZipcode: "{{this.companyZipcode}}",
+      phone: "{{this.phone}}",
+      memo: "{{{this.memo}}}",
+      copyright: "{{this.copyright}}",
+      companyUrl: "{{this.companyUrl}}",
+      serviceUrl: "{{this.serviceUrl}}",
+      email: "{{this.email}}",
+    };
+  {{/each}}
+
+  // 2. 언어 변경 함수
+  function updateFormByLanguage(lang) {
+    const data = serviceItems[lang];
+    if (!data) return;
+
+    const form = document.service_info_update;
+    form.language.value = lang;
+
+    // 필드 값 주입
+    form.serviceName.value = data.serviceName || '';
+    form.companyName.value = data.companyName || '';
+    form.ceoName.value = data.ceoName || '';
+    form.privateManagerName.value = data.privateManagerName || '';
+    form.memo.value = data.memo || '';
+    form.companyNumber.value = data.companyNumber || '';
+    form.telecomSellerNumber.value = data.telecomSellerNumber || '';
+    form.companyAddress.value = data.companyAddress || '';
+    form.companyZipcode.value = data.companyZipcode || '';
+    form.phone.value = data.phone || '';
+    form.copyright.value = data.copyright || '';
+    form.companyUrl.value = data.companyUrl || '';
+    form.serviceUrl.value = data.serviceUrl || '';
+    form.email.value = data.email || '';
+  }
+
+  // 3. 초기화
+  window.onload = function() {
+    updateFormByLanguage('ko'); 
+  };
+
+  // 4. 저장 함수 (필요 없는 title, content 변수 제거 및 경로 수정)
+  function onSave() { 
+    const form = document.service_info_update;
+
+    if (!confirm('저장하시겠습니까?')) return;
+
+    const payload = {
+      language: form.language.value,
+      serviceName: form.serviceName.value,
+      companyName: form.companyName.value,
+      ceoName: form.ceoName.value,
+      privateManagerName: form.privateManagerName.value,
+      companyNumber: form.companyNumber.value,
+      telecomSellerNumber: form.telecomSellerNumber.value,
+      companyAddress: form.companyAddress.value,
+      companyZipcode: form.companyZipcode.value,
+      phone: form.phone.value,
+      memo: form.memo.value,
+      copyright: Number(form.copyright.value),
+      companyUrl: form.companyUrl.value,
+      serviceUrl: form.serviceUrl.value,
+      email: form.email.value,
+    };
+
+    console.log('Payload:', payload);
+
+    fetch('/system/serviceInfo/update', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+    .then(response => {
+      if (response.ok) {
+        alert('저장되었습니다.');
+        // 현재 선택된 언어 값을 가져옵니다.
+        const currentLang = document.getElementById('language').value;
+        
+        // URL에 lang 파라미터를 붙여서 이동 (예: /system/serviceInfo?lang=en)
+        const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.set('lang', currentLang);
+        
+        window.location.href = currentUrl.toString();
+      } else {
+        alert('저장 실패: 서버 응답 오류');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('네트워크 오류가 발생했습니다.');
+    });
+  }
+</script>

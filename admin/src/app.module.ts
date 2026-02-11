@@ -7,8 +7,12 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { SessionAuthGuard } from './helpers/guards/auth.guard';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { CsModule } from './cs/cs.module';
+import { SystemModule } from './system/system.module';
+import { ServiceInfo } from './entities/service-info.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { TemplateVarsInterceptor } from './helpers/intercepts/template-engine-variables.intercept';
 
 // 현재 환경에 따라 파일 경로 결정 함수
 const getEnvFilePath = () => {
@@ -26,17 +30,23 @@ const getEnvFilePath = () => {
       isGlobal: true,
       envFilePath: getEnvFilePath(),
     }),
+    TypeOrmModule.forFeature([ServiceInfo]),
     database,
     LoginModule,
     DashboardModule,
     UsersModule,
     CsModule,
+    SystemModule,
   ],
   controllers: [AppController],
   providers: [
     {
       provide: APP_GUARD,
       useClass: SessionAuthGuard,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: TemplateVarsInterceptor,
     },
     AppService,
   ],

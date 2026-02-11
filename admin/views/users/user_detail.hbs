@@ -83,13 +83,13 @@
             <tr>
               <th class='text-center'>메모</th>
               <td colspan='3'>
-                <textarea name='memo' id='ckeditor' rows='50' cols='80'>
-                  {{user.memo}}
-                </textarea>
-                <script>
-                  CKEDITOR.replace('ckeditor');
-                </script>
-
+                <textarea 
+                  name='memo' 
+                  id='memo' 
+                  rows='10' 
+                  width='100%' 
+                  class='form-control' 
+                  placeholder='메모를 입력해주세요.'>{{user.memo}}</textarea>
               </td>
             </tr>
           </tbody>

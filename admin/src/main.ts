@@ -30,7 +30,7 @@ async function bootstrap() {
   app.setViewEngine('hbs');
 
   // 전역 인터셉터 등록
-  app.useGlobalInterceptors(new TemplateVarsInterceptor());
+  // app.useGlobalInterceptors(new TemplateVarsInterceptor());
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
