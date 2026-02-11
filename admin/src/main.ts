@@ -31,7 +31,12 @@ async function bootstrap() {
 
   // 전역 인터셉터 등록
   app.useGlobalInterceptors(new TemplateVarsInterceptor());
-  app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      transformOptions: { enableImplicitConversion: true },
+    }),
+  );
 
   app.use(
     session({

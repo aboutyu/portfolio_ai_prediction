@@ -17,6 +17,9 @@ export class User {
   @Column({ type: 'varchar', length: 16 })
   username: string;
 
+  @Column({ name: 'thumbnail', type: 'varchar', length: 255, nullable: true })
+  thumbnail: string | null;
+
   @Column({
     name: 'create_date',
     type: 'datetime',
@@ -26,6 +29,12 @@ export class User {
 
   @Column({ name: 'last_login', type: 'datetime', nullable: true })
   lastLogin: Date | null;
+
+  @Column({
+    name: 'agree_required_terms',
+    type: 'datetime',
+  })
+  agreeRequiredTerms: Date;
 
   @Column({
     name: 'is_activate',
@@ -52,6 +61,14 @@ export class User {
     default: null,
   })
   refreshToken: string | null;
+
+  @Column({
+    name: 'memo',
+    type: 'mediumtext',
+    nullable: true,
+    default: null,
+  })
+  memo: string | null;
 
   @OneToMany(() => UserDevice, (device) => device.user)
   devices: UserDevice[];

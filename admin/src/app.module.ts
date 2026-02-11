@@ -6,6 +6,8 @@ import { LoginModule } from './login/login.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
+import { SessionAuthGuard } from './helpers/guards/auth.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 // 현재 환경에 따라 파일 경로 결정 함수
 const getEnvFilePath = () => {
@@ -29,6 +31,12 @@ const getEnvFilePath = () => {
     UsersModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: SessionAuthGuard,
+    },
+    AppService,
+  ],
 })
-export class AppModule { }
+export class AppModule {}

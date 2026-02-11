@@ -15,7 +15,8 @@ export class TemplateVarsInterceptor implements NestInterceptor {
   // 메뉴 별 네비게이션 타이틀 설정
   private readonly naviagator = {
     '/dashboard': { top_menu: '', sub_menu: '대시보드' },
-    '/users': { top_menu: '', sub_menu: '회원관리' },
+    '/users': { top_menu: '회원관리', sub_menu: '목록' },
+    '/users/detail': { top_menu: '회원관리', sub_menu: '상세' },
   };
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
