@@ -7,7 +7,7 @@
             <input type="hidden" name="page" value="{{page}}">
             <table class="table table-bordered">
                 <tr>
-                    <th class="text-center" style="width:20%">탈퇴여부</th>
+                    <th class="text-center" style="width:20%">활성화여부</th>
                     <td class="text-left">
 
                         <div class="demo-radio-button">
@@ -15,31 +15,30 @@
                             <label for="is_active_a">전체</label>
 
                             <input name="is_active" value="Y" type="radio" id="is_active_y" class="with-gap radio-col-grey">
-                            <label for="is_active_y">활성화(가입)</label>
+                            <label for="is_active_y">활성화</label>
 
                             <input name="is_active" value="N" type="radio" id="is_active_n" class="with-gap radio-col-grey">
-                            <label for="is_active_n">비활성화(탈퇴)</label>
+                            <label for="is_active_n">비활성화</label>
                         </div> 
                     </td>
                 </tr>
+                {{#if isFaq}}
                 <tr>
-                    <th class="text-center" style="width:20%">로그인타입</th>
+                    <th class="text-center" style="width:20%">FAQ종류</th>
                     <td class="text-left">
                         <div class="demo-radio-button">
                         <input type="checkbox" id="md_checkbox_3" name="K" value="Y" class="filled-in chk-col-grey" checked>
-                        <label for="md_checkbox_3">카카오</label> 
+                        <label for="md_checkbox_3">회원</label> 
 
                         <input type="checkbox" id="md_checkbox_4" name="N" value="Y" class="filled-in chk-col-grey" checked>
-                        <label for="md_checkbox_4">네이버</label> 
+                        <label for="md_checkbox_4">서비스</label> 
 
                         <input type="checkbox" id="md_checkbox_5" name="G" value="Y" class="filled-in chk-col-grey" >
-                        <label for="md_checkbox_5">구글</label>
-
-                        <input type="checkbox" id="md_checkbox_6" name="A" value="Y" class="filled-in chk-col-grey" >
-                        <label for="md_checkbox_5">애플</label>
+                        <label for="md_checkbox_5">결제</label>
                         </div>
                     </td>
                 </tr>
+                {{/if}}
                 <tr>
                     <th class="text-center" style="width:20%">검색어</th>
                     <td class="text-left">
@@ -74,33 +73,29 @@
             <thead>
               <tr>
                 <th class='text-center'>No</th>
-                <th class='text-center'>ID</th>
-                <th class='text-center'>이름</th>
-                <th class='text-center'>디바이스수</th>
-                <th class='text-center'>음식등록수</th>
-                <th class='text-center'>건강등록수</th>
-                <th class='text-center'>가입일</th>
-                <th class='text-center'>탈퇴여부</th>
+                {{#if isFaq}}
+                <th class='text-center'>FAQ종류</th>
+                {{/if}}
+                <th class='text-center'>제목</th>
+                <th class='text-center'>생성일</th>
+                <th class='text-center'>활성화여부</th>
               </tr>
             </thead>
             <tbody>
               {{#each items}}
               <tr 
-                  {{#if this.isActivate}}
-                  onclick="location.href='/users/detail?sequence={{this.sequence}}&page={{../page}}'"
+                  onclick="location.href='/cs/{{#if ../isFaq}}faq{{else}}notice{{/if}}/detail?sequence={{this.sequence}}&page={{../page}}'"
                   style='cursor:pointer;'
-                  {{/if}}
                   >
                 <td class='text-center'>{{calculateTableNo ../total ../page @index}}</td>
-                <td class='text-center'>{{this.userId}}</td>
-                <td class='text-center'>{{this.username}}</td>
-                <td class='text-center'>{{this.deviceCount}}</td>
-                <td class='text-center'>{{this.foodLogCount}}</td>
-                <td class='text-center'>{{this.healthLogCount}}</td>
+                {{#if ../isFaq}}
+                <td class='text-center'>{{this.typeLabel}}</td>
+                {{/if}}
+                <td class='text-center'>{{this.title}}</td>
                 <td class='text-center'>{{formatTimestamp this.createDate}}</td> <td class='text-center'>
                   {{#if this.isActivate}}
                   {{else}}
-                    탈퇴
+                    비활성화
                   {{/if}}
                 </td>
               </tr>

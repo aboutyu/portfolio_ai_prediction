@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { PageDto } from 'src/dto/page.dto';
 import { UserDevice } from 'src/entities/user-devices.entity';
 import { User } from 'src/entities/user.entity';
 import { pageSize } from 'src/helpers/constants';
@@ -16,13 +17,6 @@ export class UsersService {
     private readonly userDeviceRepository: Repository<UserDevice>,
   ) {}
 
-  private readonly listSelection = {
-    sequence: true,
-    userId: true,
-    username: true,
-    lastLogin: true,
-  } as const;
-
   private readonly detailSelection = {
     sequence: true,
     userId: true,
@@ -36,9 +30,7 @@ export class UsersService {
     memo: true,
   } as const;
 
-  async getUsers(page: number) {
-    const skip = page * pageSize;
-
+  async getUsers(dto: PageDto) {
     const [items, total] = await this.userRepository
       .createQueryBuilder('user')
       // 관계 데이터의 개수를 가상 컬럼에 매핑
@@ -46,28 +38,28 @@ export class UsersService {
       .loadRelationCountAndMap('user.foodLogCount', 'user.foodLogs')
       .loadRelationCountAndMap('user.healthLogCount', 'user.healthLogs')
       .orderBy('user.createDate', 'DESC')
-      .skip(skip)
+      .skip(dto.skip)
       .take(pageSize)
       .getManyAndCount();
 
     return {
       items,
       total,
-      page,
+      page: dto.page,
       pageSize,
     };
   }
 
-  async getUserDetail(userSequence: number, page: number) {
+  async getUserDetail(dto: PageDto) {
     const user = await this.userRepository.findOne({
-      where: { sequence: userSequence },
+      where: { sequence: dto.sequence },
       select: this.detailSelection,
       relations: {
         devices: true,
       },
     });
     console.log(user);
-    return { user, page };
+    return { user, page: dto.page };
   }
 
   async updateUser(memo: string, userSequence: number, page: number) {
@@ -78,12 +70,12 @@ export class UsersService {
     return { user, page };
   }
 
-  async deleteRefreshToken(userSequence: number, page: number) {
+  async deleteRefreshToken(dto: PageDto) {
     const user = await this.userRepository.update(
-      { sequence: userSequence },
+      { sequence: dto.sequence },
       { refreshToken: null },
     );
-    return { user, page };
+    return { user, page: dto.page };
   }
 
   async deleteUserDevice(
@@ -91,10 +83,9 @@ export class UsersService {
     deviceName: string,
     deviceModel: string,
     deviceType: DeviceType,
-    createDate: Date,
     page: number,
   ) {
-    const device = await this.userDeviceRepository.delete({
+    await this.userDeviceRepository.delete({
       deviceToken,
       deviceName,
       deviceModel,

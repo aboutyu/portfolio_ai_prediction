@@ -2,7 +2,13 @@ import * as Handlebars from 'handlebars';
 import { pageSize } from '../constants';
 
 // eq helper: 두 값이 동일한지 비교
-export const eqHelper = (a: any, b: any) => a === b;
+export const eqHelper = (a: any, b: any, isTrue?: any, isFalse?: any) => {
+  const result = a === b;
+  if (isTrue !== undefined && isFalse !== undefined) {
+    return result ? isTrue : isFalse;
+  }
+  return result;
+};
 
 // address helper: nullable한 zipcode, address1, address2를 합쳐서 주소를 만듦
 export const addressHelper = (
@@ -108,5 +114,5 @@ export const registerHandlebarsHelpers = (handlebars: typeof Handlebars) => {
   Handlebars.registerHelper('truncateText', truncateTextHelper);
   Handlebars.registerHelper('formatTimestamp', formatTimestampHelper);
   Handlebars.registerHelper('calculateTableNo', calculateTableNo);
-  Handlebars.registerHelper('paginationHelper', paginationHelper);
+  Handlebars.registerHelper('pagination', paginationHelper);
 };

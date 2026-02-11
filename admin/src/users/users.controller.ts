@@ -9,20 +9,17 @@ export class UsersController {
 
   @Get('')
   @Render('users/user_list.hbs')
-  async getUsers(@Query() pageDto: PageDto) {
-    return await this.usersService.getUsers(pageDto.page);
+  async getUsers(@Query() dto: PageDto) {
+    return await this.usersService.getUsers(dto);
   }
 
   @Get('/detail')
   @Render('users/user_detail.hbs')
-  async getUserDetail(@Query() pageDto: PageDto) {
-    if (!pageDto.sequence) {
+  async getUserDetail(@Query() dto: PageDto) {
+    if (!dto.sequence) {
       throw new Error('User sequence is required');
     }
-    return await this.usersService.getUserDetail(
-      pageDto.sequence,
-      pageDto.page,
-    );
+    return await this.usersService.getUserDetail(dto);
   }
 
   @Post('/update')
@@ -34,22 +31,16 @@ export class UsersController {
   }
 
   @Post('/delete/refreshToken')
-  async deleteRefreshToken(@Body() bpageDto: PageDto) {
-    if (!bpageDto.sequence) {
+  async deleteRefreshToken(@Body() dto: PageDto) {
+    if (!dto.sequence) {
       throw new Error('User sequence is required');
     }
-    const userDetail = await this.usersService.getUserDetail(
-      bpageDto.sequence,
-      bpageDto.page,
-    );
+    const userDetail = await this.usersService.getUserDetail(dto);
     const user = userDetail.user;
     if (!user) {
       throw new Error('User not found');
     }
-    return await this.usersService.deleteRefreshToken(
-      bpageDto.sequence,
-      bpageDto.page,
-    );
+    return await this.usersService.deleteRefreshToken(dto);
   }
 
   @Post('/delete/device')
@@ -68,7 +59,6 @@ export class UsersController {
       dto.deviceName!,
       dto.deviceModel!,
       dto.deviceType!,
-      dto.createDate!,
       dto.page,
     );
   }

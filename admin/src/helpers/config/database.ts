@@ -33,6 +33,7 @@ export const database = TypeOrmModule.forRootAsync({
       database: dbName,
       timezone: 'Z',
       autoLoadEntities: true,
+      entities: [__dirname + '/../../**/*.entity{.ts,.js}'],
       synchronize: false,
       logging: logging,
     };
