@@ -1,5 +1,6 @@
 import { Expose } from 'class-transformer';
-import { TermsType, TermsTypeName } from 'src/helpers/enums/terms-type.enum';
+import { TermsType, TermsTypeName } from 'src/types/terms.type';
+
 import {
   AfterLoad,
   Column,
@@ -20,8 +21,16 @@ export class Terms {
   })
   type: TermsType;
 
-  @Column({ type: 'varchar', length: 255, default: '서비스 이용약관' })
+  @Column({ type: 'varchar', length: 255, default: '관리용 약관 제목' })
   title: string;
+
+  @Column({
+    name: 'display_name',
+    type: 'varchar',
+    length: 255,
+    default: '서비스 이용약관',
+  })
+  displayName: string;
 
   @Column({ type: 'mediumtext' })
   content: string;
@@ -62,6 +71,9 @@ export class Terms {
     },
   })
   isActivate: boolean;
+
+  @Column({ name: 'memo', type: 'mediumtext', nullable: true })
+  memo?: string;
 
   @CreateDateColumn({ name: 'create_date', type: 'datetime' })
   createDate: Date;

@@ -33,6 +33,10 @@ export class TemplateVarsInterceptor implements NestInterceptor {
 
     '/system/adminuser': { top_menu: '시스템관리', sub_menu: '어드민계정' },
     '/system/eula': { top_menu: '시스템관리', sub_menu: '약관등록' },
+    '/system/eula/detail': {
+      top_menu: '시스템관리',
+      sub_menu: '약관등록 상세',
+    },
     '/system/serviceInfo': { top_menu: '시스템관리', sub_menu: '서비스 정보' },
   };
 

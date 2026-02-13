@@ -19,7 +19,7 @@
                     class="form-control"
                     onchange="updateFormByLanguage(this.value)">
                     {{#each item}}
-                      <option value="{{this.language}}" {{ eq this.language 'ko' 'selected' '' }} >
+                      <option value="{{this.language}}" {{ eq this.language ../lang 'selected' '' }} >
                         {{#if (eq this.language "ko")}}한국어{{else if (eq this.language "en")}}English{{else}}{{this.language}}{{getNoticeLabel this.type}}{{/if}}
                       </option>
                     {{/each}}
@@ -254,7 +254,13 @@
 
   // 3. 초기화
   window.onload = function() {
-    updateFormByLanguage('ko'); 
+    // 1. 서버가 템플릿에 심어준 lang 값을 가져오거나 URL에서 직접 추출
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetLang = urlParams.get('lang') || 'ko'; 
+    
+    // 2. Selectbox 값과 실제 폼 데이터를 동기화
+    document.getElementById('language').value = targetLang;
+    updateFormByLanguage(targetLang); 
   };
 
   // 4. 저장 함수 (필요 없는 title, content 변수 제거 및 경로 수정)

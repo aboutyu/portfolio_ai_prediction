@@ -1,0 +1,362 @@
+<div class='row clearfix'>
+  <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+
+      <div class='card'>
+
+      <div class='body'>
+
+        <table class='table table-bordered'>
+          <tbody>
+            <tr>
+              <th class='text-center'>언어</th>
+              <td>
+                <input 
+                  type="text" 
+                  name="language" 
+                  id="language" 
+                  style="width:100%;" 
+                  class="form-control" 
+                  placeholder="언어를 입력해주세요.">
+              </td>
+              <th class='text-center'>약관종류</th>
+              <td>
+                <input 
+                  type="text" 
+                  name="type" 
+                  id="type" 
+                  style="width:100%;" 
+                  class="form-control" 
+                  placeholder="약관종류를 입력해주세요."
+                  readonly>
+              </td>
+            </tr>
+            <tr>
+              <th class='text-center'>제목</th>
+              <td colspan='3'>
+                <input 
+                  type="text" 
+                  name="title" 
+                  id="title" 
+                  style="width:100%;" 
+                  class="form-control" 
+                  placeholder="제목을 입력해주세요.">
+              </td>
+            </tr>
+            <tr>
+              <th class='text-center'>필수여부</th>
+              <td>
+                <div class="demo-radio-button">
+                  <input name="isRequired" value="Y" type="radio" id="is_required_y" class="with-gap radio-col-grey">
+                  <label for="is_required_y">필수</label>
+
+                  <input name="isRequired" value="N" type="radio" id="is_required_n" class="with-gap radio-col-grey">
+                  <label for="is_required_n">선택</label>
+                </div> 
+              </td>
+              <th class='text-center'>활성화 여부</th>
+              <td>
+                <div class="demo-radio-button">
+                  <input name="isActivate" value="Y" type="radio" id="is_active_y" class="with-gap radio-col-grey">
+                  <label for="is_active_y">활성화</label>
+
+                  <input name="isActivate" value="N" type="radio" id="is_active_n" class="with-gap radio-col-grey">
+                  <label for="is_active_n">비활성화</label>
+                </div> 
+              </td>
+            </tr>
+            <tr>
+              <th class='text-center'>약관 시작일</th>
+              <td>
+                <input 
+                  type="text" 
+                  name="startDate" 
+                  id="startDate" 
+                  style="width:100%;" 
+                  class="form-control" 
+                  placeholder="시작일을 입력해주세요.">
+              </td>
+              <th class='text-center'>생성일</th>
+              <td>
+                <input 
+                  type="text" 
+                  name="createDate" 
+                  id="createDate" 
+                  style="width:100%;" 
+                  class="form-control" 
+                  placeholder="생성일을 입력해주세요."
+                  readonly>
+              </td>
+            </tr>
+            <tr>
+              <th class='text-center'>약관이름</th>
+              <td colspan='3'>
+                <input 
+                  type="text" 
+                  name="displayName" 
+                  id="displayName" 
+                  style="width:100%;" 
+                  class="form-control" 
+                  placeholder="약관이름을 입력해주세요.">
+              </td>
+            </tr>
+            <tr>
+              <th class='text-center'>약관</th>
+              <td colspan='3'>
+                <textarea name='content' id='ckeditor_content' rows='50' cols='80'>
+                  {{eula.content}}
+                </textarea>
+                <script>
+                  CKEDITOR.replace('ckeditor_content');
+                </script>
+              </td>
+            </tr>
+            <tr>
+              <th class='text-center'>메모</th>
+              <td colspan='3'>
+                <textarea 
+                  name='memo' 
+                  id='memo' 
+                  rows='10' 
+                  width='100%' 
+                  class='form-control' 
+                  placeholder='메모를 입력해주세요.'>{{eula.memo}}</textarea>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div> 
+</div>
+
+<input type="hidden" name="sequence" id="sequence">
+<input type="hidden" name="index" id="index">
+
+<div class='row text-center' style='margin-bottom: 30px;'>
+  <div class='btn-group'>
+    <button type='button' class='btn btn-danger dropdown-toggle waves-effect' onClick='onSaved();'>
+      신규저장
+    </button>
+  </div>
+  &nbsp;&nbsp;
+  <div class='btn-group'>
+    <button type='button' class='btn btn-danger dropdown-toggle waves-effect' onClick='onModified();'>
+      수정
+    </button>
+  </div>
+  &nbsp;&nbsp;
+  <div class='btn-group'>
+    <button
+      type='button'
+      class='btn btn-info dropdown-toggle waves-effect'
+      onClick='goList();'
+    >
+      목록
+    </button>
+  </div>
+
+<div class='row clearfix' style='margin-top: 30px;'>
+  <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+      <div class='card'>
+      <div class='body'>
+
+        <div class='table-responsive'>
+
+          <table class='table table-bordered table-hover'>
+            <thead>
+              <tr>
+                <th class='text-center'>약관종류</th>
+                <th class='text-center'>언어</th>
+                <th class='text-center'>타이틀</th>
+                <th class='text-center'>필수여부</th>
+                <th class='text-center'>활성화여부</th>
+                <th class='text-center'>시작일</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each eula}}
+              <tr 
+                  id="row-{{@index}}"
+                  class="eula-row"
+                  onclick="onSelected({{@index}})"
+                  style='cursor:pointer;' >
+                <td class='text-center'>{{this.type}}</td>
+                <td class='text-center'>{{this.language}}</td>
+                <td class='text-center'>{{this.title}}</td>
+                <td class='text-center'>{{ eq this.isRequired true "필수" "선택" }}</td>
+                <td class='text-center'>{{ eq this.isActivate true "활성화" "비활성화" }}</td>
+                <td class='text-center'>{{formatTimestamp this.startDate}}</td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script language='javascript'>
+  const eulaList = [
+    {{#each eula}}
+    {
+      sequence: "{{this.sequence}}",
+      type: "{{this.type}}",
+      title: "{{this.title}}",
+      displayName: "{{this.displayName}}",
+      content: `{{{this.content}}}`,
+      isActivate: {{this.isActivate}},
+      isRequired: {{this.isRequired}},
+      startDate: "{{this.startDate}}",
+      createDate: "{{this.createDate}}",
+      language: "{{this.language}}",
+      memo: "{{this.memo}}",
+    },
+    {{/each}}
+  ];
+  
+  function goList() { location.href = "/system/eula"; }
+
+  function onSelected(index) {
+    if (index < 0 || index >= eulaList.length) {
+      alert("잘못된 인덱스입니다.");
+      return;
+    }
+    const selectedEula = eulaList[index];
+  
+    const isRequiredValue = (selectedEula.isRequired === true || String(selectedEula.isRequired).toLowerCase() === 'true' || selectedEula.isRequired === 'Y') ? 'Y' : 'N';
+    const reqBtn = document.querySelector(`input[name="isRequired"][value="${isRequiredValue}"]`);
+    if (reqBtn) reqBtn.checked = true;
+
+    const isActivateValue = (selectedEula.isActivate === true || String(selectedEula.isActivate).toLowerCase() === 'true' || selectedEula.isActivate === 'Y') ? 'Y' : 'N';
+    const actBtn = document.querySelector(`input[name="isActivate"][value="${isActivateValue}"]`);
+    if (actBtn) actBtn.checked = true;
+
+    document.getElementById('sequence').value = selectedEula.sequence || '';
+    document.getElementById('index').value = index;
+    document.getElementById('language').value = selectedEula.language || '';
+    document.getElementById('type').value = selectedEula.type || '';
+    document.getElementById('title').value = selectedEula.title || '';
+    document.getElementById('displayName').value = selectedEula.displayName || '';
+    document.getElementById('startDate').value = selectedEula.startDate || '';
+    document.getElementById('createDate').value = selectedEula.createDate || '';
+    document.getElementById('memo').value = selectedEula.memo || '';
+    
+    // CKEditor 내용 업데이트
+    if (window.CKEDITOR && CKEDITOR.instances.ckeditor_content) {
+      CKEDITOR.instances.ckeditor_content.setData(selectedEula.content || '');
+    }
+
+    // 클릭한 행 볼드 처리 및 나머지 초기화
+    const rows = document.querySelectorAll('.eula-row');
+    rows.forEach((row, i) => {
+      if (i === index) {
+        row.style.fontWeight = 'bold';
+        row.style.backgroundColor = '#f5f5f5';
+      } else {
+        row.style.fontWeight = 'normal';
+        row.style.backgroundColor = '';
+      }
+    });
+  }
+
+  // 데이터 가져오기
+  function getFormData() {
+    const type = document.getElementById('type').value;
+    const language = document.getElementById('language').value;
+    const sequence = document.getElementById('sequence').value;
+    const title = document.getElementById('title').value;
+    const displayName = document.getElementById('displayName').value;
+    const content = CKEDITOR.instances.ckeditor_content.getData();
+    const isRequired = document.querySelector('input[name="isRequired"]:checked')?.value || 'N';
+    const isActivate = document.querySelector('input[name="isActivate"]:checked')?.value || 'N';
+    const startDate = document.getElementById('startDate').value;
+    const memo = document.getElementById('memo').value;
+
+    if (!language || !title || !content || !startDate || !displayName || !type) {
+      alert('필수 입력 항목을 확인해주세요.');
+      return null;
+    }
+
+    return {
+      sequence,
+      type,
+      language,
+      title,
+      displayName,
+      content,
+      isRequired: isRequired === 'Y',
+      isActivate: isActivate === 'Y',
+      startDate,
+      memo,
+    };
+  }
+
+  function onSaved() {
+    const payload = getFormData();
+    if (!payload) return;
+    console.log('Payload:', payload);
+
+    if (!confirm('저장하시겠습니까?')) return;
+
+    fetch('/system/eula/add', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+    .then(response => {
+      if (response.ok) {
+        alert('저장되었습니다.');
+        // 현재 선택된 언어 값을 가져옵니다.
+        const currentLang = document.getElementById('language').value;
+        
+        // URL에 lang 파라미터를 붙여서 이동 (예: /system/eula?lang=en)
+        const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.set('lang', currentLang);
+        
+        window.location.href = currentUrl.toString();
+      } else {
+        alert('저장 실패: 서버 응답 오류');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('네트워크 오류가 발생했습니다.');
+    });
+  }
+
+
+  function onModified() {
+    const payload = getFormData();
+    if (!payload || !payload.sequence) return;
+    console.log('Payload:', payload);
+
+    if (!confirm('수정하시겠습니까?')) return;
+
+    fetch('/system/eula/modify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+    .then(response => {
+      if (response.ok) {
+        alert('수정되었습니다.');
+        // 현재 선택된 언어 값을 가져옵니다.
+        const currentLang = document.getElementById('language').value;
+        
+        // URL에 lang 파라미터를 붙여서 이동 (예: /system/eula?lang=en)
+        const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.set('lang', currentLang);
+        
+        window.location.href = currentUrl.toString();
+      } else {
+        alert('수정 실패: 서버 응답 오류');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('네트워크 오류가 발생했습니다.');
+    });
+  }
+</script>
