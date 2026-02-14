@@ -3,6 +3,7 @@ import { SystemService } from './system.service';
 import { ServiceInfoDto } from './dto/service-info.dto';
 import { EulaDto } from './dto/eula.dto';
 import { EulaDataDto } from './dto/eula-data.dto';
+import { PageDto } from 'src/dto/page.dto';
 
 @Controller('system')
 export class SystemController {
@@ -45,5 +46,27 @@ export class SystemController {
   async updateServiceInfo(@Body() dto: ServiceInfoDto) {
     console.log('업데이트 요청 데이터:', dto);
     return await this.systemService.updateServiceInfo(dto);
+  }
+
+  @Get('/rawdata')
+  @Render('system/raw-data.hbs')
+  async getRawDataList() {
+    return {};
+  }
+
+  @Get('/rawdata/nutrition-dictionary')
+  async getNutritionDictionary() {
+    return await this.systemService.getNutritionDictionary();
+  }
+
+  @Get('/rawdata/user-devices')
+  async getUserDevices(@Query() dto: PageDto) {
+    return await this.systemService.getUserDevices(dto);
+  }
+
+  @Get('/devices')
+  @Render('system/devices.hbs')
+  async getRegisteredDevices(@Query() dto: PageDto) {
+    return {};
   }
 }

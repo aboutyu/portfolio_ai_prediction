@@ -38,6 +38,8 @@ export class TemplateVarsInterceptor implements NestInterceptor {
       sub_menu: '약관등록 상세',
     },
     '/system/serviceInfo': { top_menu: '시스템관리', sub_menu: '서비스 정보' },
+    '/system/rawdata': { top_menu: '시스템관리', sub_menu: '기초데이터' },
+    '/system/devices': { top_menu: '시스템관리', sub_menu: '등록디바이스' },
   };
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {

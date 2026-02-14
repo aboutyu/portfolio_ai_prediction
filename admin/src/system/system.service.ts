@@ -7,6 +7,10 @@ import { EULA_LIST } from 'src/types/terms.type';
 import { Terms } from 'src/entities/terms.entity';
 import { EulaDto } from './dto/eula.dto';
 import { EulaDataDto } from './dto/eula-data.dto';
+import { UserDevice } from 'src/entities/user-devices.entity';
+import { NutrientDictionary } from 'src/entities/nutrition-dictionary.entity';
+import { PageDto } from 'src/dto/page.dto';
+import { pageSize } from 'src/helpers/constants';
 
 @Injectable()
 export class SystemService {
@@ -16,6 +20,12 @@ export class SystemService {
 
     @InjectRepository(ServiceInfo)
     private readonly serviceInfoRepository: Repository<ServiceInfo>,
+
+    @InjectRepository(UserDevice)
+    private readonly userDeviceRepository: Repository<UserDevice>,
+
+    @InjectRepository(NutrientDictionary)
+    private readonly nutrientDictionaryRepository: Repository<NutrientDictionary>,
   ) {}
 
   async getEula() {
@@ -105,5 +115,38 @@ export class SystemService {
       serviceUrl: dto.serviceUrl,
       email: dto.email,
     });
+  }
+
+  async getNutritionDictionary() {
+    const [items, total] = await this.nutrientDictionaryRepository.findAndCount(
+      { order: { displayOrder: 'ASC' } },
+    );
+    return { items, total };
+  }
+
+  async getUserDevices(dto: PageDto) {
+    const [items, total] = await this.userDeviceRepository.findAndCount({
+      order: {
+        createDate: 'DESC',
+      },
+      select: {
+        user: {
+          userId: true,
+          username: true,
+        },
+      },
+      relations: ['user'],
+      take: pageSize,
+      skip: dto.skip,
+    });
+
+    console.log('조회된 사용자 디바이스:', items);
+
+    return {
+      items,
+      total,
+      page: dto.page,
+      pageSize,
+    };
   }
 }

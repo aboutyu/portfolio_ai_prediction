@@ -1,0 +1,215 @@
+<!-- Bordered Table -->
+<div class='row clearfix'>
+  <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+    <div class='card'>
+
+      <div class='body'>
+
+        <ul class="nav nav-tabs tab-nav-right" role="tablist">
+          <li role="presentation" class="active">
+            <a href="#netrition_unit" data-toggle="tab" aria-expanded="true">영양성분 단위</a>
+          </li>
+          <li role="presentation" class="">
+            <a href="#user_devices" data-toggle="tab" aria-expanded="false">사용자 디바이스</a>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+
+          {{!-- 영양성분 Raw Data --}}
+          <div role="tabpanel" class="tab-pane fade active in" id="netrition_unit">
+            <div class='row'>
+              <div class='col-sm-6 row-bottom'>
+                검색개수 : <span id="unit_count">0</span>개
+              </div>
+            </div>
+
+            <b>영양성분 단위</b>
+            <p>
+              영양성분의 단위를 관리하는 페이지입니다.
+              영양성분 단위는 영양성분 사전에 등록된 영양성분의 단위를 의미합니다.
+              예를 들어, 열량의 단위는 kcal, 탄수화물의 단위는 g입니다.
+              영양성분 단위를 관리하는 페이지에서는 영양성분 단위를 추가, 수정, 삭제할 수 있습니다.
+            </p>
+
+            <div class='table-responsive'>
+              <table class='table table-bordered table-hover'>
+                <thead>
+                  <tr>
+                    <th class='text-center'>순위</th>
+                    <th class='text-center'>한글이름</th>
+                    <th class='text-center'>영문이름</th>
+                    <th class='text-center'>코드</th>
+                    <th class='text-center'>단위</th>
+                  </tr>
+                </thead>
+                <tbody id="unit_tbody">
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {{!-- Raw Data --}}
+          <div role="tabpanel" class="tab-pane fade" id="user_devices">
+            <div class='row'>
+              <div class='col-sm-6 row-bottom'>
+                검색개수 : <span id="device_count">0</span>개
+              </div>
+            </div>
+
+            <b>사용자 디바이스</b>
+            <p>
+              사용자가 로그인할 때 등록되는 디바이스 목록입니다.
+              사용자 별 디바이스 목록은 회원관리 메뉴에서 각 회원의 상세 페이지에서도 확인할 수 있습니다.
+              디바이스 삭제는 회원관리 메뉴에서 각 회원의 상세 페이지에서만 가능합니다.
+            </p>
+
+            <div class='table-responsive'>
+              <table class='table table-bordered table-hover'>
+                <tr>
+                  <th class='text-center'>유저ID</th>
+                  <th class='text-center'>유저이름</th>
+                  <th class='text-center'>디바이스타입</th>
+                  <th class='text-center'>디바이스이름</th>
+                  <th class='text-center'>디바이스모델</th>
+                  <th class='text-center'>디바이스토큰</th>
+                  <th class='text-center'>생성일</th>
+                </tr>
+                <tbody id="device_tbody"></tbody>
+              </table>
+            </div>
+
+            <div class="row text-center" id="device_pagination"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('Document ready, initializing tab data load...');
+    loadUnitData();
+
+    // 탭 클릭 이벤트
+    if (window.jQuery) {
+      $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        const targetId = $(e.target).attr("href");
+        console.log('Tab switched to:', targetId); // 클릭 시 로그 확인용
+
+        if (targetId === "#netrition_unit") {
+          loadUnitData();
+        } else if (targetId === "#user_devices") {
+          loadDeviceData(0);
+        }
+      });
+    }
+  });
+
+  // 영양성분 단위 로드 함수
+  function loadUnitData() {
+    console.log('Loading nutrition unit data...');
+    fetch('/system/rawdata/nutrition-dictionary')
+      .then(res => res.json())
+      .then(data => {
+        $('#unit_count').text(data.total);
+        let html = '';
+        data.items.forEach(item => {
+          html += `<tr>
+            <td class="text-center">${item.displayOrder}</td>
+            <td class="text-center">${item.nameKo}</td>
+            <td class="text-center">${item.nameEn}</td>
+            <td class="text-center">${item.code}</td>
+            <td class="text-center">${item.unit}</td>
+          </tr>`;
+        });
+        $('#unit_tbody').html(html);
+      });
+  }
+
+  // 사용자 디바이스 로드 함수 (페이징)
+  function loadDeviceData(page = 0) {
+    console.log(`Loading device data for page: ${page}`);
+    
+    fetch(`/system/rawdata/user-devices?page=${page}`)
+      .then(res => res.json())
+      .then(data => {
+        $('#device_count').text(data.total);
+        
+        let html = '';
+        if (data.items && data.items.length > 0) {
+          data.items.forEach(device => {
+            html += `<tr>
+              <td class="text-center">${device.user.userId}</td>
+              <td class="text-center">${device.user.username}</td>
+              <td class="text-center">${device.deviceType}</td>
+              <td class="text-center">${device.deviceName}</td>
+              <td class="text-center">${device.deviceModel}</td>
+              <td class="text-center">${device.deviceToken.substring(0, 10)}...</td>
+              <td class="text-center">${device.createDate}</td>
+            </tr>`;
+          });
+        } else {
+          html = '<tr><td colspan="7" class="text-center">데이터가 없습니다.</td></tr>';
+        }
+        $('#device_tbody').html(html);
+
+        renderPagination(data.total, data.page, data.pageSize);
+      })
+      .catch(err => console.error('Fetch error:', err));
+  }
+
+  /**
+  * @param {number} total 전체 아이템 개수
+  * @param {number} page 현재 페이지 (0-based)
+  * @param {number} pageSize 페이지당 아이템 개수
+  */
+  function renderPagination(total, page, pageSize) {
+    const totalPages = Math.ceil(total / pageSize);
+    const blockLimit = 5; // 한 화면에 보여줄 페이지 번호 개수
+    const currentBlock = Math.floor(page / blockLimit);
+
+    const startPage = currentBlock * blockLimit + 1;
+    let endPage = startPage + blockLimit - 1;
+    if (endPage > totalPages) endPage = totalPages;
+
+    let html = `<ul class="pagination">`;
+
+    // 1. 이전 버튼 (Left Arrow)
+    const hasPrev = startPage > 1;
+    const prevPage = startPage - 2; // 이전 블록의 마지막 페이지 (0-based)
+    html += `
+      <li class="${hasPrev ? 'waves-effect' : 'disabled'}">
+        <a href="javascript:void(0);" onclick="${hasPrev ? `loadDeviceData(${prevPage})` : ''}">
+          <i class="material-icons">chevron_left</i>
+        </a>
+      </li>`;
+
+    // 2. 페이지 번호들 (1-based 표시, 전달은 0-based)
+    for (let i = startPage; i <= endPage; i++) {
+      const isCurrent = (i - 1) === page;
+      html += `
+        <li class="${isCurrent ? 'active' : 'waves-effect'}">
+          <a href="javascript:void(0);" onclick="loadDeviceData(${i - 1})">${i}</a>
+        </li>`;
+    }
+
+    // 3. 다음 버튼 (Right Arrow)
+    const hasNext = endPage < totalPages;
+    const nextPage = endPage; // 다음 블록의 첫 페이지 (0-based)
+    html += `
+      <li class="${hasNext ? 'waves-effect' : 'disabled'}">
+        <a href="javascript:void(0);" onclick="${hasNext ? `loadDeviceData(${nextPage})` : ''}">
+          <i class="material-icons">chevron_right</i>
+        </a>
+      </li>`;
+
+    html += `</ul>`;
+
+    // 페이징 영역에 주입
+    $('#device_pagination').html(html);
+  }
+</script>
+<!-- #END# Bordered Table -->
