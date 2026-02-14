@@ -136,7 +136,30 @@
 </form>
 
 <script language='javascript'>
-  function goList() { location.href = "/cs/{{#if isFaq}}faq{{else}}notice{{/if}}?page={{page}}"; }
+  function goList() { 
+    const baseUrl = "/cs/{{#if isFaq}}faq{{else}}notice{{/if}}";
+    
+    // 2. URLSearchParams 객체 생성 및 기본 페이지 추가
+    const params = new URLSearchParams();
+    params.append("page", "{{page}}");
+
+    // 3. 검색어(searchKeyword)가 있으면 추가
+    const keyword = "{{searchDto.searchKeyword}}";
+    if (keyword && keyword.trim() !== "") {
+        params.append("searchKeyword", keyword);
+    }
+
+    // 4. 활성화 여부(isActivate)가 있으면 추가 (Y 또는 N)
+    const isActivate = "{{searchDto.isActivate}}";
+    // Handlebars 변수가 boolean true/false로 넘어올 경우를 대비해 변환 로직 포함
+    if (isActivate === "true" || isActivate === "Y") {
+        params.append("isActivate", "Y");
+    } else if (isActivate === "false" || isActivate === "N") {
+        params.append("isActivate", "N");
+    }
+
+    location.href = `${baseUrl}?${params.toString()}`;
+   }
   
   function onSave() { 
     const form = document.notice_update;
@@ -176,7 +199,6 @@
       memo: memo,
       isActivate: isActive
     };
-    console.log('Payload to be sent:', payload);
 
     fetch('/cs/notice/update', {
       method: 'POST',
@@ -186,7 +208,6 @@
       body: JSON.stringify(payload),
     })
     .then(response => {
-      console.log(response);
       if (response.ok) {
         alert('저장되었습니다.');
         location.reload();

@@ -1,4 +1,4 @@
-export const pageSize = 20;
+export const pageSize = 10;
 
 export const service = {
   service_name: '헬스케어 서비스 AI ',

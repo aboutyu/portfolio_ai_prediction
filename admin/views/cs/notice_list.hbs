@@ -3,22 +3,23 @@
   <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
     <div class='card'>
       <div class='header'>
-        <form name="emp_search" method="get" href="/users">
-            <input type="hidden" name="page" value="{{page}}">
+        <form name="emp_search" method="get" href="/cs/{{#if isFaq}}faq{{else}}notice{{/if}}" class="form-horizontal" role="form">
             <table class="table table-bordered">
                 <tr>
-                    <th class="text-center" style="width:20%">활성화여부</th>
+                    <th class="text-center" style="width:20%">탈퇴여부</th>
                     <td class="text-left">
-
                         <div class="demo-radio-button">
-                            <input name="is_active" value="A" type="radio" id="is_active_a" class="with-gap radio-col-grey">
+                            <input name="isActivate" value="" type="radio" id="is_active_a" class="with-gap radio-col-grey" 
+                                {{eq searchDto.isActivate undefined 'checked' ''}}>
                             <label for="is_active_a">전체</label>
 
-                            <input name="is_active" value="Y" type="radio" id="is_active_y" class="with-gap radio-col-grey">
-                            <label for="is_active_y">활성화</label>
+                            <input name="isActivate" value="Y" type="radio" id="is_active_y" class="with-gap radio-col-grey"
+                                {{eq searchDto.isActivate true 'checked' ''}}>
+                            <label for="is_active_y">활성화(가입)</label>
 
-                            <input name="is_active" value="N" type="radio" id="is_active_n" class="with-gap radio-col-grey">
-                            <label for="is_active_n">비활성화</label>
+                            <input name="isActivate" value="N" type="radio" id="is_active_n" class="with-gap radio-col-grey"
+                                {{eq searchDto.isActivate false 'checked' ''}}>
+                            <label for="is_active_n">비활성화(탈퇴)</label>
                         </div> 
                     </td>
                 </tr>
@@ -27,22 +28,28 @@
                     <th class="text-center" style="width:20%">FAQ종류</th>
                     <td class="text-left">
                         <div class="demo-radio-button">
-                        <input type="checkbox" id="md_checkbox_3" name="K" value="Y" class="filled-in chk-col-grey" checked>
-                        <label for="md_checkbox_3">회원</label> 
+                          <input type="checkbox" id="faqKind_user" name="faqType" value="user" class="filled-in chk-col-grey" {{contains searchDto.faqType "user" "checked" ""}}>
+                          <label for="faqKind_user">회원</label> 
 
-                        <input type="checkbox" id="md_checkbox_4" name="N" value="Y" class="filled-in chk-col-grey" checked>
-                        <label for="md_checkbox_4">서비스</label> 
-
-                        <input type="checkbox" id="md_checkbox_5" name="G" value="Y" class="filled-in chk-col-grey" >
-                        <label for="md_checkbox_5">결제</label>
+                          <input type="checkbox" id="faqKind_service" name="faqType" value="service" class="filled-in chk-col-grey" {{contains searchDto.faqType "service" "checked" ""}}>
+                          <label for="faqKind_service">서비스</label> 
+                          <input type="checkbox" id="faqKind_payment" name="faqType" value="payment" class="filled-in chk-col-grey" {{contains searchDto.faqType "payment" "checked" ""}}>
+                          <label for="faqKind_payment">결제</label>
                         </div>
                     </td>
                 </tr>
                 {{/if}}
                 <tr>
-                    <th class="text-center" style="width:20%">검색어</th>
+                  <th class="text-center" style="width:20%">검색어</th>
                     <td class="text-left">
-                        <input type="text" name="search_keyword" id="search_keyword" style="width:100%;" class="form-control" placeholder="이름, 닉네임, 모바일번호를 기준으로 자연어 검색이 됩니다.">
+                        <input 
+                          type="text" 
+                          name="searchKeyword" 
+                          id="searchKeyword" 
+                          value="{{searchDto.searchKeyword}}"
+                          style="width:100%;" 
+                          class="form-control" 
+                          placeholder="ID, 이름 기준으로 자연어 검색이 됩니다." >
                     </td>
                 </tr>
             </table>
@@ -84,7 +91,7 @@
             <tbody>
               {{#each items}}
               <tr 
-                  onclick="location.href='/cs/{{#if ../isFaq}}faq{{else}}notice{{/if}}/detail?sequence={{this.sequence}}&page={{../page}}'"
+                  onclick="goDetail('{{this.sequence}}')"
                   style='cursor:pointer;'
                   >
                 <td class='text-center'>{{calculateTableNo ../total ../page @index}}</td>
@@ -105,11 +112,40 @@
         </div>
 
         <div class="row text-center">
-          {{{pagination total page pageSize}}}
+          {{{pagination total page pageSize searchDto}}}
         </div>
 
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  function goDetail(sequence) {
+      const baseUrl = "/cs/{{#if isFaq}}faq{{else}}notice{{/if}}/detail";
+      const params = new URLSearchParams();
+      
+      // 필수 파라미터
+      params.append("sequence", sequence);
+      params.append("page", "{{page}}");
+
+      // 검색 조건 유지 (searchDto 기반)
+      {{#if searchDto.searchKeyword}}
+      params.append("searchKeyword", "{{searchDto.searchKeyword}}");
+      {{/if}}
+
+      {{#if (eq searchDto.isActivate true)}}
+          params.append("isActivate", "Y");
+      {{/if}}
+      {{#if (eq searchDto.isActivate false)}}
+          params.append("isActivate", "N");
+      {{/if}}
+
+      {{#each searchDto.loginType}}
+      params.append("loginType", "{{this}}");
+      {{/each}}
+
+      location.href = `${baseUrl}?${params.toString()}`;
+  }
+</script>
 <!-- #END# Bordered Table -->

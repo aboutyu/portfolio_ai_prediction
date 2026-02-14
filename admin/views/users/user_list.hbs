@@ -3,22 +3,21 @@
   <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
     <div class='card'>
       <div class='header'>
-        <form name="emp_search" method="get" href="/users">
-            <input type="hidden" name="page" value="{{page}}">
+        {{!-- <form name="user_search" method="get" href="/users">
             <table class="table table-bordered">
                 <tr>
                     <th class="text-center" style="width:20%">탈퇴여부</th>
                     <td class="text-left">
 
                         <div class="demo-radio-button">
-                            <input name="is_active" value="A" type="radio" id="is_active_a" class="with-gap radio-col-grey">
-                            <label for="is_active_a">전체</label>
+                            <input name="isActivate" value="" type="radio" id="isActivate" class="with-gap radio-col-grey" checked>
+                            <label for="isActivate">전체</label>
 
-                            <input name="is_active" value="Y" type="radio" id="is_active_y" class="with-gap radio-col-grey">
-                            <label for="is_active_y">활성화(가입)</label>
+                            <input name="isActivate" value="Y" type="radio" id="isActivate" class="with-gap radio-col-grey">
+                            <label for="isActivate">활성화(가입)</label>
 
-                            <input name="is_active" value="N" type="radio" id="is_active_n" class="with-gap radio-col-grey">
-                            <label for="is_active_n">비활성화(탈퇴)</label>
+                            <input name="isActivate" value="N" type="radio" id="isActivate" class="with-gap radio-col-grey">
+                            <label for="isActivate">비활성화(탈퇴)</label>
                         </div> 
                     </td>
                 </tr>
@@ -43,10 +42,18 @@
                 <tr>
                     <th class="text-center" style="width:20%">검색어</th>
                     <td class="text-left">
-                        <input type="text" name="search_keyword" id="search_keyword" style="width:100%;" class="form-control" placeholder="이름, 닉네임, 모바일번호를 기준으로 자연어 검색이 됩니다.">
+                        <input 
+                          type="text" 
+                          name="searchKeyword" 
+                          id="searchKeyword" 
+                          style="width:100%;" 
+                          class="form-control" 
+                          placeholder="이름, 닉네임, 모바일번호를 기준으로 자연어 검색이 됩니다." >
                     </td>
                 </tr>
             </table>
+
+            <input type="hidden" name="page" value="{{page}}">
 
             <div class="row text-center" style="margin-bottom: 5px;">
                 <div class="btn-group">
@@ -55,7 +62,65 @@
                     </button>
                 </div>
             </div>
-        </form>
+        </form> --}}
+        <form name="user_search" method="get" action="/users"> <table class="table table-bordered">
+            <table class="table table-bordered">
+              <tr>
+                  <th class="text-center" style="width:20%">탈퇴여부</th>
+                  <td class="text-left">
+                      <div class="demo-radio-button">
+                          <input name="isActivate" value="" type="radio" id="is_active_a" class="with-gap radio-col-grey" 
+                              {{eq searchDto.isActivate undefined 'checked' ''}}>
+                          <label for="is_active_a">전체</label>
+
+                          <input name="isActivate" value="Y" type="radio" id="is_active_y" class="with-gap radio-col-grey"
+                              {{eq searchDto.isActivate true 'checked' ''}}>
+                          <label for="is_active_y">활성화(가입)</label>
+
+                          <input name="isActivate" value="N" type="radio" id="is_active_n" class="with-gap radio-col-grey"
+                              {{eq searchDto.isActivate false 'checked' ''}}>
+                          <label for="is_active_n">비활성화(탈퇴)</label>
+                      </div> 
+                  </td>
+              </tr>
+              <tr>
+                  <th class="text-center" style="width:20%">로그인타입</th>
+                  <td class="text-left">
+                      <div class="demo-radio-button">
+                        <input type="checkbox" id="loginType_kakao" name="loginType" value="kakao" class="filled-in chk-col-grey" {{contains searchDto.loginType "kakao" "checked" ""}}>
+                        <label for="loginType_kakao">카카오</label> 
+
+                        <input type="checkbox" id="loginType_naver" name="loginType" value="naver" class="filled-in chk-col-grey" {{contains searchDto.loginType "naver" "checked" ""}}>
+                        <label for="loginType_naver">네이버</label> 
+                        <input type="checkbox" id="loginType_google" name="loginType" value="google" class="filled-in chk-col-grey" {{contains searchDto.loginType "google" "checked" ""}}>
+                        <label for="loginType_google">구글</label>
+
+                        <input type="checkbox" id="loginType_apple" name="loginType" value="apple" class="filled-in chk-col-grey" {{contains searchDto.loginType "apple" "checked" ""}}>
+                        <label for="loginType_apple">애플</label>
+                      </div>
+                  </td>
+              </tr>
+              <tr>
+                  <th class="text-center" style="width:20%">검색어</th>
+                  <td class="text-left">
+                      <input 
+                        type="text" 
+                        name="searchKeyword" 
+                        id="searchKeyword" 
+                        value="{{searchDto.searchKeyword}}"
+                        style="width:100%;" 
+                        class="form-control" 
+                        placeholder="ID, 이름 기준으로 자연어 검색이 됩니다." >
+                  </td>
+              </tr>
+          </table>
+
+          <input type="hidden" name="page" value="0"> <div class="row text-center" style="margin-bottom: 5px;">
+              <button type="submit" class="btn btn-danger waves-effect">
+                  검색
+              </button>
+          </div>
+      </form>
       </div>
 
       <div class='body'>
@@ -76,6 +141,7 @@
                 <th class='text-center'>No</th>
                 <th class='text-center'>ID</th>
                 <th class='text-center'>이름</th>
+                <th class='text-center'>로그인타입</th>
                 <th class='text-center'>디바이스수</th>
                 <th class='text-center'>음식등록수</th>
                 <th class='text-center'>건강등록수</th>
@@ -94,6 +160,7 @@
                 <td class='text-center'>{{calculateTableNo ../total ../page @index}}</td>
                 <td class='text-center'>{{this.userId}}</td>
                 <td class='text-center'>{{this.username}}</td>
+                <td class='text-center'>{{this.loginType}}</td>
                 <td class='text-center'>{{this.deviceCount}}</td>
                 <td class='text-center'>{{this.foodLogCount}}</td>
                 <td class='text-center'>{{this.healthLogCount}}</td>
@@ -110,7 +177,7 @@
         </div>
 
         <div class="row text-center">
-          {{{pagination total page pageSize}}}
+          {{{pagination total page pageSize searchDto}}}
         </div>
 
       </div>

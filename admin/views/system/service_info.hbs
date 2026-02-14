@@ -287,8 +287,6 @@
       email: form.email.value,
     };
 
-    console.log('Payload:', payload);
-
     fetch('/system/serviceInfo/update', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

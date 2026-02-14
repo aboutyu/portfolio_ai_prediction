@@ -3,6 +3,7 @@ import { CsService } from './cs.service';
 import { PageDto } from 'src/dto/page.dto';
 import { NoticeType } from 'src/types/notice.type';
 import { NoticeDto } from './dto/notice.dto';
+import { SearchListDto } from 'src/dto/search-list.dto';
 
 @Controller('cs')
 export class CsController {
@@ -10,32 +11,31 @@ export class CsController {
 
   @Get('/notice')
   @Render('cs/notice_list.hbs')
-  async getNoticeList(@Query() pageDto: PageDto) {
-    return await this.csService.getNoticeList(pageDto, NoticeType.NOTICE);
+  async getNoticeList(@Query() searchDto: SearchListDto) {
+    return await this.csService.getNoticeList(searchDto, NoticeType.NOTICE);
   }
 
   @Get('/notice/detail')
   @Render('cs/notice_detail.hbs')
-  async getNoticeDetail(@Query() pageDto: PageDto) {
-    return await this.csService.getNoticeDetail(pageDto, NoticeType.NOTICE);
+  async getNoticeDetail(@Query() searchDto: SearchListDto) {
+    return await this.csService.getNoticeDetail(searchDto, NoticeType.NOTICE);
   }
 
   @Post('/notice/update')
   async updateNotice(@Body() dto: NoticeDto) {
-    console.log('dto', dto);
     return await this.csService.updateNotice(dto);
   }
 
   @Get('/faq')
   @Render('cs/notice_list.hbs')
-  async getFaqList(@Query() pageDto: PageDto) {
-    return await this.csService.getNoticeList(pageDto, NoticeType.FAQ);
+  async getFaqList(@Query() searchDto: SearchListDto) {
+    return await this.csService.getNoticeList(searchDto, NoticeType.FAQ);
   }
 
   @Get('/faq/detail')
   @Render('cs/notice_detail.hbs')
-  async getFaqDetail(@Query() pageDto: PageDto) {
-    return await this.csService.getNoticeDetail(pageDto, NoticeType.FAQ);
+  async getFaqDetail(@Query() searchDto: SearchListDto) {
+    return await this.csService.getNoticeDetail(searchDto, NoticeType.FAQ);
   }
 
   @Get('/qna')

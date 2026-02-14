@@ -296,8 +296,6 @@
   function onSaved() {
     const payload = getFormData();
     if (!payload) return;
-    console.log('Payload:', payload);
-
     if (!confirm('저장하시겠습니까?')) return;
 
     fetch('/system/eula/add', {
@@ -330,8 +328,6 @@
   function onModified() {
     const payload = getFormData();
     if (!payload || !payload.sequence) return;
-    console.log('Payload:', payload);
-
     if (!confirm('수정하시겠습니까?')) return;
 
     fetch('/system/eula/modify', {

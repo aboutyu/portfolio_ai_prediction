@@ -9,9 +9,9 @@ import {
   NoticeFaqType,
 } from 'src/types/notice-faq.type';
 import { NoticeType } from 'src/types/notice.type';
-import { Repository } from 'typeorm';
+import { Brackets, Repository } from 'typeorm';
 import { NoticeDto } from './dto/notice.dto';
-import { title } from 'process';
+import { SearchListDto } from 'src/dto/search-list.dto';
 
 @Injectable()
 export class CsService {
@@ -28,16 +28,59 @@ export class CsService {
     isActivate: true,
   } as const;
 
-  async getNoticeList(dto: PageDto, type: NoticeType) {
-    const [list, total] = await this.noticeRepository.findAndCount({
-      where: { type },
-      select: this.listSelection,
-      order: {
-        sequence: 'DESC',
-      },
-      take: pageSize,
-      skip: dto.skip,
-    });
+  async getNoticeList(searchDto: SearchListDto, type: NoticeType) {
+    const { sequence, isActivate, searchKeyword } = searchDto;
+    const selectFields = Object.keys(this.listSelection).map(
+      (field) => `notice.${field}`,
+    );
+
+    const queryBuilder = this.noticeRepository
+      .createQueryBuilder('notice')
+      .select(selectFields)
+      .where('notice.type = :type', { type });
+
+    // 활성화 여부 검색
+    if (isActivate !== undefined && isActivate !== null) {
+      queryBuilder.andWhere('notice.isActivate = :isActivate', {
+        isActivate: isActivate ? 'Y' : 'N',
+      });
+    }
+
+    // 제목 및 내용 자연어 검색
+    if (searchKeyword) {
+      const keywords = searchKeyword.trim().split(/\s+/);
+
+      keywords.forEach((word, index) => {
+        const paramName = `word${index}`;
+        queryBuilder.andWhere(
+          new Brackets((qb) => {
+            qb.where(`notice.title LIKE :${paramName}`, {
+              [paramName]: `%${word}%`,
+            }).orWhere(`notice.content LIKE :${paramName}`, {
+              [paramName]: `%${word}%`,
+            });
+          }),
+        );
+      });
+    }
+
+    // FAQ 종류 검색
+    if (
+      type === NoticeType.FAQ &&
+      searchDto.faqType &&
+      searchDto.faqType.length > 0
+    ) {
+      queryBuilder.andWhere('notice.faqKind IN (:...faqTypes)', {
+        faqTypes: searchDto.faqType.map((kind) => kind.trim()),
+      });
+    }
+
+    // 정렬 및 페이징
+    const [list, total] = await queryBuilder
+      .orderBy('notice.sequence', 'DESC')
+      .skip(searchDto.skip)
+      .take(pageSize)
+      .getManyAndCount();
 
     // map을 돌려 각 항목에 label 속성을 추가합니다.
     const items = list.map((contents) => ({
@@ -47,22 +90,27 @@ export class CsService {
         : '-',
     }));
 
-    console.log('items', items);
-
     return {
       items,
       isFaq: type === NoticeType.FAQ,
       total,
-      page: dto.page,
+      page: searchDto.page,
       pageSize,
+      searchDto,
     };
   }
 
-  async getNoticeDetail(dto: PageDto, type: NoticeType) {
+  async getNoticeDetail(searchDto: SearchListDto, type: NoticeType) {
     const item = await this.noticeRepository.findOne({
-      where: { sequence: dto.sequence },
+      where: { sequence: searchDto.sequence },
     });
-    return { item, page: dto.page, isFaq: type === NoticeType.FAQ, faqKinds };
+    return {
+      item,
+      page: searchDto.page,
+      isFaq: type === NoticeType.FAQ,
+      faqKinds,
+      searchDto,
+    };
   }
 
   async addNotice(dto: NoticeDto) {
@@ -74,14 +122,13 @@ export class CsService {
   }
 
   async updateNotice(dto: NoticeDto) {
-    console.log('dto in service', dto);
     const updateNotice = await this.noticeRepository.update(
       { sequence: dto.sequence },
       {
         title: dto.title,
         content: dto.content,
         memo: dto.memo,
-        isActivate: dto.isActivate === 'Y',
+        isActivate: dto.isActivate,
         faqKind: dto.type === NoticeType.FAQ ? dto.faqKind : null,
       },
     );

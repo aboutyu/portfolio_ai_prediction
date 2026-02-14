@@ -1,16 +1,12 @@
 import { Transform } from 'class-transformer';
 import { IsEnum, IsOptional } from 'class-validator';
+import { SearchListDto } from 'src/dto/search-list.dto';
 import { NoticeFaqType } from 'src/types/notice-faq.type';
 import { NoticeType } from 'src/types/notice.type';
 
-export class NoticeDto {
-  @IsOptional()
-  sequence?: number;
-
+export class NoticeDto extends SearchListDto {
   title: string;
   content: string;
-  isActivate: string;
-  page: number;
 
   @IsEnum(NoticeType)
   type: NoticeType;

@@ -153,8 +153,6 @@
     if (window.jQuery) {
       $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         const targetId = $(e.target).attr("href");
-        console.log('Tab switched to:', targetId); // 클릭 시 로그 확인용
-
         if (targetId === "#netrition_unit") {
           loadUnitData();
         } else if (targetId === "#food_nutrition_info") {

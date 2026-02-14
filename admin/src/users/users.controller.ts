@@ -2,6 +2,7 @@ import { Body, Controller, Get, Post, Query, Render } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { PageDto } from 'src/dto/page.dto';
 import { DeviceDto } from './dto/device.dto';
+import { SearchListDto } from 'src/dto/search-list.dto';
 
 @Controller('users')
 export class UsersController {
@@ -9,8 +10,9 @@ export class UsersController {
 
   @Get('')
   @Render('users/user_list.hbs')
-  async getUsers(@Query() dto: PageDto) {
-    return await this.usersService.getUsers(dto);
+  async getUsers(@Query() searchDto: SearchListDto) {
+    const result = await this.usersService.getUsers(searchDto);
+    return result;
   }
 
   @Get('/detail')

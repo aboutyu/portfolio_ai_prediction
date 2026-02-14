@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PageDto } from 'src/dto/page.dto';
+import { SearchListDto } from 'src/dto/search-list.dto';
 import { AdminUser } from 'src/entities/admin-user.entity';
 import { UserDevice } from 'src/entities/user-devices.entity';
 import { User } from 'src/entities/user.entity';
 import { pageSize } from 'src/helpers/constants';
 import { DeviceType } from 'src/types/device.type';
-import { DataSource, Repository } from 'typeorm';
+import { Brackets, DataSource, Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
@@ -34,23 +35,63 @@ export class UsersService {
     memo: true,
   } as const;
 
-  async getUsers(dto: PageDto) {
-    const [items, total] = await this.userRepository
-      .createQueryBuilder('user')
-      // 관계 데이터의 개수를 가상 컬럼에 매핑
+  async getUsers(searchDto: SearchListDto) {
+    console.log('Received SearchListDto in getUsers:', searchDto);
+    const queryBuilder = this.userRepository.createQueryBuilder('user');
+
+    // 1. 관계 데이터 카운트 매핑
+    queryBuilder
       .loadRelationCountAndMap('user.deviceCount', 'user.devices')
       .loadRelationCountAndMap('user.foodLogCount', 'user.foodLogs')
-      .loadRelationCountAndMap('user.healthLogCount', 'user.healthLogs')
+      .loadRelationCountAndMap('user.healthLogCount', 'user.healthLogs');
+
+    // 2. 동적 검색 조건 추가
+    // 활성화 여부 검색
+    if (searchDto.isActivate !== undefined && searchDto.isActivate !== null) {
+      const isActivateValue = searchDto.isActivate ? 'Y' : 'N';
+      queryBuilder.andWhere('user.isActivate = :isActivate', {
+        isActivate: isActivateValue,
+      });
+    }
+
+    // 검색어 (이름 또는 이메일 동합 자연어 검색)
+    if (searchDto.searchKeyword) {
+      const keywords = searchDto.searchKeyword.trim().split(/\s+/); // 공백 기준 단어 분리
+
+      keywords.forEach((word, index) => {
+        const paramName = `keyword${index}`;
+        queryBuilder.andWhere(
+          new Brackets((qb) => {
+            qb.where(`user.userName LIKE :${paramName}`, {
+              [paramName]: `%${word}%`,
+            }).orWhere(`user.userId LIKE :${paramName}`, {
+              [paramName]: `%${word}%`,
+            });
+          }),
+        );
+      });
+    }
+
+    // 로그인 타입 (배열 내 포함 여부 - IN 절)
+    // if (searchDto.loginType && searchDto.loginType.length > 0) {
+    //   queryBuilder.andWhere('user.loginType IN (:...loginTypes)', {
+    //     loginTypes: searchDto.loginType,
+    //   });
+    // }
+
+    // 3. 정렬 및 페이징 처리
+    const [items, total] = await queryBuilder
       .orderBy('user.createDate', 'DESC')
-      .skip(dto.skip)
+      .skip(searchDto.skip)
       .take(pageSize)
       .getManyAndCount();
 
     return {
       items,
       total,
-      page: dto.page,
+      page: searchDto.page,
       pageSize,
+      searchDto,
     };
   }
 
@@ -62,7 +103,6 @@ export class UsersService {
         devices: true,
       },
     });
-    console.log(user);
     return { user, page: dto.page };
   }
 

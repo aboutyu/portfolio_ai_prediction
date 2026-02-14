@@ -23,15 +23,11 @@ export class SystemController {
 
   @Post('/eula/add')
   async addEula(@Body() dto: EulaDataDto) {
-    // 여기에 EULA 추가 로직 구현
-    console.log('EULA 추가 요청 데이터:', dto);
     return this.systemService.addEula(dto);
   }
 
   @Post('/eula/modify')
   async modifyEula(@Body() dto: EulaDataDto) {
-    // 여기에 EULA 수정 로직 구현
-    console.log('EULA 수정 요청 데이터:', dto);
     return this.systemService.modifyEula(dto);
   }
 
@@ -44,7 +40,6 @@ export class SystemController {
 
   @Post('/serviceInfo/update')
   async updateServiceInfo(@Body() dto: ServiceInfoDto) {
-    console.log('업데이트 요청 데이터:', dto);
     return await this.systemService.updateServiceInfo(dto);
   }
 
