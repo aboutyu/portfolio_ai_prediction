@@ -25,6 +25,11 @@ export class TemplateVarsInterceptor implements NestInterceptor {
     '/dashboard': { top_menu: '', sub_menu: '대시보드' },
     '/users': { top_menu: '회원관리', sub_menu: '목록' },
     '/users/detail': { top_menu: '회원관리', sub_menu: '상세' },
+    '/users/admin-users': { top_menu: '시스템관리', sub_menu: '어드민계정' },
+    '/users/admin-users/detail': {
+      top_menu: '시스템관리',
+      sub_menu: '어드민계정 상세',
+    },
     '/cs/notice': { top_menu: '고객센터', sub_menu: '공지사항' },
     '/cs/notice/detail': { top_menu: '고객센터', sub_menu: '공지사항 상세' },
     '/cs/qna': { top_menu: '고객센터', sub_menu: '1:1문의' },

@@ -15,8 +15,8 @@ export class AdminUser {
   @Column({ type: 'varchar', length: 255, name: 'user_id' })
   userId: string;
 
-  @Column({ type: 'varchar', length: 32 })
-  password: string;
+  @Column({ type: 'varchar', length: 32, nullable: true })
+  password?: string | null;
 
   @Column({ type: 'varchar', length: 45, name: 'user_name' })
   userName: string;

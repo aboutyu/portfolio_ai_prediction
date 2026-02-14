@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PageDto } from 'src/dto/page.dto';
+import { AdminUser } from 'src/entities/admin-user.entity';
 import { UserDevice } from 'src/entities/user-devices.entity';
 import { User } from 'src/entities/user.entity';
 import { pageSize } from 'src/helpers/constants';
@@ -15,6 +16,9 @@ export class UsersService {
 
     @InjectRepository(UserDevice)
     private readonly userDeviceRepository: Repository<UserDevice>,
+
+    @InjectRepository(AdminUser)
+    private readonly adminUserRepository: Repository<AdminUser>,
   ) {}
 
   private readonly detailSelection = {
@@ -92,5 +96,41 @@ export class UsersService {
       deviceType,
     });
     return { page };
+  }
+
+  async getAdminUsers(dto: PageDto) {
+    const [items, total] = await this.adminUserRepository.findAndCount({
+      order: { createTime: 'DESC' },
+      skip: dto.skip,
+      take: pageSize,
+    });
+
+    return {
+      items,
+      total,
+      page: dto.page,
+      pageSize,
+    };
+  }
+
+  async setAdminUser(dto: PageDto, isActivate: boolean) {
+    const user = await this.adminUserRepository.update(
+      { sequence: dto.sequence },
+      { isActivate, password: null },
+    );
+    return { user, page: dto.page };
+  }
+
+  async resetAdminUserPassword(dto: PageDto) {
+    const resetPassword = await this.adminUserRepository.findOne({
+      select: { userId: true },
+      where: { sequence: dto.sequence },
+    });
+
+    const user = await this.adminUserRepository.update(
+      { sequence: dto.sequence },
+      { password: resetPassword?.password || 'admin' },
+    );
+    return { user, page: dto.page };
   }
 }

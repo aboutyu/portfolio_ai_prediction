@@ -1,4 +1,5 @@
 export const pageSize = 20;
+
 export const service = {
   service_name: '헬스케어 서비스 AI ',
   company_name: '유태훈 스튜디오',

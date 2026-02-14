@@ -62,4 +62,34 @@ export class UsersController {
       dto.page,
     );
   }
+
+  @Get('/admin-users')
+  @Render('users/adminuser-list.hbs')
+  async getAdminUsers(@Query() dto: PageDto) {
+    return await this.usersService.getAdminUsers(dto);
+  }
+
+  @Post('/admin-users/delete')
+  async deleteAdminUser(@Body() dto: PageDto) {
+    if (!dto.sequence) {
+      throw new Error('Admin user sequence is required');
+    }
+    return await this.usersService.setAdminUser(dto, false);
+  }
+
+  @Post('/admin-users/activate')
+  async activateAdminUser(@Body() dto: PageDto) {
+    if (!dto.sequence) {
+      throw new Error('Admin user sequence is required');
+    }
+    return await this.usersService.setAdminUser(dto, true);
+  }
+
+  @Post('/admin-users/reset-password')
+  async resetAdminUserPassword(@Body() dto: PageDto) {
+    if (!dto.sequence) {
+      throw new Error('Admin user sequence is required');
+    }
+    return await this.usersService.resetAdminUserPassword(dto);
+  }
 }

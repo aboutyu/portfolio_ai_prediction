@@ -7,6 +7,7 @@ import { UserDevice } from 'src/entities/user-devices.entity';
 import { FoodLog } from 'src/entities/food-log.entity';
 import { HealthLog } from 'src/entities/health-log.entity';
 import { TimelineGroup } from 'src/entities/timeline-group.entity';
+import { AdminUser } from 'src/entities/admin-user.entity';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { TimelineGroup } from 'src/entities/timeline-group.entity';
       FoodLog,
       HealthLog,
       TimelineGroup,
+      AdminUser,
     ]),
   ],
   controllers: [UsersController],
