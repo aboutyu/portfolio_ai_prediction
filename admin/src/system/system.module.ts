@@ -6,6 +6,7 @@ import { ServiceInfo } from 'src/entities/service-info.entity';
 import { Terms } from 'src/entities/terms.entity';
 import { UserDevice } from 'src/entities/user-devices.entity';
 import { NutrientDictionary } from 'src/entities/nutrition-dictionary.entity';
+import { FoodNutritionInfo } from 'src/entities/food-nutrition-info.entity';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { NutrientDictionary } from 'src/entities/nutrition-dictionary.entity';
       ServiceInfo,
       NutrientDictionary,
       UserDevice,
+      FoodNutritionInfo,
     ]),
   ],
   providers: [SystemService],

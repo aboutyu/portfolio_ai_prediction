@@ -64,9 +64,8 @@ export class SystemController {
     return await this.systemService.getUserDevices(dto);
   }
 
-  @Get('/devices')
-  @Render('system/devices.hbs')
-  async getRegisteredDevices(@Query() dto: PageDto) {
-    return {};
+  @Get('/rawdata/food-nutrition-info')
+  async getFoodNutritionInfo(@Query() dto: PageDto) {
+    return await this.systemService.getFoodNutritionInfo(dto);
   }
 }

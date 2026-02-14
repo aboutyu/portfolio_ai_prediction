@@ -11,6 +11,7 @@ import { UserDevice } from 'src/entities/user-devices.entity';
 import { NutrientDictionary } from 'src/entities/nutrition-dictionary.entity';
 import { PageDto } from 'src/dto/page.dto';
 import { pageSize } from 'src/helpers/constants';
+import { FoodNutritionInfo } from 'src/entities/food-nutrition-info.entity';
 
 @Injectable()
 export class SystemService {
@@ -26,6 +27,9 @@ export class SystemService {
 
     @InjectRepository(NutrientDictionary)
     private readonly nutrientDictionaryRepository: Repository<NutrientDictionary>,
+
+    @InjectRepository(FoodNutritionInfo)
+    private readonly foodNutritionInfoRepository: Repository<FoodNutritionInfo>,
   ) {}
 
   async getEula() {
@@ -140,7 +144,19 @@ export class SystemService {
       skip: dto.skip,
     });
 
-    console.log('조회된 사용자 디바이스:', items);
+    return {
+      items,
+      total,
+      page: dto.page,
+      pageSize,
+    };
+  }
+
+  async getFoodNutritionInfo(dto: PageDto) {
+    const [items, total] = await this.foodNutritionInfoRepository.findAndCount({
+      take: pageSize,
+      skip: dto.skip,
+    });
 
     return {
       items,
