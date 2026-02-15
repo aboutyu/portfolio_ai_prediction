@@ -1,6 +1,5 @@
 import { Body, Controller, Get, Post, Query, Render } from '@nestjs/common';
 import { CsService } from './cs.service';
-import { PageDto } from 'src/dto/page.dto';
 import { NoticeType } from 'src/types/notice.type';
 import { NoticeDto } from './dto/notice.dto';
 import { SearchListDto } from 'src/dto/search-list.dto';
@@ -40,7 +39,7 @@ export class CsController {
 
   @Get('/qna')
   @Render('cs/qna_list.hbs')
-  async getQnaList(@Query() pageDto: PageDto) {
-    return await this.csService.getQnaList(pageDto);
+  async getQnaList(@Query() searchDto: SearchListDto) {
+    return await this.csService.getQnaList(searchDto);
   }
 }

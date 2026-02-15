@@ -13,6 +13,7 @@ import { SystemModule } from './system/system.module';
 import { ServiceInfo } from './entities/service-info.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TemplateVarsInterceptor } from './helpers/intercepts/template-engine-variables.intercept';
+import { DisplayModule } from './display/display.module';
 
 // 현재 환경에 따라 파일 경로 결정 함수
 const getEnvFilePath = () => {
@@ -37,6 +38,7 @@ const getEnvFilePath = () => {
     UsersModule,
     CsModule,
     SystemModule,
+    DisplayModule,
   ],
   controllers: [AppController],
   providers: [

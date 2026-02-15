@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PageDto } from 'src/dto/page.dto';
 import { Notice } from 'src/entities/notice.entity';
 import { pageSize } from 'src/helpers/constants';
 import {
@@ -135,7 +134,7 @@ export class CsService {
     return { updateNotice, page: dto.page, isFaq: dto.type === NoticeType.FAQ };
   }
 
-  async getQnaList(dto: PageDto) {
+  async getQnaList(searchDto: SearchListDto) {
     return [];
   }
 }

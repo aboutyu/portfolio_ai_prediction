@@ -6,9 +6,6 @@ import {
 } from '@nestjs/common';
 import { from, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { Response } from 'express';
-import { service } from '../constants';
-import session from 'express-session';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ServiceInfo } from 'src/entities/service-info.entity';
 import { Repository } from 'typeorm';
@@ -30,6 +27,10 @@ export class TemplateVarsInterceptor implements NestInterceptor {
       top_menu: '시스템관리',
       sub_menu: '어드민계정 상세',
     },
+
+    '/display/banner': { top_menu: '전시관리', sub_menu: '배너 등록' },
+    '/display/update-app': { top_menu: '전시관리', sub_menu: '앱버전관리' },
+
     '/cs/notice': { top_menu: '고객센터', sub_menu: '공지사항' },
     '/cs/notice/detail': { top_menu: '고객센터', sub_menu: '공지사항 상세' },
     '/cs/qna': { top_menu: '고객센터', sub_menu: '1:1문의' },

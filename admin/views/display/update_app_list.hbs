@@ -1,0 +1,207 @@
+<!-- Bordered Table -->
+<div class='row clearfix'>
+  <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+    <div class='card'>
+
+      <div class='body'>
+
+        <ul class="nav nav-tabs tab-nav-right" role="tablist">
+          <li role="presentation" class="active">
+            <a href="#update-iOS" data-toggle="tab" aria-expanded="true">iOS</a>
+          </li>
+          <li role="presentation" class="">
+            <a href="#update-android" data-toggle="tab" aria-expanded="false">안드로이드</a>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+
+          {{!-- 영양성분 Raw Data --}}
+          <div role="tabpanel" class="tab-pane fade active in" id="update-iOS">
+            <div class='row'>
+              <div class='col-sm-6 row-bottom'>
+                검색개수 : <span id="version_count_IOS">0</span>개
+              </div>
+            </div>
+
+            <div class='table-responsive'>
+              <table class='table table-bordered table-hover'>
+                <thead>
+                  <tr>
+                    <th class='text-center'>버전</th>
+                    <th class='text-center'>빌드번호</th>
+                    <th class='text-center'>필수업데이트</th>
+                    <th class='text-center'>등록일</th>
+                    <th class='text-center'>비고</th>
+                  </tr>
+                </thead>
+                <tbody id="version_tbody_IOS"></tbody>
+              </table>
+            </div>
+          </div>
+
+          {{!-- 음식 영양성분 Raw Data --}}
+          <div role="tabpanel" class="tab-pane fade" id="update-android">
+            <div class='row'>
+              <div class='col-sm-6 row-bottom'>
+                검색개수 : <span id="version_count_AOS">0</span>개
+              </div>
+            </div>
+
+            <div class='table-responsive'>
+              <table class='table table-bordered table-hover'>
+                <thead>
+                <tr>
+                  <th class='text-center'>버전</th>
+                  <th class='text-center'>빌드번호</th>
+                  <th class='text-center'>필수업데이트</th>
+                  <th class='text-center'>등록일</th>
+                  <th class='text-center'>메모</th>
+                  <th class='text-center'>비고</th>
+                </tr>
+                </thead>
+                <tbody id="version_tbody_AOS"></tbody>
+              </table>
+            </div>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // jQuery 의존성을 없애고 순수 자바스크립트로 실행 보장
+  document.addEventListener('DOMContentLoaded', function() {
+    loadData('IOS'); // 초기 로드 시 IOS 데이터 로드
+
+    // 탭 클릭 이벤트 (jQuery가 로드된 상태라면 아래 코드 유지)
+    if (window.jQuery) {
+      $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        const targetId = $(e.target).attr("href");
+        if (targetId === "#update-iOS") {
+          loadData('IOS');
+        } else if (targetId === "#update-android") {
+          loadData('AOS');
+        }
+      });
+    }
+  });
+
+  // 영양성분 단위 로드 함수
+  function loadData(type) {
+    if (type !== 'IOS' && type !== 'AOS') {
+      console.error('Invalid type for loading unit data:', type);
+      return;
+    }
+
+    fetch(`/display/update-app/list?type=${type}`)
+      .then(res => res.json())
+      .then(data => {
+        $('#version_count_' + type).text(data.total);
+        let html = '';
+        var i = 0;
+        data.items.forEach(item => {
+          if (i === 0) {
+            html += `<tr>
+              <td class="text-center"><input type="text" name="version" value="${item.version}"></td>
+              <td class="text-center"><input type="text" name="buildNumber" value="${item.buildNumber}"></td>
+              <td class="text-center">
+                <select 
+                  name="isEssential" 
+                    id="isEssential" 
+                    style="width:100%;" 
+                    class="form-control">
+                      <option value="Y" ${item.isEssential === true ? 'selected' : ''} >
+                        필수
+                      </option>
+                      <option value="N" ${item.isEssential === false ? 'selected' : ''} >
+                        선택
+                      </option>
+                </select>
+              </td>
+              <td class="text-center">${item.createDate}</td>
+              <td class="text-center">
+                <textarea 
+                  name='memo' 
+                  id='memo' 
+                  rows='1' 
+                  width='100%' 
+                  class='form-control'
+                  placeholder='메모를 입력해주세요.'>${item.memo || ''}</textarea>
+              </td>
+              <td class="text-center">
+                <button 
+                  type="button" 
+                  class="btn btn-danger btn-sm" 
+                  onClick="addVersion(${item.sequence}, '${type}')">
+                    저장
+                </button>
+                 &nbsp;
+                <button 
+                  type="button" 
+                  class="btn btn-secondary btn-sm" 
+                  onClick="deleteVersion(${item.sequence}, '${type}')">
+                    삭제
+                </button> 
+              </td>
+            </tr>`;
+            i++;
+          } else {
+            html += `<tr>
+              <td class="text-center">${item.version}</td>
+              <td class="text-center">${item.buildNumber}</td>
+              <td class="text-center">${item.isEssential ? '필수' : '선택'}</td>
+              <td class="text-center">${item.createDate}</td>
+              <td class="text-center">${item.memo || ''}</td>
+              <td class="text-center">
+                <button 
+                  type="button" 
+                  class="btn btn-secondary btn-sm" 
+                  onClick="deleteVersion(${item.sequence}, '${type}')">
+                    삭제
+                </button>
+              </td>
+            </tr>`;
+          } 
+        });
+        $('#version_tbody_' + type).html(html);
+      });
+  }
+
+  function addVersion(id, type) {
+    const version = document.querySelector(`input[name="version"]`).value;
+    const buildNumber = document.querySelector(`input[name="buildNumber"]`).value;
+    const isEssential = document.querySelector(`select[name="isEssential"]`).value === 'Y';
+    const memo = document.querySelector(`textarea[name="memo"]`).value;
+
+    fetch(`/display/update-app/add`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ type, version, buildNumber, isEssential, memo })
+    })
+    .then(res => res.json())
+    .then(data => {
+      alert('업데이트 버전이 저장되었습니다.');
+      loadData(type); // 저장 후 데이터 새로고침
+    });
+  }
+
+  function deleteVersion(id, type) {
+    if (!confirm('정말로 이 업데이트 버전을 삭제하시겠습니까?')) {
+      return;
+    }
+
+    fetch(`/display/update-app/${id}/${type}`, {
+      method: 'DELETE'
+    })
+    .then(res => res.json())
+    .then(data => {
+      alert('업데이트 버전이 삭제되었습니다.');
+      loadData(type); // 삭제 후 데이터 새로고침
+    });
+  }
+</script>
+<!-- #END# Bordered Table -->
