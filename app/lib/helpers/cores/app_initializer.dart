@@ -1,75 +1,43 @@
-import 'dart:convert';
-
+import 'package:app/helpers/commons/common_funcs.dart';
 import 'package:app/helpers/cores/app_config.dart';
-import 'package:app/helpers/enums/app_environment.enum.dart';
-import 'package:app/helpers/models/service_info_model.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:http/http.dart' as http;
-import 'package:intl/date_symbol_data_local.dart';
+import 'package:app/helpers/cores/repositories/app_initializer_repository.dart';
+import 'package:app/helpers/networks/enums/status_code.enum.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class AppInitializer {
-  const AppInitializer._();
+part 'app_initializer.g.dart';
 
-  static Future<void> initialize(WidgetsBinding widgetsBinding) async {
-    WidgetsFlutterBinding.ensureInitialized();
+@riverpod
+class AppInitialization extends _$AppInitialization {
+  @override
+  Future<void> build() async {
+    await _initialize();
+  }
 
-    await _loadEnvFile();
+  Future<void> _initialize() async {
     await _fetchServiceInfo();
 
+    // 초기화 상태 출력
     AppConfig.debugMessage();
-
-    // intl 패키지의 날짜 포맷 초기화
-    await initializeDateFormatting();
-
-    // firebase 초기화
-    await Firebase.initializeApp(options: AppConfig.firebaseOptions);
-
-    // AdMob 초기화
-    await MobileAds.instance.initialize();
-
-    // Splash 화면 유지
-    FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   }
 
-  static Future<void> _loadEnvFile() async {
-    // 실행 인자에서 환경 파싱 (--dart-define=ENV=dev)
-    const envStr = String.fromEnvironment('ENV', defaultValue: 'local');
-    final env = AppEnvironment.parse(envStr);
+  Future<void> _fetchServiceInfo() async {
+    final repository = ref.read(appInitializerRepositoryProvider);
+    final response = await repository.fetchServiceInfo();
+    debugMessage([
+      '서비스 정보 API 응답',
+      'Status Code: ${response.status}',
+      'Response Data: ${response.data}',
+    ]);
 
-    // .env 파일 로드
-    await dotenv.load(fileName: env.fileName);
+    if (response.data == null) {
+      throw Exception('서비스 정보 데이터가 없습니다.');
+    }
 
-    // 환경 정보를 AppConfig에 등록!
-    AppConfig.setEnvironment(env);
-  }
-
-  static Future<void> _fetchServiceInfo() async {
-    try {
-      // API 주소는 환경변수(dotenv)에 등록된 baseUrl을 사용하세요
-      final String baseUrl = AppConfig.host;
-      final response = await http.get(
-        Uri.parse('$baseUrl/system/service-info'),
-      );
-
-      if (response.statusCode == 200) {
-        final decodedData = json.decode(response.body);
-        if (decodedData['status'] == 'success') {
-          final serviceInfo = ServiceInfoModel.fromJson(decodedData['data']);
-          AppConfig.setServiceInfo(serviceInfo);
-        } else {
-          debugPrint('서비스 정보 API 응답 에러: ${decodedData['message']}');
-        }
-      } else {
-        debugPrint(
-          '서비스 정보 API 요청 실패: HTTP ${response.statusCode} - ${response.reasonPhrase}',
-        );
-      }
-    } catch (e) {
-      debugPrint('서비스 정보 로드 실패: $e');
+    if (response.status == StatusCode.success && response.data != null) {
+      debugMessage('서비스 정보 로드 성공: ${response.data}');
+      AppConfig.setServiceInfo(response.data!);
+    } else {
+      debugMessage('서비스 정보 로드 실패: API 응답 상태 ${response.status}');
     }
   }
 }

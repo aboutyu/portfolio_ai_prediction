@@ -1,3 +1,4 @@
+import 'package:app/helpers/models/app_update_model.dart';
 import 'package:app/helpers/models/service_info_model.dart';
 import 'package:app/helpers/networks/model/core_response.model.dart';
 import 'package:app/screen/auth/data/models/login_response.model.dart';
@@ -111,10 +112,10 @@ enum ApiEndpoint {
 
       case ApiEndpoint.appUpdate:
         return <T>(json) {
-          final wrapper = CoreResponse<TimelineDate>.fromJson(
+          final wrapper = CoreResponse<AppUpdateModel>.fromJson(
             json as Map<String, dynamic>,
             (dataJson) =>
-                TimelineDate.fromJson(dataJson as Map<String, dynamic>),
+                AppUpdateModel.fromJson(dataJson as Map<String, dynamic>),
           );
           return wrapper as CoreResponse<T>;
         };

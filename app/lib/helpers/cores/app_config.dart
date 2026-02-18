@@ -1,3 +1,4 @@
+import 'package:app/helpers/commons/common_funcs.dart';
 import 'package:app/helpers/cores/admob_config.dart';
 import 'package:app/helpers/enums/app_environment.enum.dart';
 import 'package:app/helpers/enums/platform.enum.dart';
@@ -5,6 +6,7 @@ import 'package:app/helpers/models/service_info_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AppConfig {
@@ -23,25 +25,14 @@ class AppConfig {
 
   // 서비스 정보
   static ServiceInfoModel? _serviceInfo;
-  static ServiceInfoModel get serviceInfo =>
-      _serviceInfo ??
-      ServiceInfoModel(
-        ceoName: '',
-        companyAddress: '',
-        companyName: '',
-        companyNumber: '',
-        companyUrl: '',
-        companyZipcode: '',
-        email: '',
-        language: '',
-        memo: '',
-        privateManagerName: '',
-        serviceName: '',
-        serviceUrl: '',
-        telecomSellerNumber: '',
-        copyright: 2026,
-        phone: '',
-      );
+  static ServiceInfoModel get serviceInfo {
+    if (_serviceInfo == null) {
+      debugPrint('⚠️ 서비스 정보가 아직 로드되지 않았습니다. 기본값을 반환합니다.');
+      return defaultServiceInfo; // 기본값 반환 (앱 초기화 전에도 접근 가능)
+    }
+    return _serviceInfo!;
+  }
+
   static void setServiceInfo(ServiceInfoModel info) {
     _serviceInfo = info;
   }
@@ -53,6 +44,9 @@ class AppConfig {
       dotenv.env['WEB_SOCKET_URL'] ?? 'http://localhost:3000';
   static String get webSocketPath =>
       dotenv.env['WEB_SOCKET_PATH'] ?? '/socket.io';
+  static String get iosAppStoreId => dotenv.env['IOS_APP_STORE_ID'] ?? '';
+  static String get androidPackageName =>
+      dotenv.env['ANDROID_PACKAGE_NAME'] ?? 'com.example.app';
   // =================================
 
   static bool get isProduction => _env == AppEnvironment.prod;
@@ -62,6 +56,20 @@ class AppConfig {
       foundation.defaultTargetPlatform == foundation.TargetPlatform.iOS
       ? Platform.iOS
       : Platform.android;
+
+  // 빌드 번호
+  static int? _buildNumber;
+  static int get buildNumber {
+    if (_buildNumber == null) {
+      // 초기화가 안 되었을 경우 디버깅을 위해 예외 발생
+      throw Exception("AppConfig가 초기화되지 않았습니다. AppInitializer를 확인하세요.");
+    }
+    return _buildNumber!;
+  }
+
+  static void setBuildNumber(int value) {
+    _buildNumber = value;
+  }
 
   // =================================
   // Firebase 설정 옵션(보안을 위해 .env에서 불러오기)
@@ -87,13 +95,16 @@ class AppConfig {
     );
   }
 
-  static void debugMessage() {
+  static void debugMessage() async {
     final fb = firebaseOptions;
+    final si = serviceInfo;
+
     debugPrint('\n==================================================');
     debugPrint('🛠️ [AppConfig Debug Info]');
     debugPrint('--------------------------------------------------');
     debugPrint('📌 Environment   : ${_env.toString()}');
     debugPrint('📱 Platform      : ${isIOS ? "iOS" : "Android"}');
+    debugPrint('📏 Build Number  : $buildNumber');
     debugPrint('🌐 Host          : $host');
     debugPrint('🔌 WebSocket     : $webSocketUrl ($webSocketPath)');
     debugPrint('--------------------------------------------------');
@@ -119,12 +130,17 @@ class AppConfig {
     debugPrint('🎁📺 보상형 전면 광고  : ${admob.rewardedInterstitial}');
     debugPrint('-----------------------------------------------');
     debugPrint('📌 서비스 정보');
-    debugPrint('   - 회사명        : ${serviceInfo.companyName}');
-    debugPrint('   - 서비스명      : ${serviceInfo.serviceName}');
-    debugPrint('   - 대표자        : ${serviceInfo.ceoName}');
-    debugPrint('   - 주소          : ${serviceInfo.companyAddress}');
-    debugPrint('   - 전화번호      : ${serviceInfo.phone}');
-    debugPrint('   - 사업자번호    : ${serviceInfo.companyNumber}');
+    debugPrint('🏭 회사명        : ${si.companyName}');
+    debugPrint('📀 서비스명      : ${si.serviceName}');
+    debugPrint('🕺 대표자        : ${si.ceoName}');
+    debugPrint('🏡 주소          : (${si.companyZipcode}) ${si.companyAddress}');
+    debugPrint('📞 전화번호      : ${si.phone}');
+    debugPrint('1️⃣ 사업자번호    : ${si.companyNumber}');
+    debugPrint('🧑🏻‍🔬 청소년보호책임자 : ${si.privateManagerName}');
+    debugPrint('📧 이메일        : ${si.email}');
+    debugPrint('🌐 웹사이트      : ${si.serviceUrl}');
+    debugPrint('📅 저작권 년도    : ${si.copyright}');
+    debugPrint('🏢 회사 URL       : ${si.companyUrl}');
     debugPrint('==================================================');
   }
 }

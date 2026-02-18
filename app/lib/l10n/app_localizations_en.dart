@@ -51,6 +51,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get faqsButtonText => 'FAQ';
 
   @override
+  String get updateEssentialTitle => 'Update Required';
+
+  @override
+  String get updateEssentialMessage =>
+      'A new version of the app is available. Please update to continue using the app.';
+
+  @override
+  String get updateOptionalTitle => 'Update Available';
+
+  @override
+  String get updateOptionalMessage =>
+      'A new version of the app is available. Would you like to update now?';
+
+  @override
+  String get laterButtonText => 'Later';
+
+  @override
+  String get updateButtonText => 'Update';
+
+  @override
   String get homeNavigationText => 'Home';
 
   @override
