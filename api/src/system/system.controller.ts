@@ -24,6 +24,7 @@ export class SystemController {
     return await this.systemService.getAppUpdateInfo(headerInfo.platform);
   }
 
+  @Public()
   @Get('service-info')
   @ApiOperation({
     summary: '서비스 정보 조회 API',
