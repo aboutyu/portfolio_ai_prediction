@@ -4,7 +4,7 @@ import { AppVersion } from 'src/entities/app-version.entity';
 import { ServiceInfo } from 'src/entities/service-info.entity';
 import { PlatformType } from 'src/helpers/enums/platform-type.enum';
 import { successResponse } from 'src/helpers/enums/status.enum';
-import { In, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class SystemService {
