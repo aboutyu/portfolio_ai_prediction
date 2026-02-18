@@ -7,7 +7,6 @@ import * as Handlebars from 'handlebars'; // handlebars import
 import { registerHandlebarsHelpers } from './helpers/middlewares/helpers.middleware';
 import { DataSource } from 'typeorm';
 import session from 'express-session';
-import { TemplateVarsInterceptor } from './helpers/intercepts/template-engine-variables.intercept';
 import { ValidationPipe } from '@nestjs/common/pipes/validation.pipe';
 
 async function bootstrap() {
@@ -30,7 +29,6 @@ async function bootstrap() {
   app.setViewEngine('hbs');
 
   // 전역 인터셉터 등록
-  // app.useGlobalInterceptors(new TemplateVarsInterceptor());
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,

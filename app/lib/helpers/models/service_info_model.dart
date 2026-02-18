@@ -1,36 +1,55 @@
-import 'package:app/helpers/extensions/l10n_extension.dart';
-import 'package:flutter/material.dart';
-
 class ServiceInfoModel {
   final String companyName;
-  final String companyServiceName;
+  final String serviceName;
+  final String ceoName;
+  final String privateManagerName;
+  final String companyNumber;
+  final String telecomSellerNumber;
   final String companyAddress;
-  final String companyContact;
-  final String companyCeo;
-  final String companyYouthProtectionManager;
-  final String companyRegistration;
+  final String companyZipcode;
+  final String phone;
+  final String language;
+  final String memo;
+  final int copyright;
+  final String companyUrl;
+  final String serviceUrl;
+  final String email;
 
-  const ServiceInfoModel({
+  ServiceInfoModel({
     required this.companyName,
-    required this.companyServiceName,
+    required this.serviceName,
+    required this.ceoName,
+    required this.privateManagerName,
+    required this.companyNumber,
+    required this.telecomSellerNumber,
     required this.companyAddress,
-    required this.companyContact,
-    required this.companyCeo,
-    required this.companyYouthProtectionManager,
-    required this.companyRegistration,
+    required this.companyZipcode,
+    required this.phone,
+    required this.language,
+    required this.memo,
+    required this.copyright,
+    required this.companyUrl,
+    required this.serviceUrl,
+    required this.email,
   });
 
-  // ✅ Context를 받아 생성하는 Factory 생성자 추가
-  factory ServiceInfoModel.fromContext(BuildContext context) {
-    // context.tr 사용 (AppLocalizations)
+  factory ServiceInfoModel.fromJson(Map<String, dynamic> json) {
     return ServiceInfoModel(
-      companyName: context.tr.companyName,
-      companyServiceName: context.tr.companyServiceName,
-      companyAddress: context.tr.companyAddress,
-      companyContact: context.tr.companyContact,
-      companyCeo: context.tr.companyCeo,
-      companyYouthProtectionManager: context.tr.companyYouthProtectionManager,
-      companyRegistration: context.tr.companyRegistration,
+      companyName: json['companyName'] ?? '',
+      serviceName: json['serviceName'] ?? '',
+      ceoName: json['ceoName'] ?? '',
+      privateManagerName: json['privateManagerName'] ?? '',
+      companyNumber: json['companyNumber'] ?? '',
+      telecomSellerNumber: json['telecomSellerNumber'] ?? '',
+      companyAddress: json['companyAddress'] ?? '',
+      companyZipcode: json['companyZipcode'] ?? '',
+      phone: json['phone'] ?? '',
+      language: json['language'] ?? 'ko',
+      memo: json['memo'] ?? '',
+      copyright: json['copyright'] ?? 2026,
+      companyUrl: json['companyUrl'] ?? '',
+      serviceUrl: json['serviceUrl'] ?? '',
+      email: json['email'] ?? '',
     );
   }
 }
