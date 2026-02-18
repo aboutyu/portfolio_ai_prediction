@@ -1,3 +1,4 @@
+import { PlatformType } from 'src/helpers/enums/platform-type.enum';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -16,16 +17,23 @@ export class AppVersion {
     default: 'IOS',
     comment: 'OS 타입 (IOS, AOS 등)',
   })
-  type: string;
+  type: PlatformType;
 
   @Column({
     type: 'char',
     length: 1,
     name: 'is_essential',
-    default: 'N',
+    transformer: {
+      to(value: boolean): string {
+        return value ? 'Y' : 'N';
+      },
+      from(value: string): boolean {
+        return value === 'Y';
+      },
+    },
     comment: '필수 업데이트 여부 (Y/N)',
   })
-  isEssential: string;
+  isEssential: boolean;
 
   @Column({
     type: 'varchar',

@@ -7,11 +7,11 @@ import { MembershipModule } from './membership/membership.module';
 import { RecordModule } from './record/record.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { NoticeModule } from './notice/notice.module';
-import { ChatService } from './chat/chat.service';
 import { ChatModule } from './chat/chat.module';
+import { SystemModule } from './system/system.module';
 
 // 현재 환경에 따라 파일 경로 결정 함수
 const getEnvFilePath = () => {
@@ -33,6 +33,7 @@ const getEnvFilePath = () => {
     AuthModule,
     NoticeModule,
     ChatModule,
+    SystemModule,
   ],
   controllers: [AppController],
   providers: [
@@ -44,5 +45,5 @@ const getEnvFilePath = () => {
   ],
 })
 export class AppModule {
-  constructor(private dataSource: DataSource) { }
+  constructor(private dataSource: DataSource) {}
 }

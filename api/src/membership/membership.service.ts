@@ -260,17 +260,23 @@ export class MembershipService {
     }
   }
 
-  async terms(): Promise<ApiResponse<Terms[]>> {
+  async terms(locale: string): Promise<ApiResponse<Terms[]>> {
     const termsList = await this.termsRepository
       .createQueryBuilder('term')
-      .where('term.isActivate = :isActive', { isActive: 'Y' }) // 활성화된 것 중에서
+      .where('term.isActivate = :isActive AND term.language = :locale', {
+        isActive: 'Y',
+        locale,
+      })
       .andWhere((qb) => {
         // 서브쿼리: "활성화된 녀석들 중, 각 타입(type)별로 가장 큰 sequence(최신)를 찾아라"
         const subQuery = qb
           .subQuery()
           .select('MAX(sub.sequence)')
           .from(Terms, 'sub')
-          .where('sub.isActivate = :subActive', { subActive: 'Y' })
+          .where('sub.isActivate = :subActive AND sub.language = :locale', {
+            subActive: 'Y',
+            locale,
+          })
           .groupBy('sub.type')
           .getQuery();
         return 'term.sequence IN ' + subQuery;

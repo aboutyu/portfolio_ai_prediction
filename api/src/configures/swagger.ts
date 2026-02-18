@@ -18,6 +18,29 @@ export const swaggerConfig = new DocumentBuilder()
     },
     'access-token', // 👈 이 이름을 기억해두세요 (데코레이터에서 씀)
   )
+  .addGlobalParameters(
+    {
+      name: 'accept-language',
+      in: 'header',
+      required: false,
+      schema: { type: 'string', default: 'ko' },
+      description: '언어 설정 (ko, en 등)',
+    },
+    {
+      name: 'x-timezone',
+      in: 'header',
+      required: false,
+      schema: { type: 'string', default: 'Asia/Seoul' },
+      description: '타임존 정보',
+    },
+    {
+      name: 'x-platform',
+      in: 'header',
+      required: false,
+      schema: { type: 'string', enum: ['IOS', 'AOS'], default: 'IOS' },
+      description: '플랫폼 구분',
+    },
+  )
   // Refresh Token 설정 (커스텀 헤더)
   .addApiKey(
     {
