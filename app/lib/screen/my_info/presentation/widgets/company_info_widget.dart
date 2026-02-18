@@ -1,5 +1,5 @@
+import 'package:app/helpers/cores/app_config.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
-import 'package:app/helpers/models/service_info_model.dart';
 import 'package:app/screen/my_info/presentation/view_models/my_info_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,16 +10,15 @@ class CompanyInfoWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tr = context.tr;
-    final serviceInfo = ServiceInfoModel.fromContext(context);
+    final serviceInfo = AppConfig.serviceInfo;
     final packageInfo = ref.watch(packageInfoProvider);
 
     String bottomText =
         '${tr.companyAddressText}: ${serviceInfo.companyAddress} | ';
-    bottomText += '${tr.companyCeoText}: ${serviceInfo.companyCeo} | ';
+    bottomText += '${tr.companyCeoText}: ${serviceInfo.ceoName} | ';
     bottomText +=
-        '${tr.companyYouthProtectionManagerText}: ${serviceInfo.companyYouthProtectionManager} | ';
-    bottomText +=
-        '${tr.companyRegistrationText}: ${serviceInfo.companyRegistration}';
+        '${tr.companyYouthProtectionManagerText}: ${serviceInfo.privateManagerName} | ';
+    bottomText += '${tr.companyRegistrationText}: ${serviceInfo.companyNumber}';
 
     const TextStyle infoStyle = TextStyle(
       color: Colors.grey,
@@ -39,7 +38,7 @@ class CompanyInfoWidget extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${serviceInfo.companyName} | ${serviceInfo.companyServiceName}',
+                  '${serviceInfo.companyName} | ${serviceInfo.serviceName}',
                   style: infoStyle.copyWith(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 4),
@@ -62,6 +61,3 @@ class CompanyInfoWidget extends ConsumerWidget {
     );
   }
 }
-
-// 
-// Copyright © 도서관닷컴. All rights reserved.

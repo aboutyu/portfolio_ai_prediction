@@ -1,18 +1,10 @@
-import 'package:app/helpers/extensions/l10n_extension.dart';
+import 'package:app/helpers/enums/daily_quick_menu_type.dart';
 import 'package:flutter/material.dart';
-
-enum DailyExpandableFabQuickMenuType {
-  meal, // 식사
-  weight, // 체중
-  stepCount, // 걸음수
-  glucose, // 혈당
-  bp, // 혈압
-}
 
 class DailyExpandableFabWidget extends StatefulWidget {
   const DailyExpandableFabWidget({super.key, required this.onSelected});
 
-  final Function(DailyExpandableFabQuickMenuType type) onSelected;
+  final Function(DailyQuickMenuType type) onSelected;
 
   @override
   State<DailyExpandableFabWidget> createState() =>
@@ -62,7 +54,7 @@ class _DailyExpandableFabWidgetState extends State<DailyExpandableFabWidget>
   }
 
   // 메뉴 선택 시 호출되는 함수
-  void _onItemTapped(DailyExpandableFabQuickMenuType type) {
+  void _onItemTapped(DailyQuickMenuType type) {
     _toggle(); // 1. 메뉴 닫기
     widget.onSelected(type); // 2. 상위 위젯에 알리기
   }
@@ -74,36 +66,11 @@ class _DailyExpandableFabWidgetState extends State<DailyExpandableFabWidget>
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         // --- 메뉴 버튼들 (위로 펼쳐짐) ---
-        _buildChildButton(
-          type: DailyExpandableFabQuickMenuType.meal,
-          icon: Icons.restaurant,
-          label: context.tr.dailyFloatingFoodText,
-          color: Colors.green,
-        ),
-        _buildChildButton(
-          type: DailyExpandableFabQuickMenuType.weight,
-          icon: Icons.monitor_weight,
-          label: context.tr.dailyFloatingWeightText,
-          color: Colors.blue,
-        ),
-        _buildChildButton(
-          type: DailyExpandableFabQuickMenuType.stepCount,
-          icon: Icons.directions_walk,
-          label: context.tr.dailyFloatingStepcountText,
-          color: Colors.teal,
-        ),
-        _buildChildButton(
-          type: DailyExpandableFabQuickMenuType.glucose,
-          icon: Icons.water_drop,
-          label: context.tr.dailyFloatingBloodGlucoseText,
-          color: Colors.red,
-        ),
-        _buildChildButton(
-          type: DailyExpandableFabQuickMenuType.bp,
-          icon: Icons.favorite,
-          label: context.tr.dailyFloatingBloodPressureText,
-          color: Colors.pink,
-        ),
+        _buildChildButton(context: context, type: DailyQuickMenuType.meal),
+        _buildChildButton(context: context, type: DailyQuickMenuType.weight),
+        _buildChildButton(context: context, type: DailyQuickMenuType.stepCount),
+        _buildChildButton(context: context, type: DailyQuickMenuType.glucose),
+        _buildChildButton(context: context, type: DailyQuickMenuType.bp),
 
         const SizedBox(height: 12),
 
@@ -123,10 +90,8 @@ class _DailyExpandableFabWidgetState extends State<DailyExpandableFabWidget>
   }
 
   Widget _buildChildButton({
-    required DailyExpandableFabQuickMenuType type,
-    required IconData icon,
-    required String label,
-    required Color color,
+    required BuildContext context,
+    required DailyQuickMenuType type,
   }) {
     return SizeTransition(
       sizeFactor: _expandAnimation,
@@ -135,33 +100,39 @@ class _DailyExpandableFabWidgetState extends State<DailyExpandableFabWidget>
         margin: const EdgeInsets.only(bottom: 10, right: 4),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
+
           children: [
-            // 라벨 (검은 배경 살짝 추가하여 가독성 높임)
-            Material(
-              color: Colors.transparent,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: Text(
-                  label,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black54,
+            // 1. 라벨 (흰색 배경)
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12.0,
+                vertical: 8.0,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
                   ),
+                ],
+              ),
+              child: Text(
+                type.displayName(context),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
                 ),
               ),
             ),
-            // 작은 원형 버튼
+
+            const SizedBox(width: 12), // 간격
+            // 2. 아이콘 버튼
             GestureDetector(
-              onTap: () => _onItemTapped(type), // ✅ 선택 시 콜백 실행
-              child: Container(
-                width: 45,
-                height: 45,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(icon, color: color, size: 24),
-              ),
+              onTap: () => _onItemTapped(type),
+              child: type.iconWidget(40),
             ),
           ],
         ),

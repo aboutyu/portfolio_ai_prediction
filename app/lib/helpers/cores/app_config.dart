@@ -1,6 +1,7 @@
 import 'package:app/helpers/cores/admob_config.dart';
 import 'package:app/helpers/enums/app_environment.enum.dart';
 import 'package:app/helpers/enums/platform.enum.dart';
+import 'package:app/helpers/models/service_info_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter/foundation.dart';
@@ -19,6 +20,31 @@ class AppConfig {
 
   // AdMob 설정 인스턴스
   static const AdmobConfig admob = AdmobConfig();
+
+  // 서비스 정보
+  static ServiceInfoModel? _serviceInfo;
+  static ServiceInfoModel get serviceInfo =>
+      _serviceInfo ??
+      ServiceInfoModel(
+        ceoName: '',
+        companyAddress: '',
+        companyName: '',
+        companyNumber: '',
+        companyUrl: '',
+        companyZipcode: '',
+        email: '',
+        language: '',
+        memo: '',
+        privateManagerName: '',
+        serviceName: '',
+        serviceUrl: '',
+        telecomSellerNumber: '',
+        copyright: 2026,
+        phone: '',
+      );
+  static void setServiceInfo(ServiceInfoModel info) {
+    _serviceInfo = info;
+  }
 
   // =================================
   // 나머지 env 값들도 여기에 추가
@@ -91,6 +117,14 @@ class AppConfig {
     debugPrint('📺 전면 광고         : ${admob.interstitial}');
     debugPrint('🎁 보상형 광고        : ${admob.rewarded}');
     debugPrint('🎁📺 보상형 전면 광고  : ${admob.rewardedInterstitial}');
+    debugPrint('-----------------------------------------------');
+    debugPrint('📌 서비스 정보');
+    debugPrint('   - 회사명        : ${serviceInfo.companyName}');
+    debugPrint('   - 서비스명      : ${serviceInfo.serviceName}');
+    debugPrint('   - 대표자        : ${serviceInfo.ceoName}');
+    debugPrint('   - 주소          : ${serviceInfo.companyAddress}');
+    debugPrint('   - 전화번호      : ${serviceInfo.phone}');
+    debugPrint('   - 사업자번호    : ${serviceInfo.companyNumber}');
     debugPrint('==================================================');
   }
 }

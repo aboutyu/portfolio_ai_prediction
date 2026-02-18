@@ -9,11 +9,11 @@ enum AppEnvironment {
   String get fileName {
     switch (this) {
       case AppEnvironment.local:
-        return 'assets/env/local.env';
+        return 'assets/.env/local.env';
       case AppEnvironment.dev:
-        return 'assets/env/development.env';
+        return 'assets/.env/development.env';
       case AppEnvironment.prod:
-        return 'assets/env/production.env';
+        return 'assets/.env/production.env';
     }
   }
 

@@ -1,0 +1,151 @@
+<!-- Bordered Table -->
+<div class='row clearfix'>
+  <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+    <div class='card'>
+      <div class='header'>
+        <form name="emp_search" method="get" href="/cs/{{#if isFaq}}faq{{else}}notice{{/if}}" class="form-horizontal" role="form">
+            <table class="table table-bordered">
+                <tr>
+                    <th class="text-center" style="width:20%">탈퇴여부</th>
+                    <td class="text-left">
+                        <div class="demo-radio-button">
+                            <input name="isActivate" value="" type="radio" id="is_active_a" class="with-gap radio-col-grey" 
+                                {{eq searchDto.isActivate undefined 'checked' ''}}>
+                            <label for="is_active_a">전체</label>
+
+                            <input name="isActivate" value="Y" type="radio" id="is_active_y" class="with-gap radio-col-grey"
+                                {{eq searchDto.isActivate true 'checked' ''}}>
+                            <label for="is_active_y">활성화(가입)</label>
+
+                            <input name="isActivate" value="N" type="radio" id="is_active_n" class="with-gap radio-col-grey"
+                                {{eq searchDto.isActivate false 'checked' ''}}>
+                            <label for="is_active_n">비활성화(탈퇴)</label>
+                        </div> 
+                    </td>
+                </tr>
+                {{#if isFaq}}
+                <tr>
+                    <th class="text-center" style="width:20%">FAQ종류</th>
+                    <td class="text-left">
+                        <div class="demo-radio-button">
+                          <input type="checkbox" id="faqKind_user" name="faqType" value="user" class="filled-in chk-col-grey" {{contains searchDto.faqType "user" "checked" ""}}>
+                          <label for="faqKind_user">회원</label> 
+
+                          <input type="checkbox" id="faqKind_service" name="faqType" value="service" class="filled-in chk-col-grey" {{contains searchDto.faqType "service" "checked" ""}}>
+                          <label for="faqKind_service">서비스</label> 
+                          <input type="checkbox" id="faqKind_payment" name="faqType" value="payment" class="filled-in chk-col-grey" {{contains searchDto.faqType "payment" "checked" ""}}>
+                          <label for="faqKind_payment">결제</label>
+                        </div>
+                    </td>
+                </tr>
+                {{/if}}
+                <tr>
+                  <th class="text-center" style="width:20%">검색어</th>
+                    <td class="text-left">
+                        <input 
+                          type="text" 
+                          name="searchKeyword" 
+                          id="searchKeyword" 
+                          value="{{searchDto.searchKeyword}}"
+                          style="width:100%;" 
+                          class="form-control" 
+                          placeholder="ID, 이름 기준으로 자연어 검색이 됩니다." >
+                    </td>
+                </tr>
+            </table>
+
+            <div class="row text-center" style="margin-bottom: 5px;">
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-danger dropdown-toggle waves-effect">
+                        검색
+                    </button>
+                </div>
+            </div>
+        </form>
+      </div>
+
+      <div class='body'>
+
+        <div class='row'>
+          <div class='col-sm-6 row-bottom'>
+            검색개수 :
+            {{total}}개
+          </div>
+
+        </div>
+
+        <div class='table-responsive'>
+
+          <table class='table table-bordered table-hover'>
+            <thead>
+              <tr>
+                <th class='text-center'>No</th>
+                {{#if isFaq}}
+                <th class='text-center'>FAQ종류</th>
+                {{/if}}
+                <th class='text-center'>제목</th>
+                <th class='text-center'>생성일</th>
+                <th class='text-center'>활성화여부</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each items}}
+              <tr 
+                  onclick="goDetail('{{this.sequence}}')"
+                  style='cursor:pointer;'
+                  >
+                <td class='text-center'>{{calculateTableNo ../total ../page @index}}</td>
+                {{#if ../isFaq}}
+                <td class='text-center'>{{this.typeLabel}}</td>
+                {{/if}}
+                <td class='text-center'>{{this.title}}</td>
+                <td class='text-center'>{{formatTimestamp this.createDate}}</td> <td class='text-center'>
+                  {{#if this.isActivate}}
+                  {{else}}
+                    비활성화
+                  {{/if}}
+                </td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="row text-center">
+          {{{pagination total page pageSize searchDto}}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function goDetail(sequence) {
+      const baseUrl = "/cs/{{#if isFaq}}faq{{else}}notice{{/if}}/detail";
+      const params = new URLSearchParams();
+      
+      // 필수 파라미터
+      params.append("sequence", sequence);
+      params.append("page", "{{page}}");
+
+      // 검색 조건 유지 (searchDto 기반)
+      {{#if searchDto.searchKeyword}}
+      params.append("searchKeyword", "{{searchDto.searchKeyword}}");
+      {{/if}}
+
+      {{#if (eq searchDto.isActivate true)}}
+          params.append("isActivate", "Y");
+      {{/if}}
+      {{#if (eq searchDto.isActivate false)}}
+          params.append("isActivate", "N");
+      {{/if}}
+
+      {{#each searchDto.loginType}}
+      params.append("loginType", "{{this}}");
+      {{/each}}
+
+      location.href = `${baseUrl}?${params.toString()}`;
+  }
+</script>
+<!-- #END# Bordered Table -->

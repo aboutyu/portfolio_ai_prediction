@@ -199,6 +199,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get stepcountLogInputHintStepcountText => 'Enter your step count';
 
   @override
+  String get stepcountLogUnitText => 'steps';
+
+  @override
   String get bloodGlucoseLogRecordTitle => 'Blood Glucose Edit';
 
   @override

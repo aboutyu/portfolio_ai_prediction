@@ -26,6 +26,9 @@ export class Terms {
   @Column({ type: 'mediumtext' })
   content: string;
 
+  @Column({ type: 'char', length: 2, default: 'ko' })
+  language: string;
+
   @Column({
     name: 'is_required',
     type: 'char',

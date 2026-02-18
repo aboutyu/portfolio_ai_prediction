@@ -9,7 +9,7 @@ import {
   Matches,
   IsOptional,
 } from 'class-validator';
-import { DeviceType } from 'src/helpers/enums/device-type.enum';
+import { PlatformType } from 'src/helpers/enums/platform-type.enum';
 import { HealthType } from 'src/helpers/enums/health-type.enum';
 
 export class SaveHealthlogDto {
@@ -55,13 +55,13 @@ export class SaveHealthlogDto {
 
   @ApiProperty({
     description: '데이터 출처 (디바이스 타입)',
-    enum: DeviceType,
-    example: DeviceType.IOS,
+    enum: PlatformType,
+    example: PlatformType.IOS,
     required: true,
   })
-  @IsEnum(DeviceType, { message: 'deviceType은 IOS 또는 AOS여야 합니다.' }) // 👈 유효성 검사
+  @IsEnum(PlatformType, { message: 'platformType은 IOS 또는 AOS여야 합니다.' }) // 👈 유효성 검사
   @IsNotEmpty()
-  deviceType: DeviceType;
+  deviceType: PlatformType;
 
   @ApiProperty({
     description: '측정시간',

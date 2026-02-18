@@ -1,22 +1,19 @@
-import { Controller, Get, Render } from '@nestjs/common';
+import { Controller, Get, Req, Res } from '@nestjs/common';
+import type { Request, Response } from 'express';
 import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
-  constructor(
-    private readonly appService: AppService,
-  ) { }
+  constructor(private readonly appService: AppService) {}
 
-  @Get()
-  @Render('index')
-  async loginIndex() {
-    return await this.appService.loginIndex();
-  }
+  @Get('/')
+  root(@Req() req: Request, @Res() res: Response) {
+    const isLogin = !!req.session?.sequence;
 
-  @Get('import/excel')
-  async importExcel() {
-    const excelData = await this.appService.readExcelFileAndSaveItems();
-    // const excelData = await this.appService.readExcelFileAndSaveFoods();
-    return excelData;
+    if (isLogin) {
+      return res.redirect('/dashboard');
+    }
+
+    return res.redirect('/login');
   }
 }
