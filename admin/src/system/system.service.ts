@@ -12,6 +12,9 @@ import { NutrientDictionary } from 'src/entities/nutrition-dictionary.entity';
 import { PageDto } from 'src/dto/page.dto';
 import { pageSize } from 'src/helpers/constants';
 import { FoodNutritionInfo } from 'src/entities/food-nutrition-info.entity';
+import { ServiceCodeDto } from './dto/service-code.dto';
+import { ServiceCodeType } from 'src/types/service-code.type';
+import { ServiceCode } from 'src/entities/service-code.entity';
 
 @Injectable()
 export class SystemService {
@@ -30,6 +33,9 @@ export class SystemService {
 
     @InjectRepository(FoodNutritionInfo)
     private readonly foodNutritionInfoRepository: Repository<FoodNutritionInfo>,
+
+    @InjectRepository(ServiceCode)
+    private readonly serviceCodeRepository: Repository<ServiceCode>,
   ) {}
 
   async getEula() {
@@ -164,5 +170,21 @@ export class SystemService {
       page: dto.page,
       pageSize,
     };
+  }
+
+  async getServiceCodes(type: ServiceCodeType) {
+    const [items, total] = await this.serviceCodeRepository.findAndCount({
+      where: { type },
+      order: { sequence: 'ASC' },
+    });
+    return { items, total };
+  }
+
+  async addServiceCodes(dto: ServiceCodeDto) {
+    return { dto };
+  }
+
+  async modifyServiceCodes(dto: ServiceCodeDto) {
+    return { dto };
   }
 }

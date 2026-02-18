@@ -4,6 +4,8 @@ import { ServiceInfoDto } from './dto/service-info.dto';
 import { EulaDto } from './dto/eula.dto';
 import { EulaDataDto } from './dto/eula-data.dto';
 import { PageDto } from 'src/dto/page.dto';
+import { ServiceCodeDto } from './dto/service-code.dto';
+import { ServiceCodeType } from 'src/types/service-code.type';
 
 @Controller('system')
 export class SystemController {
@@ -62,5 +64,20 @@ export class SystemController {
   @Get('/rawdata/food-nutrition-info')
   async getFoodNutritionInfo(@Query() dto: PageDto) {
     return await this.systemService.getFoodNutritionInfo(dto);
+  }
+
+  @Get('/rawdata/service-codes')
+  async getServiceCodes(@Query('type') type: ServiceCodeType) {
+    return await this.systemService.getServiceCodes(type);
+  }
+
+  @Post('/rawdata/service-codes/add')
+  async addServiceCodes(@Body() dto: ServiceCodeDto) {
+    return await this.systemService.addServiceCodes(dto);
+  }
+
+  @Post('/rawdata/service-codes/modify')
+  async modifyServiceCodes(@Body() dto: ServiceCodeDto) {
+    return await this.systemService.modifyServiceCodes(dto);
   }
 }

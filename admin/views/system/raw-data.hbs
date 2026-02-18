@@ -15,9 +15,9 @@
           <li role="presentation" class="">
             <a href="#user_devices" data-toggle="tab" aria-expanded="false">사용자 디바이스</a>
           </li>
-          {{!-- <li role="presentation" class="">
-            <a href="#settings" data-toggle="tab" aria-expanded="false">SETTINGS</a>
-          </li> --}}
+          <li role="presentation" class="">
+            <a href="#service_codes" data-toggle="tab" aria-expanded="false">서비스 코드</a>
+          </li>
         </ul>
 
         <div class="tab-content">
@@ -126,16 +126,34 @@
           </div>
 
 
-          <div role="tabpanel" class="tab-pane fade" id="settings">
-            <b>Settings Content</b>
+          <div role="tabpanel" class="tab-pane fade" id="service_codes">
+            <div class='row'>
+              <div class='col-sm-6 row-bottom'>
+                검색개수 : <span id="service_code_count">0</span>개
+              </div>
+            </div>
+
+            <b>서비스 코드</b>
             <p>
-              Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt,
-              ius impedit mediocritatem an. Pri ut tation electram
-              moderatius. Per te suavitate democritum. Duis nemore
-              probatus ne quo, ad liber essent aliquid pro. Et eos
-              nusquam accumsan, vide mentitum fabellas ne est, eu munere
-              gubergren sadipscing mel.
+              서비스 코드 데이터입니다.
+              서비스 코드는 시스템 내에서 사용되는 다양한 코드 정보를 의미합니다.
+              예를 들어, 서비스 타입, 상태 코드 등이 포함됩니다.
             </p>
+
+            <div class='table-responsive'>
+              <table class='table table-bordered table-hover'>
+                <thead>
+                <tr>
+                  <th class='text-center'>타입</th>
+                  <th class='text-center'>코드</th>
+                  <th class='text-center'>이름</th>
+                  <th class='text-center'>언어</th>
+                  <th class='text-center'>활성화여부</th>
+                </tr>
+                </thead>
+                <tbody id="service_code_tbody"></tbody>
+              </table>
+            </div>
           </div>
         </div>
 
@@ -159,6 +177,8 @@
           loadFoodNutritionInfo(0);
         } else if (targetId === "#user_devices") {
           loadDeviceData(0);
+        } else if (targetId === "#service_codes") {
+          loadServiceCodeData('ITP');
         }
       });
     }
@@ -241,6 +261,27 @@
         renderPagination(data.total, data.page, data.pageSize, 'device_pagination', 'loadDeviceData');
       })
       .catch(err => console.error('Fetch error:', err));
+  }
+
+  function loadServiceCodeData(type) {
+    fetch('/system/rawdata/service-codes?type=' + type)
+      .then(res => res.json())
+      .then(data => {
+        console.log('Service Code Data:', data); // 디버깅용 로그
+
+        $('#service_code_count').text(data.length);
+        let html = '';
+        data.items.forEach(code => {
+          html += `<tr>
+            <td class="text-center">${code.type}</td>
+            <td class="text-center">${code.code}</td>
+            <td class="text-center">${code.name}</td>
+            <td class="text-center">${code.language}</td>
+            <td class="text-center">${code.isActivate}</td>
+          </tr>`;
+        });
+        $('#service_code_tbody').html(html);
+      });
   }
 
   function renderPagination(total, page, pageSize, onPagination, onPageChange) {

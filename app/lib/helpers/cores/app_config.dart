@@ -2,6 +2,7 @@ import 'package:app/helpers/commons/common_funcs.dart';
 import 'package:app/helpers/cores/admob_config.dart';
 import 'package:app/helpers/enums/app_environment.enum.dart';
 import 'package:app/helpers/enums/platform.enum.dart';
+import 'package:app/helpers/models/service_code_model.dart';
 import 'package:app/helpers/models/service_info_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' as foundation;
@@ -35,6 +36,19 @@ class AppConfig {
 
   static void setServiceInfo(ServiceInfoModel info) {
     _serviceInfo = info;
+  }
+
+  // 서비스 코드
+  static List<ServiceCodeModel>? _serviceCode;
+  static List<ServiceCodeModel> get serviceCode {
+    if (_serviceCode == null) {
+      throw Exception('서비스 코드가 초기화되지 않았습니다.');
+    }
+    return _serviceCode!;
+  }
+
+  static void setServiceCode(List<ServiceCodeModel> code) {
+    _serviceCode = code;
   }
 
   // =================================
@@ -141,6 +155,15 @@ class AppConfig {
     debugPrint('🌐 웹사이트      : ${si.serviceUrl}');
     debugPrint('📅 저작권 년도    : ${si.copyright}');
     debugPrint('🏢 회사 URL       : ${si.companyUrl}');
+    debugPrint('--------------------------------------------------');
+    debugPrint('서비스코드');
+    if (serviceCode.isNotEmpty) {
+      for (var code in serviceCode) {
+        debugPrint('   - [${code.code}] ${code.name}');
+      }
+    } else {
+      debugPrint('   서비스 코드가 없습니다.');
+    }
     debugPrint('==================================================');
   }
 }

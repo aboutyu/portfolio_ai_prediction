@@ -86,7 +86,7 @@ final class AppUpdateServiceProvider
   AppUpdateService create() => AppUpdateService();
 }
 
-String _$appUpdateServiceHash() => r'518d7ea5374d683c865a9b2854dce10d514c7258';
+String _$appUpdateServiceHash() => r'f39ad664079aa451c9360d5344aa8e584a14abcb';
 
 abstract class _$AppUpdateService extends $AsyncNotifier<void> {
   FutureOr<void> build();

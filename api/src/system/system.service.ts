@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AppVersion } from 'src/entities/app-version.entity';
+import { ServiceCode } from 'src/entities/service-code.entity';
 import { ServiceInfo } from 'src/entities/service-info.entity';
 import { PlatformType } from 'src/helpers/enums/platform-type.enum';
+import { ServiceCodeType } from 'src/helpers/enums/service-code-type.enum';
 import { successResponse } from 'src/helpers/enums/status.enum';
 import { Repository } from 'typeorm';
 
@@ -14,6 +16,9 @@ export class SystemService {
 
     @InjectRepository(ServiceInfo)
     private readonly serviceInfoRepository: Repository<ServiceInfo>,
+
+    @InjectRepository(ServiceCode)
+    private readonly serviceCodeRepository: Repository<ServiceCode>,
   ) {}
 
   async getAppUpdateInfo(platform: PlatformType) {
@@ -36,5 +41,18 @@ export class SystemService {
       where: { language: locale },
     });
     return successResponse(serviceInfo);
+  }
+
+  async getServiceCode(type: ServiceCodeType) {
+    const serviceCodes = await this.serviceCodeRepository.find({
+      select: {
+        sequence: true,
+        type: true,
+        code: true,
+        name: true,
+      },
+      where: { type, isActivate: true },
+    });
+    return successResponse(serviceCodes);
   }
 }

@@ -14,6 +14,7 @@ class AppInitialization extends _$AppInitialization {
   }
 
   Future<void> _initialize() async {
+    await _setupServiceCodes();
     await _fetchServiceInfo();
 
     // 초기화 상태 출력
@@ -38,6 +39,27 @@ class AppInitialization extends _$AppInitialization {
       AppConfig.setServiceInfo(response.data!);
     } else {
       debugMessage('서비스 정보 로드 실패: API 응답 상태 ${response.status}');
+    }
+  }
+
+  Future<void> _setupServiceCodes() async {
+    final repository = ref.read(appInitializerRepositoryProvider);
+    final response = await repository.fetchServiceCodes();
+    debugMessage([
+      '서비스 코드 API 응답',
+      'Status Code: ${response.status}',
+      'Response Data: ${response.data}',
+    ]);
+
+    if (response.data == null) {
+      throw Exception('서비스 코드 데이터가 없습니다.');
+    }
+
+    if (response.status == StatusCode.success && response.data != null) {
+      debugMessage('서비스 코드 로드 성공: ${response.data}');
+      AppConfig.setServiceCode(response.data!);
+    } else {
+      debugMessage('서비스 코드 로드 실패: API 응답 상태 ${response.status}');
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Req } from '@nestjs/common';
+import { Controller, Get, Query, Req } from '@nestjs/common';
 import express from 'express';
 import { SystemService } from './system.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -8,6 +8,7 @@ import {
   GetHeaderInfo,
   HeaderInfo,
 } from 'src/helpers/decorators/header-info.decorator';
+import { ServiceCodeType } from 'src/helpers/enums/service-code-type.enum';
 
 @ApiTags('시스템 API')
 @Controller('system')
@@ -32,5 +33,15 @@ export class SystemController {
   })
   async getServiceInfo(@GetHeaderInfo() headerInfo: HeaderInfo) {
     return await this.systemService.getServiceInfo(headerInfo.locale);
+  }
+
+  @Public()
+  @Get('service-code')
+  @ApiOperation({
+    summary: '서비스 코드 조회 API',
+    description: '서비스 코드를 조회합니다.',
+  })
+  async getServiceCode(@Query('type') type: ServiceCodeType) {
+    return await this.systemService.getServiceCode(type);
   }
 }
