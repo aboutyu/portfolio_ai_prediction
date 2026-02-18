@@ -1,10 +1,22 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:app/helpers/cores/app_config.dart';
+import 'package:app/helpers/extensions/l10n_extension.dart';
+import 'package:app/helpers/models/service_info_model.dart';
+import 'package:app/helpers/routers/router.dart';
+import 'package:app/l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 const bool isDebug = kDebugMode;
 final String deviceType = Platform.isAndroid ? 'aos' : 'ios';
 final String localeName = Platform.localeName;
+final AppLocalizations? al = rootNavigatorKey.currentContext?.tr;
+
+String get appStoreUrl =>
+    'https://apps.apple.com/app/id${AppConfig.iosAppStoreId}';
+String get playStoreUrl =>
+    'https://play.google.com/store/apps/details?id=${AppConfig.androidPackageName}';
 
 final Locale _deviceLocale = PlatformDispatcher.instance.locale;
 final String localeLanguage = _deviceLocale.languageCode; // "ko"
@@ -29,3 +41,32 @@ void debugMessage(dynamic message) {
   }
   debugPrint("=============================================");
 }
+
+// 스토어 이동
+Future<void> openStore() async {
+  final url = AppConfig.isIOS ? appStoreUrl : playStoreUrl;
+  if (await canLaunchUrl(Uri.parse(url))) {
+    await launchUrl(Uri.parse(url));
+  } else {
+    debugMessage('Could not launch $url');
+  }
+}
+
+// 기본 서비스 정보
+ServiceInfoModel get defaultServiceInfo => ServiceInfoModel(
+  companyName: al?.companyName ?? '회사명',
+  serviceName: al?.companyServiceName ?? '서비스명',
+  companyAddress: al?.companyAddress ?? '회사 주소',
+  ceoName: al?.companyCeo ?? '대표자명',
+  privateManagerName: al?.companyYouthProtectionManager ?? '청소년 보호 책임자명',
+  companyNumber: al?.companyRegistration ?? '사업자 등록 번호',
+  telecomSellerNumber: '-',
+  companyZipcode: '-',
+  phone: '-',
+  language: '-',
+  memo: '-',
+  copyright: 2026,
+  companyUrl: '-',
+  serviceUrl: '-',
+  email: '-',
+);

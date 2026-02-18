@@ -33,7 +33,7 @@ final class UserInfoProvider
   UserInfo create() => UserInfo();
 }
 
-String _$userInfoHash() => r'4ce6d7b878f8632308f44d365164517b67323f42';
+String _$userInfoHash() => r'7b4e69869c52c5df339376c85029b8a7444d08fc';
 
 abstract class _$UserInfo extends $AsyncNotifier<LoginResponse?> {
   FutureOr<LoginResponse?> build();

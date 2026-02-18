@@ -1,3 +1,5 @@
+import 'package:app/helpers/models/app_update_model.dart';
+import 'package:app/helpers/models/service_code_model.dart';
 import 'package:app/helpers/models/service_info_model.dart';
 import 'package:app/helpers/networks/model/core_response.model.dart';
 import 'package:app/screen/auth/data/models/login_response.model.dart';
@@ -20,6 +22,7 @@ enum ApiEndpoint {
 
   appUpdate(path: '/system/app-update', method: 'GET'), // 앱 업데이트 정보 조회
   serviceInfo(path: '/system/service-info', method: 'GET'), // 서비스 정보 조회
+  serviceCode(path: '/system/service-code', method: 'GET'), // 서비스 코드 조회
 
   timelineListDate(
     path: '/record/timeline/list/date',
@@ -111,10 +114,10 @@ enum ApiEndpoint {
 
       case ApiEndpoint.appUpdate:
         return <T>(json) {
-          final wrapper = CoreResponse<TimelineDate>.fromJson(
+          final wrapper = CoreResponse<AppUpdateModel>.fromJson(
             json as Map<String, dynamic>,
             (dataJson) =>
-                TimelineDate.fromJson(dataJson as Map<String, dynamic>),
+                AppUpdateModel.fromJson(dataJson as Map<String, dynamic>),
           );
           return wrapper as CoreResponse<T>;
         };
@@ -125,6 +128,19 @@ enum ApiEndpoint {
             json as Map<String, dynamic>,
             (dataJson) =>
                 ServiceInfoModel.fromJson(dataJson as Map<String, dynamic>),
+          );
+          return wrapper as CoreResponse<T>;
+        };
+
+      case ApiEndpoint.serviceCode:
+        return <T>(json) {
+          final wrapper = CoreResponse<List<ServiceCodeModel>>.fromJson(
+            json as Map<String, dynamic>,
+            (dataJson) => (dataJson as List<dynamic>)
+                .map(
+                  (e) => ServiceCodeModel.fromJson(e as Map<String, dynamic>),
+                )
+                .toList(),
           );
           return wrapper as CoreResponse<T>;
         };

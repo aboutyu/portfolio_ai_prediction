@@ -17,6 +17,8 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  bool _isAdLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -28,6 +30,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void _createInitialAd() {
+    if (_isAdLoading) return; // 이미 로드 중이면 중복 실행 방지
+    _isAdLoading = true;
+
     InterstitialAd.load(
       adUnitId: AppConfig.admob.interstitial,
       request: const AdRequest(),

@@ -22,8 +22,12 @@
   "noticesButtonText": "Notices",
   "eventButtonText": "Events",
   "faqsButtonText": "FAQ",
-
-
+  "updateEssentialTitle": "Update Required",
+  "updateEssentialMessage": "A new version of the app is available. Please update to continue using the app.",
+  "updateOptionalTitle": "Update Available",
+  "updateOptionalMessage": "A new version of the app is available. Would you like to update now?",
+  "laterButtonText": "Later",
+  "updateButtonText": "Update",
 
   "homeNavigationText": "Home",
   "dailyNavigationText": "Daily",
