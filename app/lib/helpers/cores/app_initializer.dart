@@ -60,7 +60,13 @@ class AppInitializer {
         if (decodedData['status'] == 'success') {
           final serviceInfo = ServiceInfoModel.fromJson(decodedData['data']);
           AppConfig.setServiceInfo(serviceInfo);
+        } else {
+          debugPrint('서비스 정보 API 응답 에러: ${decodedData['message']}');
         }
+      } else {
+        debugPrint(
+          '서비스 정보 API 요청 실패: HTTP ${response.statusCode} - ${response.reasonPhrase}',
+        );
       }
     } catch (e) {
       debugPrint('서비스 정보 로드 실패: $e');

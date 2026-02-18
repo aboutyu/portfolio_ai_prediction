@@ -117,6 +117,14 @@ class AppConfig {
     debugPrint('📺 전면 광고         : ${admob.interstitial}');
     debugPrint('🎁 보상형 광고        : ${admob.rewarded}');
     debugPrint('🎁📺 보상형 전면 광고  : ${admob.rewardedInterstitial}');
+    debugPrint('-----------------------------------------------');
+    debugPrint('📌 서비스 정보');
+    debugPrint('   - 회사명        : ${serviceInfo.companyName}');
+    debugPrint('   - 서비스명      : ${serviceInfo.serviceName}');
+    debugPrint('   - 대표자        : ${serviceInfo.ceoName}');
+    debugPrint('   - 주소          : ${serviceInfo.companyAddress}');
+    debugPrint('   - 전화번호      : ${serviceInfo.phone}');
+    debugPrint('   - 사업자번호    : ${serviceInfo.companyNumber}');
     debugPrint('==================================================');
   }
 }
