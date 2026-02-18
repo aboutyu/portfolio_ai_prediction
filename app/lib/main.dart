@@ -1,6 +1,5 @@
 import 'package:app/helpers/commons/colors.dart';
 import 'package:app/helpers/cores/app_config.dart';
-import 'package:app/helpers/cores/providers/app_update_service.dart';
 import 'package:app/helpers/enums/app_environment.enum.dart';
 import 'package:app/helpers/extensions/async_value_extension.dart';
 import 'package:app/helpers/routers/router.dart';

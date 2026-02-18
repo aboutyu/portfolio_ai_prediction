@@ -1,8 +1,6 @@
 import 'package:app/helpers/commons/common_funcs.dart';
 import 'package:app/helpers/cores/providers/app_update_service.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
-import 'package:app/helpers/models/app_update_model.dart';
-import 'package:app/helpers/networks/model/core_response.model.dart';
 import 'package:app/helpers/routers/router.dart';
 import 'package:app/helpers/storages/user_info.dart';
 import 'package:app/widgets/show_dialogs/base_dialog.dart';
