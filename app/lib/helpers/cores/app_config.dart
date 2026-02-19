@@ -162,7 +162,7 @@ class AppConfig {
         debugPrint('   - [${code.code}] ${code.name}');
       }
     } else {
-      debugPrint('   서비스 코드가 없습니다.');
+      debugPrint('서비스 코드가 없습니다.');
     }
     debugPrint('==================================================');
   }
