@@ -53,11 +53,11 @@ jobs:
 
           # A. development.env 파일 생성
           mkdir -p assets/env
-          python3 -c "import os; f = open('assets/env/development.env', 'w'); f.write(os.environ['ENV_DATA']); f.close()"
+          python3 -c "import os; f = open('assets/.env/development.env', 'w'); f.write(os.environ['ENV_DATA']); f.close()"
 
           # V. 나머지 빈 .env 파일 생성
-          touch assets/env/production.env
-          touch assets/env/local.env
+          touch assets/.env/production.env
+          touch assets/.env/local.env
 
           echo "=== 📂 Checking Created Files ==="
           ls -R assets
