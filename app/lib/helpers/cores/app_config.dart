@@ -156,7 +156,7 @@ class AppConfig {
     debugPrint('📅 저작권 년도    : ${si.copyright}');
     debugPrint('🏢 회사 URL       : ${si.companyUrl}');
     debugPrint('--------------------------------------------------');
-    debugPrint('서비스코드');
+    debugPrint('🆔 서비스코드');
     if (serviceCode.isNotEmpty) {
       for (var code in serviceCode) {
         debugPrint('   - [${code.code}] ${code.name}');
