@@ -22,6 +22,12 @@
   "noticesButtonText": "공지사항",
   "eventButtonText": "이벤트",
   "faqsButtonText": "자주 묻는 질문",
+  "updateEssentialTitle": "업데이트 필요",
+  "updateEssentialMessage": "새로운 버전의 앱이 출시되었습니다. 계속 이용하시려면 업데이트해주세요.",
+  "updateOptionalTitle": "업데이트 가능",
+  "updateOptionalMessage": "새로운 버전의 앱이 출시되었습니다. 지금 업데이트하시겠습니까?",
+  "laterButtonText": "나중에",
+  "updateButtonText": "업데이트",
 
   "homeNavigationText": "홈",
   "dailyNavigationText": "데일리",

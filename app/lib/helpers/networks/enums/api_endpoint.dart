@@ -1,3 +1,6 @@
+import 'package:app/helpers/models/app_update_model.dart';
+import 'package:app/helpers/models/service_code_model.dart';
+import 'package:app/helpers/models/service_info_model.dart';
 import 'package:app/helpers/networks/model/core_response.model.dart';
 import 'package:app/screen/auth/data/models/login_response.model.dart';
 import 'package:app/screen/auth/data/models/signup_response.model.dart';
@@ -16,6 +19,10 @@ enum ApiEndpoint {
   logout(path: '/membership/logout', method: 'DELETE'), // 로그아웃
   leave(path: '/membership/leave', method: 'DELETE'), // 회원탈퇴
   termsList(path: '/membership/terms/list', method: 'GET'), // 약관목록 조회
+
+  appUpdate(path: '/system/app-update', method: 'GET'), // 앱 업데이트 정보 조회
+  serviceInfo(path: '/system/service-info', method: 'GET'), // 서비스 정보 조회
+  serviceCode(path: '/system/service-code', method: 'GET'), // 서비스 코드 조회
 
   timelineListDate(
     path: '/record/timeline/list/date',
@@ -100,6 +107,39 @@ enum ApiEndpoint {
             json as Map<String, dynamic>,
             (dataJson) => (dataJson as List<dynamic>)
                 .map((e) => TermsModel.fromJson(e as Map<String, dynamic>))
+                .toList(),
+          );
+          return wrapper as CoreResponse<T>;
+        };
+
+      case ApiEndpoint.appUpdate:
+        return <T>(json) {
+          final wrapper = CoreResponse<AppUpdateModel>.fromJson(
+            json as Map<String, dynamic>,
+            (dataJson) =>
+                AppUpdateModel.fromJson(dataJson as Map<String, dynamic>),
+          );
+          return wrapper as CoreResponse<T>;
+        };
+
+      case ApiEndpoint.serviceInfo:
+        return <T>(json) {
+          final wrapper = CoreResponse<ServiceInfoModel>.fromJson(
+            json as Map<String, dynamic>,
+            (dataJson) =>
+                ServiceInfoModel.fromJson(dataJson as Map<String, dynamic>),
+          );
+          return wrapper as CoreResponse<T>;
+        };
+
+      case ApiEndpoint.serviceCode:
+        return <T>(json) {
+          final wrapper = CoreResponse<List<ServiceCodeModel>>.fromJson(
+            json as Map<String, dynamic>,
+            (dataJson) => (dataJson as List<dynamic>)
+                .map(
+                  (e) => ServiceCodeModel.fromJson(e as Map<String, dynamic>),
+                )
                 .toList(),
           );
           return wrapper as CoreResponse<T>;

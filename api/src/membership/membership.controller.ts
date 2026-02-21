@@ -20,6 +20,10 @@ import { RequestTokenDto } from 'src/dto/membership.requestToken.dto';
 import { TermsDto } from 'src/dto/membership.terms.dto';
 import * as fs from 'fs';
 import path from 'path';
+import {
+  GetHeaderInfo,
+  HeaderInfo,
+} from 'src/helpers/decorators/header-info.decorator';
 
 @ApiTags('회원관리 관련 API')
 @Controller('membership')
@@ -77,8 +81,8 @@ export class MembershipController {
     summary: '활성화된 약관 목록 조회 API',
     description: '활성화된 모든 약관을 조회하여 반환',
   })
-  async termsList() {
-    return await this.membershipService.terms();
+  async termsList(@GetHeaderInfo() headerInfo: HeaderInfo) {
+    return await this.membershipService.terms(headerInfo.locale);
   }
 
   @Public()
@@ -87,7 +91,11 @@ export class MembershipController {
     summary: '서비스 약관 보여주는 HTML',
     description: '서비스 이용약관 및 개인정보 처리방침 내용을 HTML로 반환',
   })
-  async termsHtml(@Query() data: TermsDto, @Res() res: Response) {
+  async termsHtml(
+    @Query() data: TermsDto,
+    @Res() res: Response,
+    @GetHeaderInfo() headerInfo: HeaderInfo,
+  ) {
     const html = await this.membershipService.termsHtml(data);
     const termData = html?.data;
 
@@ -111,6 +119,7 @@ export class MembershipController {
       htmlTemplate = htmlTemplate.replace('{{terms_title}}', termData.title);
       htmlTemplate = htmlTemplate.replace('{{title}}', termData.termsName);
       htmlTemplate = htmlTemplate.replace('{{content}}', termData.content);
+      htmlTemplate = htmlTemplate.replace('{{locale}}', headerInfo.locale);
       htmlTemplate = htmlTemplate.replace(
         '{{create_date}}',
         termData.createDate.toISOString().split('T')[0],
@@ -131,7 +140,10 @@ export class MembershipController {
     summary: '사용자 가이드 보여주는 HTML',
     description: '사용자 가이드 내용을 HTML로 반환',
   })
-  async userGuideHtml(@Res() res: Response) {
+  async userGuideHtml(
+    @Res() res: Response,
+    @GetHeaderInfo() headerInfo: HeaderInfo,
+  ) {
     try {
       const templatePath = path.join(
         process.cwd(),
@@ -142,11 +154,17 @@ export class MembershipController {
       );
 
       let htmlTemplate = fs.readFileSync(templatePath, 'utf8');
+      htmlTemplate = htmlTemplate.replace('{{locale}}', headerInfo.locale);
+      htmlTemplate = htmlTemplate.replace('{{platform}}', headerInfo.platform);
+      htmlTemplate = htmlTemplate.replace('{{timezone}}', headerInfo.timezone);
+
       res.setHeader('Content-Type', 'text/html');
       res.send(htmlTemplate);
     } catch (error) {
       console.error('HTML 파일 로드 실패:', error);
-      throw new NotFoundException('약관 템플릿 파일을 찾을 수 없습니다.');
+      throw new NotFoundException(
+        '사용자 가이드 템플릿 파일을 찾을 수 없습니다.',
+      );
     }
   }
 }

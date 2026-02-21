@@ -1,4 +1,5 @@
 import 'package:app/helpers/commons/common_funcs.dart';
+import 'package:app/helpers/cores/providers/app_update_service.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/helpers/routers/router.dart';
 import 'package:app/helpers/storages/user_info.dart';
@@ -29,7 +30,8 @@ class CoreApiIntercepter extends Interceptor {
 
     // [기기 정보 헤더] 언어, 타임존, OS 등
     try {
-      options.headers['Accept-Language'] = localeName;
+      options.headers['accept-language'] = localeLanguage;
+      options.headers['x-country'] = localeCountry;
       options.headers['x-timezone'] = DateTime.now().timeZoneName;
       options.headers['x-platform'] = deviceType;
     } catch (e) {
@@ -75,5 +77,27 @@ class CoreApiIntercepter extends Interceptor {
       ).show(ctx);
     }
     super.onError(err, handler);
+  }
+
+  @override
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
+    if (response.requestOptions.path.contains('app-update') ||
+        response.requestOptions.path.contains('service-info')) {
+      return super.onResponse(response, handler);
+    }
+
+    if (context != null) {
+      Future.microtask(() {
+        try {
+          debugMessage('API 응답 인터셉터 트리거: ${response.requestOptions.path}');
+
+          ref.read(appUpdateServiceProvider.notifier).checkUpdate(context!);
+        } catch (e) {
+          debugPrint('AppUpdateService Error in 트리거: $e');
+        }
+      });
+    }
+
+    super.onResponse(response, handler);
   }
 }

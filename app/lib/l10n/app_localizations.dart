@@ -176,6 +176,42 @@ abstract class AppLocalizations {
   /// **'자주 묻는 질문'**
   String get faqsButtonText;
 
+  /// No description provided for @updateEssentialTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'업데이트 필요'**
+  String get updateEssentialTitle;
+
+  /// No description provided for @updateEssentialMessage.
+  ///
+  /// In ko, this message translates to:
+  /// **'새로운 버전의 앱이 출시되었습니다. 계속 이용하시려면 업데이트해주세요.'**
+  String get updateEssentialMessage;
+
+  /// No description provided for @updateOptionalTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'업데이트 가능'**
+  String get updateOptionalTitle;
+
+  /// No description provided for @updateOptionalMessage.
+  ///
+  /// In ko, this message translates to:
+  /// **'새로운 버전의 앱이 출시되었습니다. 지금 업데이트하시겠습니까?'**
+  String get updateOptionalMessage;
+
+  /// No description provided for @laterButtonText.
+  ///
+  /// In ko, this message translates to:
+  /// **'나중에'**
+  String get laterButtonText;
+
+  /// No description provided for @updateButtonText.
+  ///
+  /// In ko, this message translates to:
+  /// **'업데이트'**
+  String get updateButtonText;
+
   /// No description provided for @homeNavigationText.
   ///
   /// In ko, this message translates to:

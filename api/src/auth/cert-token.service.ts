@@ -1,8 +1,8 @@
-import { Injectable } from "@nestjs/common";
-import { RoleType } from "../helpers/enums/role-type.enum";
-import { JwtService } from "@nestjs/jwt";
+import { Injectable } from '@nestjs/common';
+import { RoleType } from '../helpers/enums/role-type.enum';
+import { JwtService } from '@nestjs/jwt';
 import * as crypto from 'crypto';
-import { ConfigService } from "@nestjs/config";
+import { ConfigService } from '@nestjs/config';
 
 export interface AccessTokenPayload {
   userSequence: number;
@@ -22,13 +22,15 @@ export class CertTokenService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
-  ) { 
+  ) {
     this.jwtAccessSecret = configService.get<string>('JWT_ACCESS_SECRET') || ''; // Access Token 서명용 비밀키
     this.algorithm = configService.get<string>('ALGORITHM') || ''; // 암호화 알고리즘
-    this.secretKey = configService.get<string>('SECRET_KEY') || ''; // 32byte 필수 
+    this.secretKey = configService.get<string>('SECRET_KEY') || ''; // 32byte 필수
     this.ivLength = Number(configService.get<string>('IV_LENGTH')) || 16; // AES 초기화 벡터 크기
-    this.accessTokenExpiresIn = configService.get<string>('ACCESS_TOKEN_EXPIRES_IN') || '1h'; // 액세스 토큰 만료시간
-    this.refreshTokenExpiresIn = configService.get<string>('REFRESH_TOKEN_EXPIRES_IN') || '7d'; // 리프레시 토큰 만료시간
+    this.accessTokenExpiresIn =
+      configService.get<string>('ACCESS_TOKEN_EXPIRES_IN') || '1h'; // 액세스 토큰 만료시간
+    this.refreshTokenExpiresIn =
+      configService.get<string>('REFRESH_TOKEN_EXPIRES_IN') || '7d'; // 리프레시 토큰 만료시간
   }
 
   // 1. 클래스 멤버 변수 선언
@@ -38,31 +40,34 @@ export class CertTokenService {
   private readonly ivLength: number;
   private readonly accessTokenExpiresIn: string;
   private readonly refreshTokenExpiresIn: string;
-  
+
   // Access Token 발급
   async makeAccessToken(
     userSequence: number,
     userId: string,
-    username: string, 
-    role: RoleType = RoleType.USER_ROLE): Promise<string> {
+    username: string,
+    role: RoleType = RoleType.USER_ROLE,
+  ): Promise<string> {
     const payload: AccessTokenPayload = {
       userSequence,
       userId,
       username,
-      role
+      role,
     };
 
-    return this.jwtService.signAsync({ ...payload }, {
-      secret: this.jwtAccessSecret,
-      expiresIn: this.accessTokenExpiresIn as any,
-    });
+    return this.jwtService.signAsync(
+      { ...payload },
+      {
+        secret: this.jwtAccessSecret,
+        expiresIn: this.accessTokenExpiresIn as any,
+      },
+    );
   }
 
   // Access Token 검증 및 페이로드 반환
   async verifyAccessToken(token: string): Promise<AccessTokenPayload | null> {
     try {
-      const payload = await this.jwtService.verifyAsync(
-        token, {
+      const payload = await this.jwtService.verifyAsync(token, {
         secret: this.jwtAccessSecret,
       });
       return payload;
@@ -84,8 +89,12 @@ export class CertTokenService {
 
     // 암호화 수행
     const iv = crypto.randomBytes(this.ivLength); // 매번 변하는 초기화 벡터
-    const cipher = crypto.createCipheriv(this.algorithm, Buffer.from(this.secretKey), iv);
-    
+    const cipher = crypto.createCipheriv(
+      this.algorithm,
+      Buffer.from(this.secretKey),
+      iv,
+    );
+
     let encrypted = cipher.update(payload, 'utf8', 'hex');
     encrypted += cipher.final('hex');
 
@@ -115,8 +124,12 @@ export class CertTokenService {
 
       // B. 복호화 수행 (crypto 사용)
       const iv = Buffer.from(ivHex, 'hex');
-      const decipher = crypto.createDecipheriv(this.algorithm, Buffer.from(this.secretKey), iv);
-      
+      const decipher = crypto.createDecipheriv(
+        this.algorithm,
+        Buffer.from(this.secretKey),
+        iv,
+      );
+
       let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
       decrypted += decipher.final('utf8');
 
@@ -133,17 +146,17 @@ export class CertTokenService {
 
       // D. 만료 시간 체크
       if (Date.now() > expiresAtNum) {
-        return { 
-          status: RefreshTokenStatus.EXPIRED, 
-          uuid, 
-          expiresAt 
+        return {
+          status: RefreshTokenStatus.EXPIRED,
+          uuid,
+          expiresAt,
         };
       }
 
-      return { 
-        status: RefreshTokenStatus.VALID, 
-        uuid, 
-        expiresAt 
+      return {
+        status: RefreshTokenStatus.VALID,
+        uuid,
+        expiresAt,
       };
     } catch (error) {
       return this.createInvalidPayload();

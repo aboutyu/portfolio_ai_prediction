@@ -1,0 +1,333 @@
+<!-- Bordered Table -->
+<div class='row clearfix'>
+  <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+    <div class='card'>
+
+      <div class='body'>
+
+        <ul class="nav nav-tabs tab-nav-right" role="tablist">
+          <li role="presentation" class="active">
+            <a href="#netrition_unit" data-toggle="tab" aria-expanded="true">영양성분 단위</a>
+          </li>
+          <li role="presentation" class="">
+            <a href="#food_nutrition_info" data-toggle="tab" aria-expanded="false">음식 영양성분</a>
+          </li>
+          <li role="presentation" class="">
+            <a href="#user_devices" data-toggle="tab" aria-expanded="false">사용자 디바이스</a>
+          </li>
+          <li role="presentation" class="">
+            <a href="#service_codes" data-toggle="tab" aria-expanded="false">서비스 코드</a>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+
+          {{!-- 영양성분 Raw Data --}}
+          <div role="tabpanel" class="tab-pane fade active in" id="netrition_unit">
+            <div class='row'>
+              <div class='col-sm-6 row-bottom'>
+                검색개수 : <span id="unit_count">0</span>개
+              </div>
+            </div>
+
+            <b>영양성분 단위</b>
+            <p>
+              영양성분의 단위를 관리하는 페이지입니다.
+              영양성분 단위는 영양성분 사전에 등록된 영양성분의 단위를 의미합니다.
+              예를 들어, 열량의 단위는 kcal, 탄수화물의 단위는 g입니다.
+              영양성분 단위를 관리하는 페이지에서는 영양성분 단위를 추가, 수정, 삭제할 수 있습니다.
+            </p>
+
+            <div class='table-responsive'>
+              <table class='table table-bordered table-hover'>
+                <thead>
+                  <tr>
+                    <th class='text-center'>순위</th>
+                    <th class='text-center'>한글이름</th>
+                    <th class='text-center'>영문이름</th>
+                    <th class='text-center'>코드</th>
+                    <th class='text-center'>단위</th>
+                  </tr>
+                </thead>
+                <tbody id="unit_tbody">
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {{!-- 음식 영양성분 Raw Data --}}
+          <div role="tabpanel" class="tab-pane fade" id="food_nutrition_info">
+            <div class='row'>
+              <div class='col-sm-6 row-bottom'>
+                검색개수 : <span id="food_nutrition_info_count">0</span>개
+              </div>
+            </div>
+            
+            <b>음식 영양성분</b>
+            <p>
+              음식 영양성분 데이터입니다.
+              음식 영양성분 데이터는 음식의 영양성분 정보를 의미합니다.
+              예를 들어, 음식의 열량, 탄수화물, 단백질, 지방 등의 정보를 포함합니다.
+            </p>
+
+            <div class='table-responsive'>
+              <table class='table table-bordered table-hover'>
+                <thead>
+                <tr>
+                  <th class='text-center'>음식코드</th>
+                  <th class='text-center'>음식이름</th>
+                  <th class='text-center'>대표음식이름</th>
+                  <th class='text-center'>대분류</th>
+                  <th class='text-center'>중분류</th>
+                  <th class='text-center'>소분류</th>
+                  <th class='text-center'>칼로리</th>
+                </tr>
+                </thead>
+                <tbody id="food_nutrition_info_tbody"></tbody>
+              </table>
+            </div>
+
+            <div class="row text-center" id="food_nutrition_info_pagination"></div>
+          </div>
+
+          {{!-- 디바이스 Raw Data --}}
+          <div role="tabpanel" class="tab-pane fade" id="user_devices">
+            <div class='row'>
+              <div class='col-sm-6 row-bottom'>
+                검색개수 : <span id="device_count">0</span>개
+              </div>
+            </div>
+
+            <b>사용자 디바이스</b>
+            <p>
+              사용자가 로그인할 때 등록되는 디바이스 목록입니다.
+              사용자 별 디바이스 목록은 회원관리 메뉴에서 각 회원의 상세 페이지에서도 확인할 수 있습니다.
+              디바이스 삭제는 회원관리 메뉴에서 각 회원의 상세 페이지에서만 가능합니다.
+            </p>
+
+            <div class='table-responsive'>
+              <table class='table table-bordered table-hover'>
+                <thead>
+                <tr>
+                  <th class='text-center'>유저ID</th>
+                  <th class='text-center'>유저이름</th>
+                  <th class='text-center'>디바이스타입</th>
+                  <th class='text-center'>디바이스이름</th>
+                  <th class='text-center'>디바이스모델</th>
+                  <th class='text-center'>디바이스토큰</th>
+                  <th class='text-center'>생성일</th>
+                </tr>
+                </thead>
+                <tbody id="device_tbody"></tbody>
+              </table>
+            </div>
+
+            <div class="row text-center" id="device_pagination"></div>
+          </div>
+
+
+          <div role="tabpanel" class="tab-pane fade" id="service_codes">
+            <div class='row'>
+              <div class='col-sm-6 row-bottom'>
+                검색개수 : <span id="service_code_count">0</span>개
+              </div>
+            </div>
+
+            <b>서비스 코드</b>
+            <p>
+              서비스 코드 데이터입니다.
+              서비스 코드는 시스템 내에서 사용되는 다양한 코드 정보를 의미합니다.
+              예를 들어, 서비스 타입, 상태 코드 등이 포함됩니다.
+            </p>
+
+            <div class='table-responsive'>
+              <table class='table table-bordered table-hover'>
+                <thead>
+                <tr>
+                  <th class='text-center'>타입</th>
+                  <th class='text-center'>코드</th>
+                  <th class='text-center'>이름</th>
+                  <th class='text-center'>언어</th>
+                  <th class='text-center'>활성화여부</th>
+                </tr>
+                </thead>
+                <tbody id="service_code_tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // jQuery 의존성을 없애고 순수 자바스크립트로 실행 보장
+  document.addEventListener('DOMContentLoaded', function() {
+    loadUnitData();
+
+    // 탭 클릭 이벤트 (jQuery가 로드된 상태라면 아래 코드 유지)
+    if (window.jQuery) {
+      $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        const targetId = $(e.target).attr("href");
+        if (targetId === "#netrition_unit") {
+          loadUnitData();
+        } else if (targetId === "#food_nutrition_info") {
+          loadFoodNutritionInfo(0);
+        } else if (targetId === "#user_devices") {
+          loadDeviceData(0);
+        } else if (targetId === "#service_codes") {
+          loadServiceCodeData('ITP');
+        }
+      });
+    }
+  });
+
+  // 영양성분 단위 로드 함수
+  function loadUnitData() {
+    fetch('/system/rawdata/nutrition-dictionary')
+      .then(res => res.json())
+      .then(data => {
+        $('#unit_count').text(data.total);
+        let html = '';
+        data.items.forEach(item => {
+          html += `<tr>
+            <td class="text-center">${item.displayOrder}</td>
+            <td class="text-center">${item.nameKo}</td>
+            <td class="text-center">${item.nameEn}</td>
+            <td class="text-center">${item.code}</td>
+            <td class="text-center">${item.unit}</td>
+          </tr>`;
+        });
+        $('#unit_tbody').html(html);
+      });
+  }
+
+  // 음식성분 로드 함수
+  function loadFoodNutritionInfo(page = 0) {
+    fetch(`/system/rawdata/food-nutrition-info?page=${page}`)
+      .then(res => res.json())
+      .then(data => {
+        $('#food_nutrition_info_count').text(data.total);
+        
+        let html = '';
+        if (data.items && data.items.length > 0) {
+          data.items.forEach(foodInfo => {
+            html += `<tr>
+              <td class="text-center">${foodInfo.foodCode}</td>
+              <td class="text-center">${foodInfo.foodName}</td>
+              <td class="text-center">${foodInfo.representativeFoodName}</td>
+              <td class="text-center">${foodInfo.categoryLarge}</td>
+              <td class="text-center">${foodInfo.categoryMedium}</td>
+              <td class="text-center">${foodInfo.categorySmall}</td>
+              <td class="text-center">${foodInfo.energyKcal}</td>
+            </tr>`;
+          });
+        } else {
+          html = '<tr><td colspan="7" class="text-center">데이터가 없습니다.</td></tr>';
+        }
+        $('#food_nutrition_info_tbody').html(html);
+        renderPagination(data.total, data.page, data.pageSize, 'food_nutrition_info_pagination', 'loadFoodNutritionInfo');
+      })
+      .catch(err => console.error('Fetch error:', err));
+  }
+
+  // 사용자 디바이스 로드 함수 (페이징)
+  function loadDeviceData(page = 0) {    
+    fetch(`/system/rawdata/user-devices?page=${page}`)
+      .then(res => res.json())
+      .then(data => {
+        $('#device_count').text(data.total);
+        
+        let html = '';
+        if (data.items && data.items.length > 0) {
+          data.items.forEach(device => {
+            html += `<tr>
+              <td class="text-center">${device.user.userId}</td>
+              <td class="text-center">${device.user.username}</td>
+              <td class="text-center">${device.deviceType}</td>
+              <td class="text-center">${device.deviceName}</td>
+              <td class="text-center">${device.deviceModel}</td>
+              <td class="text-center">${device.deviceToken.substring(0, 10)}...</td>
+              <td class="text-center">${device.createDate}</td>
+            </tr>`;
+          });
+        } else {
+          html = '<tr><td colspan="7" class="text-center">데이터가 없습니다.</td></tr>';
+        }
+        $('#device_tbody').html(html);
+
+        renderPagination(data.total, data.page, data.pageSize, 'device_pagination', 'loadDeviceData');
+      })
+      .catch(err => console.error('Fetch error:', err));
+  }
+
+  function loadServiceCodeData(type) {
+    fetch('/system/rawdata/service-codes?type=' + type)
+      .then(res => res.json())
+      .then(data => {
+        console.log('Service Code Data:', data); // 디버깅용 로그
+
+        $('#service_code_count').text(data.length);
+        let html = '';
+        data.items.forEach(code => {
+          html += `<tr>
+            <td class="text-center">${code.type}</td>
+            <td class="text-center">${code.code}</td>
+            <td class="text-center">${code.name}</td>
+            <td class="text-center">${code.language}</td>
+            <td class="text-center">${code.isActivate}</td>
+          </tr>`;
+        });
+        $('#service_code_tbody').html(html);
+      });
+  }
+
+  function renderPagination(total, page, pageSize, onPagination, onPageChange) {
+    const totalPages = Math.ceil(total / pageSize);
+    const blockLimit = 5; // 한 화면에 보여줄 페이지 번호 개수
+    const currentBlock = Math.floor(page / blockLimit);
+
+    const startPage = currentBlock * blockLimit + 1;
+    let endPage = startPage + blockLimit - 1;
+    if (endPage > totalPages) endPage = totalPages;
+
+    let html = `<ul class="pagination">`;
+
+    // 1. 이전 버튼 (Left Arrow)
+    const hasPrev = startPage > 1;
+    const prevPage = startPage - 2; // 이전 블록의 마지막 페이지 (0-based)
+    html += `
+      <li class="${hasPrev ? 'waves-effect' : 'disabled'}">
+        <a href="javascript:void(0);" onclick="${hasPrev ? `${onPageChange}(${prevPage})` : ''}">
+          <i class="material-icons">chevron_left</i>
+        </a>
+      </li>`;
+
+    // 2. 페이지 번호들 (1-based 표시, 전달은 0-based)
+    for (let i = startPage; i <= endPage; i++) {
+      const isCurrent = (i - 1) === page;
+      html += `
+        <li class="${isCurrent ? 'active' : 'waves-effect'}">
+          <a href="javascript:void(0);" onclick="${onPageChange}(${i - 1})">${i}</a>
+        </li>`;
+    }
+
+    // 3. 다음 버튼 (Right Arrow)
+    const hasNext = endPage < totalPages;
+    const nextPage = endPage; // 다음 블록의 첫 페이지 (0-based)
+    html += `
+      <li class="${hasNext ? 'waves-effect' : 'disabled'}">
+        <a href="javascript:void(0);" onclick="${hasNext ? `${onPageChange}(${nextPage})` : ''}">
+          <i class="material-icons">chevron_right</i>
+        </a>
+      </li>`;
+
+    html += `</ul>`;
+
+    // 페이징 영역에 주입onPagination
+    $(`#${onPagination}`).html(html);
+  }
+</script>
+<!-- #END# Bordered Table -->

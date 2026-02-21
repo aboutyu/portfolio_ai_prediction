@@ -50,6 +50,25 @@ class AppLocalizationsKo extends AppLocalizations {
   String get faqsButtonText => '자주 묻는 질문';
 
   @override
+  String get updateEssentialTitle => '업데이트 필요';
+
+  @override
+  String get updateEssentialMessage =>
+      '새로운 버전의 앱이 출시되었습니다. 계속 이용하시려면 업데이트해주세요.';
+
+  @override
+  String get updateOptionalTitle => '업데이트 가능';
+
+  @override
+  String get updateOptionalMessage => '새로운 버전의 앱이 출시되었습니다. 지금 업데이트하시겠습니까?';
+
+  @override
+  String get laterButtonText => '나중에';
+
+  @override
+  String get updateButtonText => '업데이트';
+
+  @override
   String get homeNavigationText => '홈';
 
   @override

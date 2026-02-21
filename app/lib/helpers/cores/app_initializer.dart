@@ -1,44 +1,65 @@
+import 'package:app/helpers/commons/common_funcs.dart';
 import 'package:app/helpers/cores/app_config.dart';
-import 'package:app/helpers/enums/app_environment.enum.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:intl/date_symbol_data_local.dart';
+import 'package:app/helpers/cores/repositories/app_initializer_repository.dart';
+import 'package:app/helpers/networks/enums/status_code.enum.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class AppInitializer {
-  const AppInitializer._();
+part 'app_initializer.g.dart';
 
-  static Future<void> initialize(WidgetsBinding widgetsBinding) async {
-    WidgetsFlutterBinding.ensureInitialized();
-
-    await _loadEnvFile();
-
-    AppConfig.debugMessage();
-
-    // intl 패키지의 날짜 포맷 초기화
-    await initializeDateFormatting();
-
-    // firebase 초기화
-    await Firebase.initializeApp(options: AppConfig.firebaseOptions);
-
-    // AdMob 초기화
-    await MobileAds.instance.initialize();
-
-    // Splash 화면 유지
-    FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+@riverpod
+class AppInitialization extends _$AppInitialization {
+  @override
+  Future<void> build() async {
+    await _initialize();
   }
 
-  static Future<void> _loadEnvFile() async {
-    // 실행 인자에서 환경 파싱 (--dart-define=ENV=dev)
-    const envStr = String.fromEnvironment('ENV', defaultValue: 'local');
-    final env = AppEnvironment.parse(envStr);
+  Future<void> _initialize() async {
+    await _setupServiceCodes();
+    await _fetchServiceInfo();
 
-    // .env 파일 로드
-    await dotenv.load(fileName: env.fileName);
+    // 초기화 상태 출력
+    AppConfig.debugMessage();
+  }
 
-    // 환경 정보를 AppConfig에 등록!
-    AppConfig.setEnvironment(env);
+  Future<void> _fetchServiceInfo() async {
+    final repository = ref.read(appInitializerRepositoryProvider);
+    final response = await repository.fetchServiceInfo();
+    debugMessage([
+      '서비스 정보 API 응답',
+      'Status Code: ${response.status}',
+      'Response Data: ${response.data}',
+    ]);
+
+    if (response.data == null) {
+      throw Exception('서비스 정보 데이터가 없습니다.');
+    }
+
+    if (response.status == StatusCode.success && response.data != null) {
+      debugMessage('서비스 정보 로드 성공: ${response.data}');
+      AppConfig.setServiceInfo(response.data!);
+    } else {
+      debugMessage('서비스 정보 로드 실패: API 응답 상태 ${response.status}');
+    }
+  }
+
+  Future<void> _setupServiceCodes() async {
+    final repository = ref.read(appInitializerRepositoryProvider);
+    final response = await repository.fetchServiceCodes();
+    debugMessage([
+      '서비스 코드 API 응답',
+      'Status Code: ${response.status}',
+      'Response Data: ${response.data}',
+    ]);
+
+    if (response.data == null) {
+      throw Exception('서비스 코드 데이터가 없습니다.');
+    }
+
+    if (response.status == StatusCode.success && response.data != null) {
+      debugMessage('서비스 코드 로드 성공: ${response.data}');
+      AppConfig.setServiceCode(response.data!);
+    } else {
+      debugMessage('서비스 코드 로드 실패: API 응답 상태 ${response.status}');
+    }
   }
 }

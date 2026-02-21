@@ -1,3 +1,4 @@
+import 'package:app/helpers/enums/daily_quick_menu_type.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -34,6 +35,19 @@ extension HealthLogTypeExtension on HealthLogType {
         return context.tr.bloodGlucoseTypeText;
       case HealthLogType.WGT:
         return context.tr.weightTypeText;
+    }
+  }
+
+  DailyQuickMenuType get toDailyQuickMenuType {
+    switch (this) {
+      case HealthLogType.SCT:
+        return DailyQuickMenuType.stepCount;
+      case HealthLogType.BPT:
+        return DailyQuickMenuType.bp;
+      case HealthLogType.BGT:
+        return DailyQuickMenuType.glucose;
+      case HealthLogType.WGT:
+        return DailyQuickMenuType.weight;
     }
   }
 }

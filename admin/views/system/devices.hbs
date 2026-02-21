@@ -1,0 +1,115 @@
+<!-- Bordered Table -->
+<div class='row clearfix'>
+  <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+    <div class='card'>
+      <div class='header'>
+        <form name="emp_search" method="get" href="/users">
+            <input type="hidden" name="page" value="{{page}}">
+            <table class="table table-bordered">
+                <tr>
+                    <th class="text-center" style="width:20%">활성화여부</th>
+                    <td class="text-left">
+
+                        <div class="demo-radio-button">
+                            <input name="is_active" value="A" type="radio" id="is_active_a" class="with-gap radio-col-grey">
+                            <label for="is_active_a">전체</label>
+
+                            <input name="is_active" value="Y" type="radio" id="is_active_y" class="with-gap radio-col-grey">
+                            <label for="is_active_y">활성화</label>
+
+                            <input name="is_active" value="N" type="radio" id="is_active_n" class="with-gap radio-col-grey">
+                            <label for="is_active_n">비활성화</label>
+                        </div> 
+                    </td>
+                </tr>
+                {{#if isFaq}}
+                <tr>
+                    <th class="text-center" style="width:20%">FAQ종류</th>
+                    <td class="text-left">
+                        <div class="demo-radio-button">
+                        <input type="checkbox" id="md_checkbox_3" name="K" value="Y" class="filled-in chk-col-grey" checked>
+                        <label for="md_checkbox_3">회원</label> 
+
+                        <input type="checkbox" id="md_checkbox_4" name="N" value="Y" class="filled-in chk-col-grey" checked>
+                        <label for="md_checkbox_4">서비스</label> 
+
+                        <input type="checkbox" id="md_checkbox_5" name="G" value="Y" class="filled-in chk-col-grey" >
+                        <label for="md_checkbox_5">결제</label>
+                        </div>
+                    </td>
+                </tr>
+                {{/if}}
+                <tr>
+                    <th class="text-center" style="width:20%">검색어</th>
+                    <td class="text-left">
+                        <input type="text" name="search_keyword" id="search_keyword" style="width:100%;" class="form-control" placeholder="이름, 닉네임, 모바일번호를 기준으로 자연어 검색이 됩니다.">
+                    </td>
+                </tr>
+            </table>
+
+            <div class="row text-center" style="margin-bottom: 5px;">
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-danger dropdown-toggle waves-effect">
+                        검색
+                    </button>
+                </div>
+            </div>
+        </form>
+      </div>
+
+      <div class='body'>
+
+        <div class='row'>
+          <div class='col-sm-6 row-bottom'>
+            검색개수 :
+            {{total}}개
+          </div>
+
+        </div>
+
+        <div class='table-responsive'>
+
+          <table class='table table-bordered table-hover'>
+            <thead>
+              <tr>
+                <th class='text-center'>No</th>
+                {{#if isFaq}}
+                <th class='text-center'>FAQ종류</th>
+                {{/if}}
+                <th class='text-center'>제목</th>
+                <th class='text-center'>생성일</th>
+                <th class='text-center'>활성화여부</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each items}}
+              <tr 
+                  onclick="location.href='/cs/{{#if ../isFaq}}faq{{else}}notice{{/if}}/detail?sequence={{this.sequence}}&page={{../page}}'"
+                  style='cursor:pointer;'
+                  >
+                <td class='text-center'>{{calculateTableNo ../total ../page @index}}</td>
+                {{#if ../isFaq}}
+                <td class='text-center'>{{this.typeLabel}}</td>
+                {{/if}}
+                <td class='text-center'>{{this.title}}</td>
+                <td class='text-center'>{{formatTimestamp this.createDate}}</td> <td class='text-center'>
+                  {{#if this.isActivate}}
+                  {{else}}
+                    비활성화
+                  {{/if}}
+                </td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="row text-center">
+          {{{pagination total page pageSize}}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- #END# Bordered Table -->

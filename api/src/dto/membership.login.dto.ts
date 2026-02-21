@@ -1,6 +1,6 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsEnum, IsOptional } from "class-validator";
-import { DeviceType } from "src/helpers/enums/device-type.enum";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsEnum, IsOptional } from 'class-validator';
+import { PlatformType } from 'src/helpers/enums/platform-type.enum';
 
 export class LoginDto {
   @ApiProperty({
@@ -25,16 +25,16 @@ export class LoginDto {
   })
   deviceToken?: string | null;
 
-  @ApiProperty({ 
-    description: '디바이스 타입 (IOS / AOS)', 
-    enum: DeviceType,
-    default: DeviceType.IOS,
+  @ApiProperty({
+    description: '디바이스 타입 (IOS / AOS)',
+    enum: PlatformType,
+    default: PlatformType.IOS,
     required: false,
     nullable: true,
   })
-  @IsEnum(DeviceType)
+  @IsEnum(PlatformType)
   @IsOptional()
-  deviceType?: DeviceType | null;
+  deviceType?: PlatformType | null;
 
   @ApiProperty({
     description: '디바이스 이름',
