@@ -1,4 +1,4 @@
-import 'package:app/helpers/cores/app_config.dart';
+import 'package:app/helpers/configures/app_config.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AdmobConfig {

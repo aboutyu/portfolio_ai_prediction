@@ -35,6 +35,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get usernameHintText => '이름을 입력하세요';
 
   @override
+  String get interestHintText => '관심있는 분야를 모두 선택해주세요.';
+
+  @override
   String get termsAgreeButtonText => '이용약관';
 
   @override

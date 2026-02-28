@@ -36,6 +36,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get usernameHintText => 'Enter your name';
 
   @override
+  String get interestHintText => 'Select all fields of interest.';
+
+  @override
   String get termsAgreeButtonText => ' Terms of Service';
 
   @override

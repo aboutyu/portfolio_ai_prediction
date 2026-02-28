@@ -1,4 +1,4 @@
-import 'package:app/helpers/cores/app_config.dart';
+import 'package:app/helpers/configures/app_config.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/screen/my_info/presentation/view_models/my_info_view_model.dart';
 import 'package:flutter/material.dart';

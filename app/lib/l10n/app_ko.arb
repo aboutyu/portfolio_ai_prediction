@@ -17,6 +17,7 @@
   "passwordHintText": "비밀번호를 입력하세요",
   "passwordConfirmHintText": "비밀번호를 다시 입력하세요",
   "usernameHintText": "이름을 입력하세요",
+  "interestHintText": "관심있는 분야를 모두 선택해주세요.",
   "termsAgreeButtonText": "이용약관",
   "guideButtonText": "이용안내",
   "noticesButtonText": "공지사항",

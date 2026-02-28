@@ -146,6 +146,12 @@ abstract class AppLocalizations {
   /// **'이름을 입력하세요'**
   String get usernameHintText;
 
+  /// No description provided for @interestHintText.
+  ///
+  /// In ko, this message translates to:
+  /// **'관심있는 분야를 모두 선택해주세요.'**
+  String get interestHintText;
+
   /// No description provided for @termsAgreeButtonText.
   ///
   /// In ko, this message translates to:

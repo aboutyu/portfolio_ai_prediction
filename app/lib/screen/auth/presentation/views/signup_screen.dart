@@ -1,4 +1,7 @@
+import 'package:app/helpers/enums/service_code-type.dart';
 import 'package:app/helpers/extensions/buildcontext_extension.dart';
+import 'package:app/helpers/extensions/l10n_extension.dart';
+import 'package:app/helpers/models/service_code_model.dart';
 import 'package:app/screen/auth/data/models/terms_model.dart';
 import 'package:app/screen/auth/presentation/view_models/login_view_model.dart';
 import 'package:app/screen/auth/presentation/view_models/terms_view_model.dart';
@@ -23,6 +26,9 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
       TextEditingController();
   final TextEditingController _userNameController = TextEditingController();
 
+  final List<ServiceCodeModel> _serviceCodeList = ServiceCodeType.itp.codes;
+
+  final List<ServiceCodeModel> _serviceCodes = [];
   final List<int> _agreedTerms = [];
 
   @override
@@ -74,8 +80,66 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
 
             Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: 40.0,
-              ), // 위 필드와 동일한 여백
+                horizontal: 20.0,
+              ), // 태그는 가로 공간을 더 넓게 쓰는 게 예쁩니다.
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start, // 왼쪽 정렬
+                children: [
+                  Text(
+                    context.tr.interestHintText,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 8.0, // 태그 사이 간격
+                    runSpacing: 4.0, // 줄바꿈 시 간격
+                    children: _serviceCodeList.map((code) {
+                      final isSelected = _serviceCodes.contains(code);
+                      return ChoiceChip(
+                        label: Text(code.name),
+                        selected: isSelected,
+                        onSelected: (selected) {
+                          setState(() {
+                            if (selected) {
+                              _serviceCodes.add(code);
+                            } else {
+                              _serviceCodes.remove(code);
+                            }
+                          });
+                          debugPrint('Selected service code: $_serviceCodes');
+                        },
+                        // 디자인 커스텀
+                        selectedColor: Theme.of(
+                          context,
+                        ).primaryColor.withOpacity(0.2),
+                        backgroundColor: Colors.grey[200],
+                        labelStyle: TextStyle(
+                          color: isSelected
+                              ? Theme.of(context).primaryColor
+                              : Colors.black,
+                          fontWeight: isSelected
+                              ? FontWeight.bold
+                              : FontWeight.normal,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          side: BorderSide(
+                            color: isSelected
+                                ? Theme.of(context).primaryColor
+                                : Colors.transparent,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40.0),
               child: termsList.when(
                 data: (terms) {
                   return Column(

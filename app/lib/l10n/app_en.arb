@@ -17,6 +17,7 @@
   "passwordHintText": "Enter your password",
   "passwordConfirmHintText": "Re-enter your password",
   "usernameHintText": "Enter your name",
+  "interestHintText": "Select all fields of interest.",
   "termsAgreeButtonText": " Terms of Service",
   "guideButtonText": "User Guide",
   "noticesButtonText": "Notices",

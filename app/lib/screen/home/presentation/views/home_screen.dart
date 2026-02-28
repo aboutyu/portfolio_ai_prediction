@@ -1,5 +1,5 @@
 import 'package:app/helpers/commons/common_funcs.dart';
-import 'package:app/helpers/cores/app_config.dart';
+import 'package:app/helpers/configures/app_config.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/screen/home/data/models/timeline_date_model.dart';
 import 'package:app/screen/home/presentation/view_models/home_view_model.dart';

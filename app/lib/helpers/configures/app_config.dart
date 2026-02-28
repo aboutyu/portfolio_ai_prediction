@@ -1,5 +1,5 @@
 import 'package:app/helpers/commons/common_funcs.dart';
-import 'package:app/helpers/cores/admob_config.dart';
+import 'package:app/helpers/configures/admob_config.dart';
 import 'package:app/helpers/enums/app_environment.enum.dart';
 import 'package:app/helpers/enums/platform.enum.dart';
 import 'package:app/helpers/models/service_code_model.dart';
