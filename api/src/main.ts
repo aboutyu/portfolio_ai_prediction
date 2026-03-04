@@ -23,7 +23,7 @@ async function bootstrap() {
 
   // Swagger 설정 부분
   // if (process.env.NODE_ENV !== 'production') {
-  console.log(`🚀 Swagger is running at ${swaggerUrl}`);
+  console.log(`🚀 Swagger is running at  ${swaggerUrl}`);
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup(swaggerUrl, app, document);
   // }
