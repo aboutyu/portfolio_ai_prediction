@@ -1,3 +1,4 @@
+import 'package:app/helpers/commons/common_funcs.dart';
 import 'package:app/helpers/enums/service_code-type.dart';
 import 'package:app/helpers/extensions/buildcontext_extension.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
@@ -26,14 +27,16 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
       TextEditingController();
   final TextEditingController _userNameController = TextEditingController();
 
-  final List<ServiceCodeModel> _serviceCodeList = ServiceCodeType.itp.codes;
+  final List<ServiceCodeItem> _serviceCodeList = ServiceCodeType.itp.codes;
 
-  final List<ServiceCodeModel> _serviceCodes = [];
+  final List<ServiceCodeItem> _serviceCodes = [];
   final List<int> _agreedTerms = [];
 
   @override
   Widget build(BuildContext context) {
     final termsList = ref.watch(termsViewModelProvider);
+
+    debugMessage('ServiceCode: $_serviceCodes');
 
     return Scaffold(
       appBar: AppbarWidget(title: 'Sign Up'),
@@ -97,7 +100,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                     children: _serviceCodeList.map((code) {
                       final isSelected = _serviceCodes.contains(code);
                       return ChoiceChip(
-                        label: Text(code.name),
+                        label: Text(code.displayName),
                         selected: isSelected,
                         onSelected: (selected) {
                           setState(() {

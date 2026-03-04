@@ -1,3 +1,4 @@
+import 'package:app/screen/home/presentation/widgets/home_routine_object_widget.dart';
 import 'package:app/screen/home/presentation/widgets/home_routine_progress_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,16 +11,19 @@ class HomeHeaderWidget extends ConsumerStatefulWidget {
 }
 
 class _HomeHeaderWidgetState extends ConsumerState<HomeHeaderWidget> {
-  final double progress = 0.65; // 예시 진행률 (65%)
-
   @override
   Widget build(BuildContext context) {
-    // final progress = ref.watch(homeViewModelProvider.select((state) => state.progress));
-
     return Container(
       padding: const EdgeInsets.all(16.0),
-      color: Colors.blueAccent,
-      child: HomeRoutineProgressWidget(progress: progress),
+      color: Colors.white,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          HomeRoutineObjectWidget(),
+          const SizedBox(height: 12),
+          HomeRoutineProgressWidget(),
+        ],
+      ),
     );
   }
 }

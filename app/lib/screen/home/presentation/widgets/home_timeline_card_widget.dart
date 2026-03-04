@@ -43,7 +43,7 @@ class HomeTimelineCardWidget extends StatelessWidget {
                     children: [
                       if (foodCount > 0)
                         _buildChip(
-                          DailyQuickMenuType.meal.iconWidget(6),
+                          DailyQuickMenuType.meal.icon,
                           'Food',
                           foodCount,
                         ),
@@ -54,7 +54,7 @@ class HomeTimelineCardWidget extends StatelessWidget {
                           .map((type) {
                             final count = healthCounts[type]!;
                             return _buildChip(
-                              type.toDailyQuickMenuType.iconWidget(6),
+                              type.toDailyQuickMenuType.icon,
                               type.displayName(context),
                               count,
                             );
@@ -70,7 +70,7 @@ class HomeTimelineCardWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildChip(Widget icon, String name, int label) {
+  Widget _buildChip(Icon icon, String name, int label) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
@@ -81,7 +81,10 @@ class HomeTimelineCardWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          icon,
+          IconTheme(
+            data: IconThemeData(size: 18, color: Colors.blue[700]),
+            child: icon,
+          ),
           const SizedBox(width: 6),
           Text(
             name,

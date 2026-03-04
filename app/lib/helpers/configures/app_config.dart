@@ -159,7 +159,20 @@ class AppConfig {
     debugPrint('🆔 서비스코드');
     if (serviceCode.isNotEmpty) {
       for (var code in serviceCode) {
-        debugPrint('   - [${code.code}] ${code.name}');
+        debugPrint('   - [${code.code.name}]');
+        for (var item in code.items) {
+          debugPrint(
+            '   - [${item.code}] ${item.codeName}, 현재언어기준 ${item.displayName}',
+          );
+          // names가 Nullable일 수 있으므로 ?. 사용
+          if (item.names != null) {
+            for (var entry in item.names!.entries) {
+              final key = entry.key;
+              final value = entry.value;
+              debugPrint('       - $key: $value');
+            }
+          }
+        }
       }
     } else {
       debugPrint('서비스 코드가 없습니다.');

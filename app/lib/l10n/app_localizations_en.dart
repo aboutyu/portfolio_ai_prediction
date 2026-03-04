@@ -14,6 +14,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String challengeMessage(String username, String object, int day) {
+    return '<blue>$username</blue>,\nyou have been challenging yourself for <red>$object</red>\nfor <brown>$day</brown> days.';
+  }
+
+  @override
   String get signupText => 'Sign Up';
 
   @override
@@ -148,6 +153,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dialogSearchHintText => 'Input Search Keyword';
+
+  @override
+  String get todayRoutineProgressText => 'Today\'s Routine Progress';
 
   @override
   String get dailyFloatingFoodText => 'Food Record';

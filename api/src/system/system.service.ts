@@ -43,16 +43,51 @@ export class SystemService {
     return successResponse(serviceInfo);
   }
 
-  async getServiceCode(type: ServiceCodeType) {
-    const serviceCodes = await this.serviceCodeRepository.find({
-      select: {
-        sequence: true,
-        type: true,
-        code: true,
-        name: true,
+  async getServiceCode() {
+    const query = `
+    SELECT 
+        sc.code AS code, 
+        sc.type AS type,
+        sc.code_name AS codeName,
+        t_agg.names AS names
+    FROM service_code sc
+    LEFT JOIN (
+        SELECT 
+            service_code_sequence,
+            JSON_OBJECTAGG(language, name) AS names
+        FROM service_code_translation
+        GROUP BY service_code_sequence
+    ) t_agg ON t_agg.service_code_sequence = sc.sequence
+    WHERE sc.is_activate = 'Y'
+  `;
+
+    const rawResults = await this.serviceCodeRepository.query(query);
+
+    const groupedObject = rawResults.reduce(
+      (acc, item) => {
+        const { type } = item;
+
+        // 해당 type의 그룹이 없으면 새로 생성
+        if (!acc[type]) {
+          acc[type] = {
+            code: type,
+            items: [],
+          };
+        }
+
+        // 해당 그룹의 data 배열에 현재 아이템 추가
+        acc[type].items.push({
+          code: item.code,
+          codeName: item.codeName,
+          type: item.type,
+          names: item.names,
+        });
+
+        return acc;
       },
-      where: { type, isActivate: true },
-    });
+      {} as Record<string, any>,
+    );
+    const serviceCodes = Object.values(groupedObject);
     return successResponse(serviceCodes);
   }
 }

@@ -10,6 +10,25 @@
     }
   },
 
+  "challengeMessage": "<blue>{username}</blue>님은\n<red>{object}</red>을 위해\n<brown>{day}</brown>일째 도전 중입니다.",
+  "@challengeMessage": {
+    "description": "사용자의 도전 현황을 보여주는 메시지",
+    "placeholders": {
+      "username": {
+        "type": "String",
+        "example": "유태훈"
+      },
+      "object": {
+        "type": "String",
+        "example": "건강한 루틴"
+      },
+      "day": {
+        "type": "int",
+        "example": "10"
+      }
+    }
+  },
+
   "signupText": "회원가입",
   "loginText": "로그인",
   "loginInputEmptyErrorText": "아이디 또는 비밀번호를 입력해주세요.",
@@ -60,6 +79,8 @@
   "faqNoText": "자주 묻는 질문이 없습니다.",
   "searchResultNoText": "검색결과가 없습니다.",
   "dialogSearchHintText": "검색어를 입력해주세요.",
+
+  "todayRoutineProgressText": "오늘의 루틴 진행률",
 
   "dailyFloatingFoodText": "식사기록",
   "dailyFloatingWeightText": "체중기록",
