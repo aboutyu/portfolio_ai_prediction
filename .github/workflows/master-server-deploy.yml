@@ -33,8 +33,8 @@ jobs:
             ${{ secrets.API_ENV }}
             EOF
 
-            docker compose -f docker-compose-master-api.yml down
-            docker compose -f docker-compose-master-api.yml up -d --build
+            docker-compose -f docker-compose-master-api.yml down
+            docker-compose -f docker-compose-master-api.yml up -d --build
 
             rm -f api/.env/production.env
             
