@@ -5,6 +5,7 @@ on:
     branches: ["master"]
     paths:
       - "api/**"                # api 폴더 내부의 모든 변경
+      - "master-server-deploy.yml"   # 워크플로우 파일 변경 시에도 배포
       - "docker-compose-master-api.yml"   # docker-compose 파일 변경 시에도 배포
 
 jobs:
