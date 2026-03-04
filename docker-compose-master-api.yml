@@ -12,3 +12,7 @@ services:
     env_file:
       - ./api/.env/production.env
     restart: always
+
+networks:
+  health-routine-ai:
+    external: true
