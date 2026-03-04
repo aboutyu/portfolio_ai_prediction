@@ -28,6 +28,7 @@ jobs:
             else
               echo "API_ENV exists"
             fi
+
             cat <<EOF > api/.env/production.env
             ${{ secrets.API_ENV }}
             EOF
