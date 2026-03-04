@@ -9,12 +9,15 @@ services:
     env_file:
       - ./api/.env/.development.env
     restart: always
-  # admin:
-  #   build: ./admin
-  #   container_name: admin-ai-dev
-  #   ports:
-  #     - "8000:80"
-  #   restart: always
+    
+  admin:
+    build: ./admin
+    container_name: admin-ai-dev
+    env_file:
+      - ./admin/.env/.development.env
+    ports:
+      - "8080:80"
+    restart: always
 
   # web:
   #   build: ./web
