@@ -5,7 +5,7 @@ on:
     branches: ["dev"]
     paths:
       - "api/**"                # api 폴더 내부의 모든 변경
-      - "docker-compose*.yml"   # docker-compose 파일 변경 시에도 배포
+      - "docker-compose-dev-api.yml"   # docker-compose 파일 변경 시에도 배포
 
 jobs:
   server-deploy:
@@ -21,4 +21,4 @@ jobs:
           script: |
             cd ~/Documents/portfolio_ai_prediction
             git pull origin dev
-            docker compose up -d --build api
+            docker compose -f docker-compose-dev-api.yml up -d --build api
