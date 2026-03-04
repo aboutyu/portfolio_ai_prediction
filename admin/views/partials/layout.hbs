@@ -1,0 +1,372 @@
+<html>
+
+  <head>
+    <meta charset='UTF-8' />
+    <meta http-equiv='X-UA-Compatible' content='IE=Edge' />
+    <meta
+      content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'
+      name='viewport'
+    />
+    <title>{{service.serviceName}} 어드민</title>
+    <!-- Favicon-->
+    <link rel='icon' href='favicon.ico' type='image/x-icon' />
+
+    <!-- Google Fonts -->
+    <link
+      href='https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext'
+      rel='stylesheet'
+      type='text/css'
+    />
+    <link
+      href='https://fonts.googleapis.com/icon?family=Material+Icons'
+      rel='stylesheet'
+      type='text/css'
+    />
+
+    <!-- Bootstrap Core Css -->
+    <link href='/plugins/bootstrap/css/bootstrap.css' rel='stylesheet' />
+
+    <!-- Waves Effect Css -->
+    <link href='/plugins/node-waves/waves.css' rel='stylesheet' />
+
+    <!-- Animation Css -->
+    <link href='/plugins/animate-css/animate.css' rel='stylesheet' />
+
+    <!-- Custom Css -->
+    <link href='/css/style.css' rel='stylesheet' />
+
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href='/css/themes/all-themes.css' rel='stylesheet' />
+
+    <!-- Ckeditor -->
+    <script src='/plugins/ckeditor/ckeditor.js'></script>
+
+    <!-- TinyMCE -->
+    <script src='/plugins/tinymce/tinymce.js'></script>
+
+    <!-- Dropzone -->
+    <link href='/plugins/dropzone/dropzone.css' rel='stylesheet' />
+    <script src='/plugins/dropzone/dropzone.js'></script>
+
+    <!-- Bootstrap Material Datetime Picker Plugin Js -->
+    <link
+      href='/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css'
+      rel='stylesheet'
+    />
+    <!-- <script src="/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script> -->
+
+    <!-- Bootstrap Select Css -->
+    <link
+      href='/plugins/bootstrap-select/css/bootstrap-select.css'
+      rel='stylesheet'
+    />
+
+    <!-- ChartJs -->
+    <script src='/plugins/chartjs/Chart.bundle.js'></script>
+
+    <script>
+      function googleSearchPress() { var inputValue =
+      document.getElementById("googleSearchValue").value; var getUrl =
+      "https://www.google.co.kr/search?q=" + inputValue; window.open(getUrl,
+      '_blank'); } function comma(num) { var len, point, str; num = num + "";
+      point = num.length % 3; len = num.length; str = num.substring(0, point);
+      while (point < len) { if (str != "") str += ","; str +=
+      num.substring(point, point + 3); point += 3; } return str; } function
+      numberWithCommas(x) { return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,
+      ","); }
+    </script>
+
+    <!-- <script>
+        tinymce.init({
+            editor_selector: "tinyeditor",
+            selector: 'textarea',
+            mode: 'exact',
+            height: 500,
+            theme: 'modern',
+            plugins: 'preview searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor insertdatetime textcolor contextmenu textpattern code',
+            toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat preview textcolor textpattern',
+            image_advtab: true,
+            templates: [
+                { title: 'Test template 1', content: 'Test 1' },
+                { title: 'Test template 2', content: 'Test 2' }
+            ],
+        });
+    </script> -->
+  </head>
+
+  <body class='theme-red'>
+    <!-- Page Loader -->
+    <div class='page-loader-wrapper'>
+      <div class='loader'>
+        <div class='preloader'>
+          <div class='spinner-layer pl-red'>
+            <div class='circle-clipper left'>
+              <div class='circle'></div>
+            </div>
+            <div class='circle-clipper right'>
+              <div class='circle'></div>
+            </div>
+          </div>
+        </div>
+        <p>Please wait...</p>
+      </div>
+    </div>
+    <!-- #END# Page Loader -->
+    <!-- Overlay For Sidebars -->
+    <div class='overlay'></div>
+    <!-- #END# Overlay For Sidebars -->
+
+    <!-- Search Bar -->
+    <div class='search-bar'>
+      <div class='search-icon'>
+        <i class='material-icons'>search</i>
+      </div>
+      <input
+        type='text'
+        id='googleSearchValue'
+        name='search_keyword'
+        placeholder='TYPING KEYWORDS...'
+        onkeypress='if(event.keyCode==13) {googleSearchPress(); return false;}'
+      />
+      <div class='close-search'>
+        <i class='material-icons'>close</i>
+      </div>
+    </div>
+    <!-- #END# Search Bar -->
+    <!-- Top Bar -->
+    <nav class='navbar'>
+      <div class='container-fluid'>
+        <div class='navbar-header'>
+          <a
+            href='javascript:void(0);'
+            class='navbar-toggle collapsed'
+            data-toggle='collapse'
+            data-target='#navbar-collapse'
+            aria-expanded='false'
+          ></a>
+          <a href='javascript:void(0);' class='bars'></a>
+          <a class='navbar-brand' href='{{service.serviceUrl}}' target='_blank'>
+          {{service.serviceName}} 어드민</a>
+        </div>
+        <div class='collapse navbar-collapse' id='navbar-collapse'>
+          <ul class='nav navbar-nav navbar-right'>
+            <!-- Call Search -->
+            <li><a
+                href='javascript:void(0);'
+                class='js-search'
+                data-close='true'
+              ><i class='material-icons'>search</i></a></li>
+            <!-- #END# Call Search -->
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- #Top Bar -->
+    <section>
+      <!-- Left Sidebar -->
+      <aside id='leftsidebar' class='sidebar'>
+        <!-- User Info -->
+        <div class='user-info'>
+          <div class='image'>
+            <img src='/images/user.png' width='48' height='48' alt='User' />
+          </div>
+          <div class='info-container'>
+            <div
+              class='name'
+              data-toggle='dropdown'
+              aria-haspopup='true'
+              aria-expanded='false'
+            >{{profile.adminName}}
+            </div>
+            <div class='email'>{{profile.adminId}}</div>
+            <div class='btn-group user-helper-dropdown'>
+              <i
+                class='material-icons'
+                data-toggle='dropdown'
+                aria-haspopup='true'
+                aria-expanded='true'
+              >keyboard_arrow_down</i>
+              <ul class='dropdown-menu pull-right'>
+                <li><a href='/system/adminuser/{{profile.adminSequence}}/detail/'><i
+                      class='material-icons'
+                    >person</i>Profile</a></li>
+                <li role='separator' class='divider'></li>
+                <li><a href='/logout'><i class='material-icons'>input</i>Sign Out</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- #User Info -->
+        <!-- Menu -->
+        <div class='menu'>
+          <ul class='list'>
+            <li class='header'>서비스 메뉴</li>
+            <li class='{{eq navigator.menuState "dashboard" "active"}}'>
+              <a href='/dashboard'>
+                <i class='material-icons'>home</i>
+                <span>대시보드</span>
+              </a>
+            </li>
+            <li class='{{eq navigator.menuState "users" "active"}}'>
+              <a href='/users'>
+                <i class='material-icons'>people</i>
+                <span>회원관리</span>
+              </a>
+            <li class='{{eq navigator.menuState "display" "active"}}'>
+              <a href='javascript:void(0);' class='menu-toggle'>
+                <i class='material-icons'>tap_and_play</i>
+                <span>전시관리</span>
+              </a>
+              <ul class='ml-menu'>
+                <li class='{{eq navigator.subState "banner" "active"}}'>
+                  <a href='/display/banner'>배너 등록</a>
+                </li>
+                <li class='{{eq navigator.subState "update-app" "active"}}'>
+                  <a href='/display/update-app'>앱버전관리</a>
+                </li>
+              </ul>
+            </li>
+            <li class='{{eq navigator.menuState "cs" "active"}}'>
+              <a href='javascript:void(0);' class='menu-toggle'>
+                <i class='material-icons'>healing</i>
+                <span>고객센터</span>
+              </a>
+              <ul class='ml-menu'>
+                <li class='{{eq navigator.subState "notice" "active"}}'>
+                  <a href='/cs/notice'>공지사항</a>
+                </li>
+                <li class='{{eq navigator.subState "faq" "active"}}'>
+                  <a href='/cs/faq'>FAQ</a>
+                </li>
+                <li class='{{eq navigator.subState "qna" "active"}}'>
+                  <a href='/cs/qna'>1:1문의</a>
+                </li>
+              </ul>
+            </li>
+            <!-- <li>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">cloud_download</i>
+                            <span>데이터뱅크</span>
+                        </a>
+                        <ul class="ml-menu" {{{fifth_menu_style}}}>
+                            <li {{{fifth_menu_first_style}}}>
+                                <a href="/display/job/">일감리스트</a>
+                            </li>
+                            <li {{{fifth_menu_second_style}}}>
+                                <a href="/display/offer/">오퍼리스트</a>
+                            </li>
+                            <li {{{fifth_menu_third_style}}}>
+                                <a href="/cs/statics/">통계관리</a>
+                            </li>
+                        </ul>
+                    </li> -->
+            <li class='{{eq navigator.menuState "system" "active"}}'>
+              <a href='javascript:void(0);' class='menu-toggle'>
+                <i class='material-icons'>devices</i>
+                <span>시스템관리</span>
+              </a>
+              <ul class='ml-menu'>
+                <li class='{{eq navigator.subState "admin-users" "active"}}'>
+                  <a href='/users/admin-users'>어드민계정</a>
+                </li>
+                <li class='{{eq navigator.subState "eula" "active"}}'>
+                  <a href='/system/eula'>약관등록</a>
+                </li>
+                <li class='{{eq navigator.subState "serviceInfo" "active"}}'>
+                  <a href='/system/serviceInfo'>서비스정보</a>
+                </li>
+                <li class='{{eq navigator.subState "rawdata" "active"}}'>
+                  <a href='/system/rawdata'>기초데이터</a>
+                </li>
+              </ul>
+            </li>
+
+          </ul>
+        </div>
+        <!-- #Menu -->
+        <!-- Footer -->
+        <div class='legal'>
+          <div class='copyright'>
+            &copy; {{service.copyright}}
+            <a href='{{service.companyUrl}}' target='_blank'>{{service.companyName}}</a>
+            All right reserved.
+          </div>
+          <div class='version'>
+            <b>대표이사 :</b> {{service.ceoName}}
+          </div>
+        </div>
+        <!-- #Footer -->
+      </aside>
+      <!-- #END# Left Sidebar -->
+    </section>
+
+    <section class='content'>
+      <div class='container-fluid'>
+        <div class='block-header'>
+            <ol class="breadcrumb breadcrumb-bg-orange">
+              <li><a href="javascript:void(0);">홈</a></li>
+              {{#if navigator.top_menu}}
+              <li><a href="javascript:void(0);">{{navigator.top_menu}}</a></li>
+              {{/if}}
+              <li class="active">{{navigator.sub_menu}}</li>
+            </ol>
+        </div>
+
+        <!-- Start on body -->
+        {{{body}}}
+        <!-- End on body -->
+      </div>
+    </section>
+
+    <!-- Jquery Core Js -->
+    <script src='/plugins/jquery/jquery.min.js'></script>
+
+    <!-- Bootstrap Core Js -->
+    <script src='/plugins/bootstrap/js/bootstrap.js'></script>
+
+    <!-- Select Plugin Js -->
+    <script src='/plugins/bootstrap-select/js/bootstrap-select.js'></script>
+
+    <!-- Slimscroll Plugin Js -->
+    <script src='/plugins/jquery-slimscroll/jquery.slimscroll.js'></script>
+
+    <!-- Waves Effect Plugin Js -->
+    <script src='/plugins/node-waves/waves.js'></script>
+
+    <!-- Jquery CountTo Plugin Js -->
+    <script src='/plugins/jquery-countto/jquery.countTo.js'></script>
+
+    <!-- ChartJs -->
+    <!-- <script src="/plugins/chartjs/Chart.bundle.js"></script> -->
+
+    <!-- Flot Charts Plugin Js -->
+    <script src='/plugins/flot-charts/jquery.flot.js'></script>
+    <script src='/plugins/flot-charts/jquery.flot.resize.js'></script>
+    <script src='/plugins/flot-charts/jquery.flot.pie.js'></script>
+    <script src='/plugins/flot-charts/jquery.flot.categories.js'></script>
+    <script src='/plugins/flot-charts/jquery.flot.time.js'></script>
+
+    <!-- Sparkline Chart Plugin Js -->
+    <script src='/plugins/jquery-sparkline/jquery.sparkline.js'></script>
+
+    <!-- Moment Plugin Js -->
+    <script src='/plugins/momentjs/moment.js'></script>
+
+    <!-- Bootstrap Material Datetime Picker Plugin Js -->
+    <script
+      src='/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js'
+    ></script>
+
+    <!-- Custom Js -->
+    <script src='/js/admin.js'></script>
+    <script src='/js/pages/index.js'></script>
+
+    <!-- Demo Js -->
+    <script src='/js/demo.js'></script>
+
+    <!-- Input Mask Plugin Js -->
+    <script src='/plugins/jquery-inputmask/jquery.inputmask.bundle.js'></script>
+
+  </body>
+
+</html>

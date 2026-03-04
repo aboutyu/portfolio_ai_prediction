@@ -1,0 +1,148 @@
+{
+  "tryCatchErrorText": "문제가 발생했습니다. 잠시 후 다시 시도해주세요.(에러코드: {errorCode})",
+  "@tryCatchErrorText": {
+    "description": "에러 발생 시 에러코드와 함께 보여주는 메시지",
+    "placeholders": {
+      "errorCode": {
+        "type": "String",
+        "example": "E-404"
+      }
+    }
+  },
+
+  "challengeMessage": "<blue>{username}</blue>님은\n<red>{object}</red>을 위해\n<brown>{day}</brown>일째 도전 중입니다.",
+  "@challengeMessage": {
+    "description": "사용자의 도전 현황을 보여주는 메시지",
+    "placeholders": {
+      "username": {
+        "type": "String",
+        "example": "유태훈"
+      },
+      "object": {
+        "type": "String",
+        "example": "건강한 루틴"
+      },
+      "day": {
+        "type": "int",
+        "example": "10"
+      }
+    }
+  },
+
+  "signupText": "회원가입",
+  "loginText": "로그인",
+  "loginInputEmptyErrorText": "아이디 또는 비밀번호를 입력해주세요.",
+  "useridHintText": "아이디를 입력하세요",
+  "passwordHintText": "비밀번호를 입력하세요",
+  "passwordConfirmHintText": "비밀번호를 다시 입력하세요",
+  "usernameHintText": "이름을 입력하세요",
+  "interestHintText": "관심있는 분야를 모두 선택해주세요.",
+  "termsAgreeButtonText": "이용약관",
+  "guideButtonText": "이용안내",
+  "noticesButtonText": "공지사항",
+  "eventButtonText": "이벤트",
+  "faqsButtonText": "자주 묻는 질문",
+  "updateEssentialTitle": "업데이트 필요",
+  "updateEssentialMessage": "새로운 버전의 앱이 출시되었습니다. 계속 이용하시려면 업데이트해주세요.",
+  "updateOptionalTitle": "업데이트 가능",
+  "updateOptionalMessage": "새로운 버전의 앱이 출시되었습니다. 지금 업데이트하시겠습니까?",
+  "laterButtonText": "나중에",
+  "updateButtonText": "업데이트",
+
+  "homeNavigationText": "홈",
+  "dailyNavigationText": "데일리",
+  "chatNavigationText": "채팅",
+  "myinfoNavigationText": "내정보",
+
+  "licenseInfoButtonText": "오픈소스 라이선스",
+  "noLicenseInfoAvailable": "라이선스 정보가 없습니다.",
+
+  "dailyAppbarText": "데일리",
+  "chatAppbarText": "채팅",
+  "myinfoAppbarText": "내정보",
+
+  "noUserInfoAvailable": "사용자 정보가 없습니다.",
+  "expiredLoginTokenText": "로그인 세션이 만료되었습니다. 다시 로그인해주세요.",
+  "expiredLoginTokenTitleText": "인증오류",
+  "buttonLogoutText": "로그아웃",
+
+  "dialogConfirmTitle": "확인",
+  "dialogCancelTitle": "취소",
+  "dialogSavedTitle": "저장",
+  "dialogChangeTitle": "변경",
+  "dialogDeleteTitle": "삭제",
+  "dialogClosedTitle": "닫기",
+  "dialogSearchTitle": "검색",
+
+  "dailyNoLogsText": "기록이 없습니다.",
+  "noticeNoText": "공지사항이 없습니다.",
+  "faqNoText": "자주 묻는 질문이 없습니다.",
+  "searchResultNoText": "검색결과가 없습니다.",
+  "dialogSearchHintText": "검색어를 입력해주세요.",
+
+  "todayRoutineProgressText": "오늘의 루틴 진행률",
+
+  "dailyFloatingFoodText": "식사기록",
+  "dailyFloatingWeightText": "체중기록",
+  "dailyFloatingStepcountText": "걸음수기록",
+  "dailyFloatingBloodGlucoseText": "혈당기록",
+  "dailyFloatingBloodPressureText": "혈압기록",
+
+  "dailyFoodLogTitle": "음식기록",
+  "dailyHealthLogTitle": "건강기록",
+  "recordDateText": "기록시간",
+
+  "foodLogCaloryText": "칼로리",
+  "foodLogCarbohydrateText": "탄수화물",
+  "foodLogProteinText": "단백질",
+  "foodLogFatText": "지방",
+  "foodLogSugarText": "당류",
+  "foodLogSodiumText": "나트륨",
+  "foodLogServingSizeText": "1회 제공량",
+  "foodLogNoCategoryText": "미분류",
+
+  "stepCountTypeText": "걸음수",
+  "bloodPressureTypeText": "혈압수치",
+  "bloodGlucoseTypeText": "혈당수치",
+  "weightTypeText": "체중",
+
+  "weightLogRecordTitle": "체중수정",
+  "weightLogInputHintWeightText": "체중을 입력하세요",
+
+  "stepcountLogRecordTitle": "걸음수수정",
+  "stepcountLogInputHintStepcountText": "걸음수를 입력하세요",
+  "stepcountLogUnitText": "걸음",
+
+  "bloodGlucoseLogRecordTitle": "혈당수정",
+  "bloodGlucoseLogInputHintBloodGlucoseText": "혈당을 입력하세요",
+
+  "bloodPressureLogRecordTitle": "혈압수정",
+  "bloodPressureLogInputHintDiastolicText": "이완기 혈압을 입력하세요",
+  "bloodPressureLogInputHintSystolicText": "수축기 혈압을 입력하세요",
+  "bloodPressureLogInputHintBloodPressureText": "혈압을 입력하세요",
+
+  "chatInputHintText": "메시지를 입력하세요",
+  "chatNoticeText": "[AI는 의사가 아닙니다]\n답변은 참고용일 뿐, 의학적 결정은 반드시 전문가와 상의하세요. 모델 특성상 답변이 늦거나 부정확할 수 있습니다.",
+  "chatNoMessages": "메시지가 없습니다.",
+
+  "inputDateText": "날짜",
+  "inputHintMemoText": "메모를 입력하세요 (선택사항)",
+
+  "welcomeSuffix": "님\n환영합니다!",
+  "lastRecordedAt": "마지막 작성일",
+  "totalRecordCount": "전체 작성 개수",
+
+  "companyAddressText" : "주소",
+  "companyContactText" : "대표번호",
+  "companyCeoText" : "대표이사",
+  "companyYouthProtectionManagerText" : "청소년보호책임자",
+  "companyRegistrationText" : "등록번호",
+  
+  "companyName" : "유태훈 스튜디오",
+  "companyServiceName" : "헬스케어에스AI",
+  "companyAddress" : "경기도 용인시 기흥구 구성로 (언남동, 동부센트레빌)",
+  "companyContact" : "010-1234-5678",
+  "companyCeo" : "유태훈",
+  "companyYouthProtectionManager" : "유태훈",
+  "companyRegistration" : "용인 제2024-1234호"
+}

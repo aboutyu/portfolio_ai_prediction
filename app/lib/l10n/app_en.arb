@@ -1,0 +1,149 @@
+{
+  "tryCatchErrorText": "An error has occurred. Please try again later. (Error code: {errorCode})",
+  "@tryCatchErrorText": {
+    "description": " An error message displayed along with the error code when an error occurs",
+    "placeholders": {
+      "errorCode": {
+        "type": "String",
+        "example": "E-404"
+      }
+    }
+  },
+
+  "challengeMessage": "<blue>{username}</blue>,\nyou have been challenging yourself for <red>{object}</red>\nfor <brown>{day}</brown> days.",
+  "@challengeMessage": {
+    "description": "A message displaying the user's challenge status",
+    "placeholders": {
+      "username": {
+        "type": "String",
+        "example": "James Yu"
+      },
+      "object": {
+        "type": "String",
+        "example": "a healthy routine"
+      },
+      "day": {
+        "type": "int",
+        "example": "10"
+      }
+    }
+  },
+
+  "signupText": "Sign Up",
+  "loginText": "Log In",
+  "loginInputEmptyErrorText": "Please enter your user ID and password.",
+  "useridHintText": "Enter your user ID",
+  "passwordHintText": "Enter your password",
+  "passwordConfirmHintText": "Re-enter your password",
+  "usernameHintText": "Enter your name",
+  "interestHintText": "Select all fields of interest.",
+  "termsAgreeButtonText": " Terms of Service",
+  "guideButtonText": "User Guide",
+  "noticesButtonText": "Notices",
+  "eventButtonText": "Events",
+  "faqsButtonText": "FAQ",
+  "updateEssentialTitle": "Update Required",
+  "updateEssentialMessage": "A new version of the app is available. Please update to continue using the app.",
+  "updateOptionalTitle": "Update Available",
+  "updateOptionalMessage": "A new version of the app is available. Would you like to update now?",
+  "laterButtonText": "Later",
+  "updateButtonText": "Update",
+
+  "homeNavigationText": "Home",
+  "dailyNavigationText": "Daily",
+  "chatNavigationText": "Chat",
+  "myinfoNavigationText": "MyInfo",
+
+  "licenseInfoButtonText": "Open Source Licenses",
+  "noLicenseInfoAvailable": "No license information available.",
+
+  "dailyAppbarText": "Daily",
+  "chatAppbarText": "Chat",
+  "myinfoAppbarText": "MyInfo",
+
+  "noUserInfoAvailable": "No user information available.",
+  "expiredLoginTokenText": "Your login session has expired. Please log in again.",
+  "expiredLoginTokenTitleText": "Authentication Error",
+  "buttonLogoutText": "Logout",
+
+  "dialogConfirmTitle": "Confirm",
+  "dialogCancelTitle": "Cancel",
+  "dialogSavedTitle": "Save",
+  "dialogChangeTitle": "Change",
+  "dialogDeleteTitle": "Delete",
+  "dialogClosedTitle": "Close",
+  "dialogSearchTitle": "Search",
+
+  "dailyNoLogsText": "No logs available.",
+  "noticeNoText": "No notices available.",
+  "faqNoText": "No frequently asked questions available.",
+  "searchResultNoText": "No Search Result",
+   "dialogSearchHintText": "Input Search Keyword",
+
+   "todayRoutineProgressText": "Today's Routine Progress",
+
+  "dailyFloatingFoodText": "Food Record",
+  "dailyFloatingWeightText": "Weight Record",
+  "dailyFloatingStepcountText": "Step Count Record",
+  "dailyFloatingBloodGlucoseText": "Blood Glucose Record",
+  "dailyFloatingBloodPressureText": "Blood Pressure Record",
+
+  "dailyFoodLogTitle": "Food Record",
+  "dailyHealthLogTitle": "Health Record",
+  "recordDateText": "Record Time",
+
+  "foodLogCaloryText": "Energy",
+  "foodLogCarbohydrateText": "Carbohydrate",
+  "foodLogProteinText": "Protein",
+  "foodLogFatText": "Fat",
+  "foodLogSugarText": "Sugar",
+  "foodLogSodiumText": "Sodium",
+  "foodLogServingSizeText": "Serving Size",
+  "foodLogNoCategoryText": "No Category",
+
+  "stepCountTypeText": "Step Count",
+  "bloodPressureTypeText": "Blood Pressure",
+  "bloodGlucoseTypeText": "Blood Glucose",
+  "weightTypeText": "Weight",
+
+  "weightLogRecordTitle": "Weight Edit",
+  "weightLogInputHintWeightText": "Enter your weight",
+
+  "stepcountLogRecordTitle": "Step Count Edit",
+  "stepcountLogInputHintStepcountText": "Enter your step count",
+  "stepcountLogUnitText": "steps",
+
+  "bloodGlucoseLogRecordTitle": "Blood Glucose Edit",
+  "bloodGlucoseLogInputHintBloodGlucoseText": "Enter your blood glucose",
+  
+  "bloodPressureLogRecordTitle": "Blood Pressure Edit",
+  "bloodPressureLogInputHintDiastolicText": "Enter your diastolic blood pressure",
+  "bloodPressureLogInputHintSystolicText": "Enter your systolic blood pressure",
+  "bloodPressureLogInputHintBloodPressureText": "Enter your blood pressure",
+
+  "chatInputHintText": "Enter your message",
+  "chatNoticeText": "[AI is Not a Doctor]\nResponses are for reference only. Always consult a professional for medical decisions. Please note that answers may be delayed or inaccurate.",
+  "chatNoMessages": "No messages.",
+
+
+  "inputDateText": "Date",
+  "inputHintMemoText": "Enter a memo (optional)",
+
+  "welcomeSuffix": ",\nWelcome!",
+  "lastRecordedAt": "Last Recorded",
+  "totalRecordCount": "Total Records",
+
+  "companyAddressText" : "Address",
+  "companyContactText" : "Contact Number",
+  "companyCeoText" : "CEO",
+  "companyYouthProtectionManagerText" : "Youth Protection Manager",
+  "companyRegistrationText" : "Registration Number",
+  
+  "companyName" : "YUTAEHUN Studio",
+  "companyServiceName" : "HealthcareSAI",
+  "companyAddress" : "Guseong-ro, Giheung-gu, Yongin-si, Gyeonggi-do (Eonnam-dong, Dongbu Centreville)",
+  "companyContact" : "02-6952-0980",
+  "companyCeo" : "Yutaehun",
+  "companyYouthProtectionManager" : "Yutaehun",
+  "companyRegistration" : "Yongin No. 2024-1234"
+}

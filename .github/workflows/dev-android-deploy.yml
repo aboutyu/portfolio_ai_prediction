@@ -1,0 +1,94 @@
+name: Dev App Deploy (Android)
+
+on:
+  push:
+    branches: ["dev"]
+    paths:
+      - "app/**"
+
+jobs:
+  android-deploy:
+    runs-on: ubuntu-latest
+    environment: dev
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        working-directory: ./app
+        run: flutter pub get
+
+      - name: Create Secret Files
+        working-directory: ./app
+        env:
+          # Secret을 환경변수로 주입
+          ENV_DATA: ${{ secrets.ENV_DEVELOPMENT_CONTENT }}
+          JSON_DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          # [디버깅] Secret이 들어왔는지 길이만 확인 (내용은 보안상 ***로 나옴)
+          echo "Checking Secret Exists..."
+          if [ -z "$ENV_DATA" ]; then
+            echo "❌ Error: ENV_DEVELOPMENT_CONTENT is empty!"
+            exit 1
+          else
+            echo "✅ ENV_DEVELOPMENT_CONTENT found (Length: ${#JSON_DATA})"
+          fi
+
+          if [ -z "$JSON_DATA" ]; then
+            echo "❌ Error: GOOGLE_SERVICES_JSON is empty!"
+            exit 1
+          else
+            echo "✅ GOOGLE_SERVICES_JSON found (Length: ${#JSON_DATA})"
+          fi
+
+          # A. development.env 파일 생성
+          mkdir -p assets/env
+          python3 -c "import os; f = open('assets/env/development.env', 'w'); f.write(os.environ['ENV_DATA']); f.close()"
+
+          # V. 나머지 빈 .env 파일 생성
+          touch assets/env/production.env
+          touch assets/env/local.env
+
+          echo "=== 📂 Checking Created Files ==="
+          ls -R assets
+          echo "================================="
+
+          # C. google-services.json 생성 (Python 스크립트 사용)
+          cd android/app
+          mkdir -p src/dev
+          python3 -c "import os; f = open('src/dev/google-services.json', 'w'); f.write(os.environ['JSON_DATA']); f.close()"
+
+      - name: Configure Keystore
+        working-directory: ./app/android
+        run: |
+          # 1. Secret에서 keystore 파일 복원
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > app/upload-keystore.jks
+          
+          # 2. key.properties 파일 생성 (Gradle이 읽을 정보)
+          echo "storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" > key.properties
+          echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> key.properties
+          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> key.properties
+          echo "storeFile=upload-keystore.jks" >> key.properties
+
+      - name: Build APK
+        working-directory: ./app
+        run: flutter build apk --release --dart-define=ENV=dev --flavor dev
+
+      - name: Upload to Firebase
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
+          groups: testers
+          file: app/build/app/outputs/flutter-apk/app-dev-release.apk
+          releaseNotes: "Branch: dev / Env: dev"
