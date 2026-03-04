@@ -104,6 +104,12 @@ abstract class AppLocalizations {
   /// **'문제가 발생했습니다. 잠시 후 다시 시도해주세요.(에러코드: {errorCode})'**
   String tryCatchErrorText(String errorCode);
 
+  /// 사용자의 도전 현황을 보여주는 메시지
+  ///
+  /// In ko, this message translates to:
+  /// **'<blue>{username}</blue>님은\n<red>{object}</red>을 위해\n<brown>{day}</brown>일째 도전 중입니다.'**
+  String challengeMessage(String username, String object, int day);
+
   /// No description provided for @signupText.
   ///
   /// In ko, this message translates to:
@@ -146,6 +152,12 @@ abstract class AppLocalizations {
   /// **'이름을 입력하세요'**
   String get usernameHintText;
 
+  /// No description provided for @interestHintText.
+  ///
+  /// In ko, this message translates to:
+  /// **'관심있는 분야를 모두 선택해주세요.'**
+  String get interestHintText;
+
   /// No description provided for @termsAgreeButtonText.
   ///
   /// In ko, this message translates to:
@@ -175,6 +187,42 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'자주 묻는 질문'**
   String get faqsButtonText;
+
+  /// No description provided for @updateEssentialTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'업데이트 필요'**
+  String get updateEssentialTitle;
+
+  /// No description provided for @updateEssentialMessage.
+  ///
+  /// In ko, this message translates to:
+  /// **'새로운 버전의 앱이 출시되었습니다. 계속 이용하시려면 업데이트해주세요.'**
+  String get updateEssentialMessage;
+
+  /// No description provided for @updateOptionalTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'업데이트 가능'**
+  String get updateOptionalTitle;
+
+  /// No description provided for @updateOptionalMessage.
+  ///
+  /// In ko, this message translates to:
+  /// **'새로운 버전의 앱이 출시되었습니다. 지금 업데이트하시겠습니까?'**
+  String get updateOptionalMessage;
+
+  /// No description provided for @laterButtonText.
+  ///
+  /// In ko, this message translates to:
+  /// **'나중에'**
+  String get laterButtonText;
+
+  /// No description provided for @updateButtonText.
+  ///
+  /// In ko, this message translates to:
+  /// **'업데이트'**
+  String get updateButtonText;
 
   /// No description provided for @homeNavigationText.
   ///
@@ -325,6 +373,12 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'검색어를 입력해주세요.'**
   String get dialogSearchHintText;
+
+  /// No description provided for @todayRoutineProgressText.
+  ///
+  /// In ko, this message translates to:
+  /// **'오늘의 루틴 진행률'**
+  String get todayRoutineProgressText;
 
   /// No description provided for @dailyFloatingFoodText.
   ///

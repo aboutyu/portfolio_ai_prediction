@@ -7,7 +7,7 @@ import { MembershipModule } from './membership/membership.module';
 import { RecordModule } from './record/record.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
-import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { NoticeModule } from './notice/notice.module';
 import { ChatModule } from './chat/chat.module';

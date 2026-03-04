@@ -10,6 +10,25 @@
     }
   },
 
+  "challengeMessage": "<blue>{username}</blue>,\nyou have been challenging yourself for <red>{object}</red>\nfor <brown>{day}</brown> days.",
+  "@challengeMessage": {
+    "description": "A message displaying the user's challenge status",
+    "placeholders": {
+      "username": {
+        "type": "String",
+        "example": "James Yu"
+      },
+      "object": {
+        "type": "String",
+        "example": "a healthy routine"
+      },
+      "day": {
+        "type": "int",
+        "example": "10"
+      }
+    }
+  },
+
   "signupText": "Sign Up",
   "loginText": "Log In",
   "loginInputEmptyErrorText": "Please enter your user ID and password.",
@@ -17,13 +36,18 @@
   "passwordHintText": "Enter your password",
   "passwordConfirmHintText": "Re-enter your password",
   "usernameHintText": "Enter your name",
+  "interestHintText": "Select all fields of interest.",
   "termsAgreeButtonText": " Terms of Service",
   "guideButtonText": "User Guide",
   "noticesButtonText": "Notices",
   "eventButtonText": "Events",
   "faqsButtonText": "FAQ",
-
-
+  "updateEssentialTitle": "Update Required",
+  "updateEssentialMessage": "A new version of the app is available. Please update to continue using the app.",
+  "updateOptionalTitle": "Update Available",
+  "updateOptionalMessage": "A new version of the app is available. Would you like to update now?",
+  "laterButtonText": "Later",
+  "updateButtonText": "Update",
 
   "homeNavigationText": "Home",
   "dailyNavigationText": "Daily",
@@ -55,6 +79,8 @@
   "faqNoText": "No frequently asked questions available.",
   "searchResultNoText": "No Search Result",
    "dialogSearchHintText": "Input Search Keyword",
+
+   "todayRoutineProgressText": "Today's Routine Progress",
 
   "dailyFloatingFoodText": "Food Record",
   "dailyFloatingWeightText": "Weight Record",

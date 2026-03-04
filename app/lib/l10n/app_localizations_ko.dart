@@ -14,6 +14,11 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
+  String challengeMessage(String username, String object, int day) {
+    return '<blue>$username</blue>님은\n<red>$object</red>을 위해\n<brown>$day</brown>일째 도전 중입니다.';
+  }
+
+  @override
   String get signupText => '회원가입';
 
   @override
@@ -35,6 +40,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get usernameHintText => '이름을 입력하세요';
 
   @override
+  String get interestHintText => '관심있는 분야를 모두 선택해주세요.';
+
+  @override
   String get termsAgreeButtonText => '이용약관';
 
   @override
@@ -48,6 +56,25 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get faqsButtonText => '자주 묻는 질문';
+
+  @override
+  String get updateEssentialTitle => '업데이트 필요';
+
+  @override
+  String get updateEssentialMessage =>
+      '새로운 버전의 앱이 출시되었습니다. 계속 이용하시려면 업데이트해주세요.';
+
+  @override
+  String get updateOptionalTitle => '업데이트 가능';
+
+  @override
+  String get updateOptionalMessage => '새로운 버전의 앱이 출시되었습니다. 지금 업데이트하시겠습니까?';
+
+  @override
+  String get laterButtonText => '나중에';
+
+  @override
+  String get updateButtonText => '업데이트';
 
   @override
   String get homeNavigationText => '홈';
@@ -123,6 +150,9 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get dialogSearchHintText => '검색어를 입력해주세요.';
+
+  @override
+  String get todayRoutineProgressText => '오늘의 루틴 진행률';
 
   @override
   String get dailyFloatingFoodText => '식사기록';

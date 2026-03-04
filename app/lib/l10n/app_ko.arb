@@ -10,6 +10,25 @@
     }
   },
 
+  "challengeMessage": "<blue>{username}</blue>님은\n<red>{object}</red>을 위해\n<brown>{day}</brown>일째 도전 중입니다.",
+  "@challengeMessage": {
+    "description": "사용자의 도전 현황을 보여주는 메시지",
+    "placeholders": {
+      "username": {
+        "type": "String",
+        "example": "유태훈"
+      },
+      "object": {
+        "type": "String",
+        "example": "건강한 루틴"
+      },
+      "day": {
+        "type": "int",
+        "example": "10"
+      }
+    }
+  },
+
   "signupText": "회원가입",
   "loginText": "로그인",
   "loginInputEmptyErrorText": "아이디 또는 비밀번호를 입력해주세요.",
@@ -17,11 +36,18 @@
   "passwordHintText": "비밀번호를 입력하세요",
   "passwordConfirmHintText": "비밀번호를 다시 입력하세요",
   "usernameHintText": "이름을 입력하세요",
+  "interestHintText": "관심있는 분야를 모두 선택해주세요.",
   "termsAgreeButtonText": "이용약관",
   "guideButtonText": "이용안내",
   "noticesButtonText": "공지사항",
   "eventButtonText": "이벤트",
   "faqsButtonText": "자주 묻는 질문",
+  "updateEssentialTitle": "업데이트 필요",
+  "updateEssentialMessage": "새로운 버전의 앱이 출시되었습니다. 계속 이용하시려면 업데이트해주세요.",
+  "updateOptionalTitle": "업데이트 가능",
+  "updateOptionalMessage": "새로운 버전의 앱이 출시되었습니다. 지금 업데이트하시겠습니까?",
+  "laterButtonText": "나중에",
+  "updateButtonText": "업데이트",
 
   "homeNavigationText": "홈",
   "dailyNavigationText": "데일리",
@@ -53,6 +79,8 @@
   "faqNoText": "자주 묻는 질문이 없습니다.",
   "searchResultNoText": "검색결과가 없습니다.",
   "dialogSearchHintText": "검색어를 입력해주세요.",
+
+  "todayRoutineProgressText": "오늘의 루틴 진행률",
 
   "dailyFloatingFoodText": "식사기록",
   "dailyFloatingWeightText": "체중기록",

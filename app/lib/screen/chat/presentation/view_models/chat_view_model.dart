@@ -1,5 +1,5 @@
 import 'package:app/helpers/commons/common_funcs.dart';
-import 'package:app/helpers/cores/app_config.dart';
+import 'package:app/helpers/configures/app_config.dart';
 import 'package:app/helpers/storages/auth_storage.dart';
 import 'package:app/screen/chat/data/repositories/chat_message_history_repository.dart';
 import 'package:app/screen/chat/data/models/chat_message_model.dart';

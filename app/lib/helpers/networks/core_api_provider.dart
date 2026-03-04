@@ -1,5 +1,5 @@
 import 'package:app/helpers/commons/common_funcs.dart';
-import 'package:app/helpers/cores/app_config.dart';
+import 'package:app/helpers/configures/app_config.dart';
 import 'package:app/helpers/dto/base_request.dto.dart';
 import 'package:app/helpers/networks/enums/api_endpoint.dart';
 import 'package:app/helpers/networks/core_api_intercepter.dart';

@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: ./api
+      args:
+        - NODE_ENV=production
+    container_name: api-ai-prod
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./api/.env/production.env
+    restart: always
+
+networks:
+  health-routine-ai:
+    external: true

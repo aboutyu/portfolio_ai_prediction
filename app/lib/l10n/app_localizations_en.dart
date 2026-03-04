@@ -14,6 +14,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String challengeMessage(String username, String object, int day) {
+    return '<blue>$username</blue>,\nyou have been challenging yourself for <red>$object</red>\nfor <brown>$day</brown> days.';
+  }
+
+  @override
   String get signupText => 'Sign Up';
 
   @override
@@ -36,6 +41,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get usernameHintText => 'Enter your name';
 
   @override
+  String get interestHintText => 'Select all fields of interest.';
+
+  @override
   String get termsAgreeButtonText => ' Terms of Service';
 
   @override
@@ -49,6 +57,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get faqsButtonText => 'FAQ';
+
+  @override
+  String get updateEssentialTitle => 'Update Required';
+
+  @override
+  String get updateEssentialMessage =>
+      'A new version of the app is available. Please update to continue using the app.';
+
+  @override
+  String get updateOptionalTitle => 'Update Available';
+
+  @override
+  String get updateOptionalMessage =>
+      'A new version of the app is available. Would you like to update now?';
+
+  @override
+  String get laterButtonText => 'Later';
+
+  @override
+  String get updateButtonText => 'Update';
 
   @override
   String get homeNavigationText => 'Home';
@@ -125,6 +153,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dialogSearchHintText => 'Input Search Keyword';
+
+  @override
+  String get todayRoutineProgressText => 'Today\'s Routine Progress';
 
   @override
   String get dailyFloatingFoodText => 'Food Record';
