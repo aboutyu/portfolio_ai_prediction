@@ -36,7 +36,9 @@ WORKDIR /app
 
 # 현재 컨테이너가 개발 환경임을 명시
 # NestJS, 라이브러리들이 이 값을 기준으로 동작
-ENV NODE_ENV=development
+# ENV NODE_ENV=development
+ARG NODE_ENV=development
+ENV NODE_ENV=${NODE_ENV}
 
 # 빌드 결과물만 복사
 # → TypeScript, nest-cli 등 불필요한 파일 제외
