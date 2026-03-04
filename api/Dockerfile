@@ -8,6 +8,10 @@ FROM node:20-alpine AS builder
 # 컨테이너 내부 작업 디렉토리 설정
 WORKDIR /app
 
+# 빌드 시점에도 production임을 명시 (Tree Shaking 최적화)
+ARG TARGET_ENV=production
+ENV NODE_ENV=${TARGET_ENV}
+
 # 의존성 정의 파일만 먼저 복사
 # → 소스 코드 변경 시 매번 npm install 안 하도록 캐시 최적화
 COPY package*.json ./
@@ -20,7 +24,10 @@ RUN npm ci
 COPY . .
 
 # NestJS 빌드
-RUN npm run build
+RUN if [ "$TARGET_ENV" = "production" ]; \
+    then npm run build:prod; \
+    else npm run build:dev; \
+    fi
 
 
 ########################################
@@ -36,26 +43,16 @@ WORKDIR /app
 
 # 현재 컨테이너가 개발 환경임을 명시
 # NestJS, 라이브러리들이 이 값을 기준으로 동작
-# ENV NODE_ENV=development
-ARG NODE_ENV=development
-ENV NODE_ENV=${NODE_ENV}
+ARG TARGET_ENV=production
+ENV NODE_ENV=${TARGET_ENV}
 
-# 빌드 결과물만 복사
-# → TypeScript, nest-cli 등 불필요한 파일 제외
 COPY --from=builder /app/dist ./dist
-
-# 런타임에 필요한 node_modules만 복사
-# (현재는 devDependencies 포함 상태)
 COPY --from=builder /app/node_modules ./node_modules
-
-# package.json 복사
-# (일부 라이브러리에서 metadata 용도로 필요)
 COPY --from=builder /app/package.json ./package.json
 
-# 컨테이너가 사용할 포트 (문서용)
-# 실제 외부 노출은 docker-compose에서 설정
 EXPOSE 3000
 
-# NestJS 서버 실행
-# pm2 없이 Docker가 프로세스를 직접 관리
-CMD ["node", "dist/main.js"]
+# [핵심] 실행 시점에도 환경에 맞는 스크립트 실행
+# CMD 문구는 고정하고 내부에서 NODE_ENV를 참조하게 하거나, 
+# 아래처럼 쉘 형태로 작성하여 분기할 수 있습니다.
+CMD ["sh", "-c", "if [ \"$NODE_ENV\" = \"production\" ]; then node dist/main.js; else npm run start:dev; fi"]
