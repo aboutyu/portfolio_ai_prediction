@@ -6,8 +6,9 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
+    "build:dev": "cross-env NODE_ENV=development nest build",
     "start:local": "cross-env NODE_ENV=local nest start --watch",
+    "build:prod": "cross-env NODE_ENV=production nest build",
     "start:prod": "cross-env NODE_ENV=production nest start",
     "test": "cross-env NODE_ENV=test jest",
     "test:watch": "cross-env NODE_ENV=test jest --watch",
