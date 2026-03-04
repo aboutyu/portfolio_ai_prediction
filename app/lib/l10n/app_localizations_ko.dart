@@ -14,6 +14,11 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
+  String challengeMessage(String username, String object, int day) {
+    return '<blue>$username</blue>님은\n<red>$object</red>을 위해\n<brown>$day</brown>일째 도전 중입니다.';
+  }
+
+  @override
   String get signupText => '회원가입';
 
   @override
@@ -33,6 +38,9 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get usernameHintText => '이름을 입력하세요';
+
+  @override
+  String get interestHintText => '관심있는 분야를 모두 선택해주세요.';
 
   @override
   String get termsAgreeButtonText => '이용약관';
@@ -142,6 +150,9 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get dialogSearchHintText => '검색어를 입력해주세요.';
+
+  @override
+  String get todayRoutineProgressText => '오늘의 루틴 진행률';
 
   @override
   String get dailyFloatingFoodText => '식사기록';

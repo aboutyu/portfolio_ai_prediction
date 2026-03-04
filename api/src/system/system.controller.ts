@@ -41,7 +41,7 @@ export class SystemController {
     summary: '서비스 코드 조회 API',
     description: '서비스 코드를 조회합니다.',
   })
-  async getServiceCode(@Query('type') type: ServiceCodeType) {
-    return await this.systemService.getServiceCode(type);
+  async getServiceCode() {
+    return await this.systemService.getServiceCode();
   }
 }

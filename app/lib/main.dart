@@ -1,12 +1,12 @@
 import 'package:app/helpers/commons/colors.dart';
-import 'package:app/helpers/cores/app_config.dart';
+import 'package:app/helpers/configures/app_config.dart';
 import 'package:app/helpers/enums/app_environment.enum.dart';
 import 'package:app/helpers/extensions/async_value_extension.dart';
 import 'package:app/helpers/routers/router.dart';
 import 'package:app/l10n/app_localizations.dart';
 import 'package:app/widgets/loading_indicator/loading_indicator_widget.dart';
 import 'package:app/widgets/loading_indicator/loading_provider.dart';
-import 'package:app/helpers/cores/app_initializer.dart';
+import 'package:app/helpers/initializations/app_initializer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

@@ -104,6 +104,12 @@ abstract class AppLocalizations {
   /// **'문제가 발생했습니다. 잠시 후 다시 시도해주세요.(에러코드: {errorCode})'**
   String tryCatchErrorText(String errorCode);
 
+  /// 사용자의 도전 현황을 보여주는 메시지
+  ///
+  /// In ko, this message translates to:
+  /// **'<blue>{username}</blue>님은\n<red>{object}</red>을 위해\n<brown>{day}</brown>일째 도전 중입니다.'**
+  String challengeMessage(String username, String object, int day);
+
   /// No description provided for @signupText.
   ///
   /// In ko, this message translates to:
@@ -145,6 +151,12 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'이름을 입력하세요'**
   String get usernameHintText;
+
+  /// No description provided for @interestHintText.
+  ///
+  /// In ko, this message translates to:
+  /// **'관심있는 분야를 모두 선택해주세요.'**
+  String get interestHintText;
 
   /// No description provided for @termsAgreeButtonText.
   ///
@@ -361,6 +373,12 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'검색어를 입력해주세요.'**
   String get dialogSearchHintText;
+
+  /// No description provided for @todayRoutineProgressText.
+  ///
+  /// In ko, this message translates to:
+  /// **'오늘의 루틴 진행률'**
+  String get todayRoutineProgressText;
 
   /// No description provided for @dailyFloatingFoodText.
   ///

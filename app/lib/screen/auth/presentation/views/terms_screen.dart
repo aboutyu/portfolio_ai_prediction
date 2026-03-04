@@ -1,5 +1,5 @@
 import 'package:app/helpers/commons/common_funcs.dart';
-import 'package:app/helpers/cores/app_config.dart';
+import 'package:app/helpers/configures/app_config.dart';
 import 'package:app/helpers/extensions/async_value_extension.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/screen/auth/data/models/terms_model.dart';

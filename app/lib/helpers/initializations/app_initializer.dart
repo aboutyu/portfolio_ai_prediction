@@ -1,6 +1,6 @@
 import 'package:app/helpers/commons/common_funcs.dart';
-import 'package:app/helpers/cores/app_config.dart';
-import 'package:app/helpers/cores/repositories/app_initializer_repository.dart';
+import 'package:app/helpers/configures/app_config.dart';
+import 'package:app/helpers/initializations/repositories/app_initializer_repository.dart';
 import 'package:app/helpers/networks/enums/status_code.enum.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

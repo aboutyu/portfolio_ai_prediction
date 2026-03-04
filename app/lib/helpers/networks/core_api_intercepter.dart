@@ -1,5 +1,5 @@
 import 'package:app/helpers/commons/common_funcs.dart';
-import 'package:app/helpers/cores/providers/app_update_service.dart';
+import 'package:app/helpers/initializations/providers/app_update_service.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/helpers/routers/router.dart';
 import 'package:app/helpers/storages/user_info.dart';

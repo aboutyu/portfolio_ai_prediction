@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
-import 'package:app/helpers/cores/app_config.dart';
+import 'package:app/helpers/configures/app_config.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/helpers/models/service_info_model.dart';
 import 'package:app/helpers/routers/router.dart';

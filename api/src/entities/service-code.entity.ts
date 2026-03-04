@@ -4,7 +4,9 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import { ServiceCodeTranslation } from './service-code-translation.entity';
 
 @Entity('service_code')
 export class ServiceCode {
@@ -14,6 +16,9 @@ export class ServiceCode {
   @Column({ type: 'char', length: 6, unique: true, name: 'code' })
   code: string;
 
+  @Column({ type: 'varchar', length: 45, name: 'code_name' })
+  codeName: string;
+
   @Column({
     type: 'enum',
     enum: ServiceCodeType,
@@ -22,24 +27,12 @@ export class ServiceCode {
   })
   type: ServiceCodeType;
 
-  @Column({ type: 'varchar', length: 255, name: 'name' })
-  name: string;
+  @Column({ name: 'is_activate', type: 'char', length: 1 })
+  isActivate: string; // DB 스크린샷상 'Y'/'N' 문자열이므로 string이 안전합니다.
 
-  @Column({
-    name: 'is_activate',
-    type: 'char',
-    length: 1,
-    default: 'N',
-    transformer: {
-      to: (value: boolean) => (value ? 'Y' : 'N'),
-      from: (value: string) => value === 'Y',
-    },
-  })
-  isActivate: boolean;
-
-  @CreateDateColumn({ type: 'datetime', name: 'create_date' })
-  createDate: Date;
-
-  @Column({ type: 'mediumtext', nullable: true, name: 'memo' })
-  memo?: string;
+  @OneToMany(
+    () => ServiceCodeTranslation,
+    (translation) => translation.serviceCode,
+  )
+  translations: ServiceCodeTranslation[];
 }

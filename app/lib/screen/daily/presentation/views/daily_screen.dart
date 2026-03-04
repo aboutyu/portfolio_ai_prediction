@@ -1,5 +1,4 @@
 import 'package:app/helpers/commons/common_funcs.dart';
-import 'package:app/helpers/cores/app_config.dart';
 import 'package:app/helpers/enums/daily_quick_menu_type.dart';
 import 'package:app/helpers/extensions/async_value_extension.dart';
 import 'package:app/helpers/extensions/buildcontext_extension.dart';
@@ -20,7 +19,7 @@ import 'package:app/widgets/show_dialogs/single_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:app/helpers/advertising/ad_banner_admob.dart';
 
 class DailyScreen extends ConsumerStatefulWidget {
   const DailyScreen({super.key});
@@ -30,41 +29,9 @@ class DailyScreen extends ConsumerStatefulWidget {
 }
 
 class _DailyScreenState extends ConsumerState<DailyScreen> {
-  BannerAd? _bannerAd;
-  bool _isLoaded = false;
-
   @override
   void initState() {
     super.initState();
-
-    _bannerAd = BannerAd(
-      adUnitId: AppConfig.admob.adaptiveBanner,
-      size: AdSize.banner,
-      request: const AdRequest(),
-      listener: BannerAdListener(
-        onAdLoaded: (ad) {
-          setState(() {
-            _isLoaded = true;
-          });
-        },
-        onAdFailedToLoad: (ad, error) {
-          ad.dispose();
-        },
-      ),
-    )..load();
-  }
-
-  // 광고 위젯을 생성하는 헬퍼 메서드
-  Widget _buildAdWidget() {
-    if (!_isLoaded || _bannerAd == null) return const SizedBox.shrink();
-
-    return Container(
-      width: _bannerAd!.size.width.toDouble(),
-      height: _bannerAd!.size.height.toDouble(),
-      alignment: Alignment.center,
-      margin: const EdgeInsets.only(bottom: 16.0), // 리스트 아이템과 간격
-      child: AdWidget(ad: _bannerAd!),
-    );
   }
 
   @override
@@ -73,7 +40,6 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
     final logsResponse = ref.watch(dailyViewModelProvider);
 
     // 광고 표시 여부 확인
-    final showAd = _isLoaded && _bannerAd != null;
 
     return Scaffold(
       appBar: AppbarCalendarWidget(
@@ -85,23 +51,19 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
       body: logsResponse.draws(
         data: (logs) {
           if (logs.isEmpty) {
-            return _noItemWidget(showAd);
+            return _noItemWidget(true);
           }
 
           // 데이터가 있을 때 (ListView.builder 사용)
           return ListView.builder(
             // 광고가 있으면 아이템 개수 + 1
-            itemCount: logs.length + (showAd ? 1 : 0),
+            itemCount: logs.length + 1,
             padding: const EdgeInsets.all(16.0),
             itemBuilder: (context, index) {
-              if (showAd) {
-                // 첫 번째 인덱스(0)는 광고 표시
-                if (index == 0) {
-                  return _buildAdWidget();
-                }
-                return BaseLogsWidget(data: logs[index - 1]);
+              if (index == 0) {
+                return AdBannerAdmob();
               }
-              return BaseLogsWidget(data: logs[index]);
+              return BaseLogsWidget(data: logs[index - 1]);
             },
           );
         },
@@ -140,7 +102,7 @@ class _DailyScreenState extends ConsumerState<DailyScreen> {
     if (showAd) {
       return ListView(
         padding: const EdgeInsets.all(16.0),
-        children: [_buildAdWidget(), const SizedBox(height: 50), itemWidget],
+        children: [AdBannerAdmob(), const SizedBox(height: 50), itemWidget],
       );
     }
     return itemWidget;
