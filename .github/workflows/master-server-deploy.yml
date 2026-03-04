@@ -23,7 +23,14 @@ jobs:
             git pull origin master
 
             mkdir -p api/.env
-            echo "${{ secrets.API_ENV }}" > api/.env/production.env
+            if [ -z "${{ secrets.API_ENV }}" ]; then
+              echo "API_ENV is EMPTY"
+            else
+              echo "API_ENV exists"
+            fi
+            cat <<EOF > api/.env/production.env
+            ${{ secrets.API_ENV }}
+            EOF
 
             docker compose -f docker-compose-master-api.yml down
             docker compose -f docker-compose-master-api.yml up -d --build
