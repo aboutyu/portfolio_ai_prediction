@@ -13,6 +13,8 @@ services:
       - "3000:3000"
     env_file:
       - ./api/.env/production.env
+    networks:
+      - health-routine-ai
     restart: always
 
 networks:

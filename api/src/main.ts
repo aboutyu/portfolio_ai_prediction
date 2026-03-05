@@ -11,7 +11,6 @@ import './helpers/extensions/request.extension';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  // 데이터베이스 연결
   app.get(DataSource);
   app.enableCors({
     origin: '*',
