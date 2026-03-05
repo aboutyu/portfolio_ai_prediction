@@ -52,6 +52,10 @@ async function bootstrap() {
 
   if (process.env.NODE_ENV === 'development') {
     app.setGlobalPrefix('admin');
+    app.use((req, res, next) => {
+      res.locals._p = '/admin';
+      next();
+    });
   }
 
   const port = process.env.PORT || 8080;
