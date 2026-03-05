@@ -13,7 +13,7 @@ import { NoticeModule } from './notice/notice.module';
 import { ChatModule } from './chat/chat.module';
 import { SystemModule } from './system/system.module';
 
-// 현재 환경에 따라 파일 경로 결정 함수
+// 현재 환경에 따른 .env 파일 경로를 반환하는 함수
 const getEnvFilePath = () => {
   if (process.env.NODE_ENV === 'production') {
     return '.env/production.env';

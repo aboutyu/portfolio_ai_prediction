@@ -10,7 +10,7 @@ ENV NODE_ENV=${TARGET_ENV}
 
 COPY package*.json ./
 # 개발 환경이면 모든 패키지 설치, 운영 환경이면 필수 패키지만 설치할 수도 있음
-RUN npm ci
+RUN npm ci --include=dev
 
 COPY . .
 
