@@ -21,7 +21,7 @@ async function bootstrap() {
     credentials: true,
   });
 
-  // Swagger 설정 부분
+  // Swagger 설정
   // if (process.env.NODE_ENV !== 'production') {
   console.log(`🚀 Swagger is running at  ${swaggerUrl}`);
   const document = SwaggerModule.createDocument(app, swaggerConfig);
