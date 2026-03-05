@@ -1,4 +1,4 @@
-name: production Server Deploy on Amazon Web Server EC2
+name: production API Deploy on EC2
 
 on:
   push:

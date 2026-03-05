@@ -47,6 +47,10 @@ async function bootstrap() {
     }),
   );
 
+  if (process.env.NODE_ENV === 'development') {
+    app.setGlobalPrefix('admin');
+  }
+
   const port = process.env.PORT || 8080;
   console.log(`🚀 Application is running on: ${port}`);
   await app.listen(port);
