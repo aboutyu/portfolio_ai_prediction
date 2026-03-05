@@ -3,8 +3,8 @@
   "sourceRoot": "src",
   "compilerOptions": {
     "assets": [
-      "views/**/*",
-      "public/**/*"
+      { "include": "../views/**/*", "outDir": "dist/views" },
+      { "include": "../public/**/*", "outDir": "dist/public" }
     ],
     "watchAssets": true
   }
