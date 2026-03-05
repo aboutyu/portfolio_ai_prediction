@@ -1,4 +1,4 @@
-name: Dev Server Deploy
+name: Dev Server Deploy (Admin)
 
 on:
   push:
