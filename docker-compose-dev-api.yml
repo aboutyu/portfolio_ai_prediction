@@ -12,21 +12,5 @@ services:
     ports:
       - "3000:3000"
     env_file:
-      - ./api/.env/.development.env
+      - ./api/.env/development.env
     restart: always
-    
-  admin:
-    build: ./admin
-    container_name: admin-ai-dev
-    env_file:
-      - ./admin/.env/.development.env
-    ports:
-      - "8080:80"
-    restart: always
-
-  # web:
-  #   build: ./web
-  #   container_name: web-ai-dev
-  #   ports:
-  #     - "8080:80"
-  #   restart: always
