@@ -27,10 +27,6 @@ RUN if [ "$TARGET_ENV" = "production" ]; \
 FROM node:20-alpine
 WORKDIR /app
 
-# 빌드 단계의 변수를 실행 단계로 전달
-ARG TARGET_ENV=production
-ENV NODE_ENV=${TARGET_ENV}
-
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
