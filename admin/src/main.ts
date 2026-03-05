@@ -17,7 +17,7 @@ async function bootstrap() {
 
   // template engine 설정
   const hbsDir =
-    process.env.NODE_ENV === 'production' ? __dirname : join(__dirname, '..');
+    process.env.NODE_ENV === 'local' ? join(__dirname, '..') : __dirname;
 
   const hbs = exphbs.create({
     extname: 'hbs', // 파일 확장자
