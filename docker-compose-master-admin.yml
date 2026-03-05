@@ -2,8 +2,21 @@ version: "3.9"
 
 services:
   admin:
-    build: ./admin
-    container_name: admin-ai-dev
+    build:
+      context: ./admin
+      args:
+        - TARGET_ENV=production
+    environment:
+      - NODE_ENV=production
+    container_name: admin-ai-prod
     ports:
-      - "8000:80"
+      - "8080:8080"
+    env_file:
+      - ./admin/.env/production.env
+    networks:
+      - health-routine-ai
     restart: always
+
+networks:
+  health-routine-ai:
+    external: true
