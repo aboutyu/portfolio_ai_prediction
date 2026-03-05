@@ -1,0 +1,25 @@
+name: Dev Server Deploy
+
+on:
+  push:
+    branches: ["dev"]
+    paths:
+      - "admin/**"                # admin 폴더 내부의 모든 변경
+      - "docker-compose-dev-admin.yml"   # docker-compose 파일 변경 시에도 배포
+
+jobs:
+  server-deploy:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: SSH Remote Commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd ~/Documents/portfolio_ai_prediction
+            git pull origin dev
+
+            docker compose -f docker-compose-dev-admin.yml up -d --build admin
