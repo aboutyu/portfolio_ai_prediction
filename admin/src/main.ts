@@ -16,15 +16,18 @@ async function bootstrap() {
   const dataSource = app.get(DataSource);
 
   // template engine 설정
+  const hbsDir =
+    process.env.NODE_ENV === 'production' ? __dirname : join(__dirname, '..');
+
   const hbs = exphbs.create({
     extname: 'hbs', // 파일 확장자
     defaultLayout: 'layout', // 기본 레이아웃 파일 (partials/layout.hbs)
-    layoutsDir: join(__dirname, '..', 'views/partials'), // 레이아웃 파일 경로
-    partialsDir: join(__dirname, '..', 'views/partials'), // 파셜 파일 경로
+    layoutsDir: join(hbsDir, 'views/partials'), // 레이아웃 파일 경로
+    partialsDir: join(hbsDir, 'views/partials'), // 파셜 파일 경로
   });
   registerHandlebarsHelpers(hbs.handlebars as typeof Handlebars); // 헬퍼 등록
-  app.useStaticAssets(join(__dirname, '..', 'public'));
-  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+  app.useStaticAssets(join(hbsDir, 'public'));
+  app.setBaseViewsDir(join(hbsDir, 'views'));
   app.engine('hbs', hbs.engine); // hbs 엔진을 사용
   app.setViewEngine('hbs');
 
