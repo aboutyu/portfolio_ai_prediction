@@ -6,6 +6,8 @@ services:
       context: ./api
       args:
         - TARGET_ENV=development
+    environment:
+      - NODE_ENV=development
     container_name: api-ai-dev
     ports:
       - "3000:3000"
