@@ -14,24 +14,3 @@ services:
     env_file:
       - ./api/.env/development.env
     restart: always
-
-  # admin:
-  #   build:
-  #     context: ./admin
-  #     args:
-  #       - TARGET_ENV=development
-  #   environment:
-  #     - NODE_ENV=development
-  #   container_name: admin-ai-dev
-  #   ports:
-  #     - "8080:8080"
-  #   env_file:
-  #     - ./admin/.env/development.env
-  #   restart: always
-
-  # web:
-  #   build: ./web
-  #   container_name: web-ai-dev
-  #   ports:
-  #     - "8080:80"
-  #   restart: always
