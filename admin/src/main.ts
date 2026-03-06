@@ -50,18 +50,6 @@ async function bootstrap() {
     }),
   );
 
-  if (process.env.NODE_ENV === 'development') {
-    app.useStaticAssets(join(hbsDir, 'public'), {
-      prefix: 'admin/',
-    });
-
-    app.setGlobalPrefix('admin');
-    app.use((req, res, next) => {
-      res.locals._p = '/admin';
-      next();
-    });
-  }
-
   const port = process.env.PORT || 8080;
   console.log(`🚀 Application is running on: ${port}`);
   await app.listen(port);
