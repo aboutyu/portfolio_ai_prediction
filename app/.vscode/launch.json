@@ -26,6 +26,14 @@
       "args": ["--dart-define", "ENV=dev", "--flavor", "dev"]
     },
     {
+      "name": "Prod (debug)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "debug",
+      "args": ["--dart-define", "ENV=prod", "--flavor", "prod"]
+    },
+    {
       "name": "Prod (Release)",
       "request": "launch",
       "type": "dart",

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "848212763742",
+    "project_id": "portfolio-ai-prod-c2676",
+    "storage_bucket": "portfolio-ai-prod-c2676.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:848212763742:android:f17cfcf36530bcd1ff00cf",
+        "android_client_info": {
+          "package_name": "portfolio.ai.prediction"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNs3g5uSjYlcLQMpcEPwfpMRPcsYvlPmg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

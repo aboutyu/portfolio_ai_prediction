@@ -2,6 +2,7 @@ import 'package:app/helpers/extensions/async_value_extension.dart';
 import 'package:app/screen/home/data/models/timeline_date_model.dart';
 import 'package:app/screen/home/presentation/view_models/home_view_model.dart';
 import 'package:app/screen/home/presentation/widgets/home_timeline_card_widget.dart';
+import 'package:app/widgets/list_widgets/no_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timelines_plus/timelines_plus.dart';
@@ -23,10 +24,12 @@ class HomeTimelineWidget extends ConsumerWidget {
     final timelines = ref.watch(homeViewModelProvider);
 
     return timelines.draws(
-      data: (timelineDates) => FixedTimeline.tileBuilder(
-        theme: _theme,
-        builder: _tileBuilder(timelineDates),
-      ),
+      data: (timelineDates) => timelineDates.isEmpty
+          ? NoItemWidget()
+          : FixedTimeline.tileBuilder(
+              theme: _theme,
+              builder: _tileBuilder(timelineDates),
+            ),
     );
   }
 

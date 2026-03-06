@@ -1,4 +1,3 @@
-import 'package:app/helpers/configures/app_config.dart';
 import 'package:app/helpers/extensions/l10n_extension.dart';
 import 'package:app/helpers/storages/user_info.dart';
 import 'package:flutter/material.dart';

@@ -35,7 +35,9 @@ void main() async {
   await initializeDateFormatting();
 
   // firebase, admob 초기화
-  await Firebase.initializeApp(options: AppConfig.firebaseOptions);
+  if (Firebase.apps.isEmpty) {
+    await Firebase.initializeApp(options: AppConfig.firebaseOptions);
+  }
   await MobileAds.instance.initialize();
 
   runApp(const ProviderScope(child: MyApp()));
